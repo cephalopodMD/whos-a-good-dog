@@ -149,6 +149,7 @@ class DisplayObject extends EventDispatcher {
   /* ==TRANSFORMS========================================================
    * transformations which require a recalculation of the draw matrix
    */
+   
   recalculateMatrix() {
     if (this.matrix != null) {
       this.matrix = (this.parent && this.parent.matrix) ? this.parent.matrix: newMatrix();

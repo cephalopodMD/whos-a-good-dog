@@ -11,7 +11,7 @@ class GoodDogPrototype extends Game {
     var sm = GoodDogPrototype.soundManager;
     sm.LoadSoundEffect('coin', 'sounds/smw_coin.wav');
     sm.LoadSoundEffect('jump', 'sounds/smb_jump-small.wav');
-    sm.LoadMusic('theme', 'sounds/01-super-mario-bros.mp3')
+    sm.LoadMusic('theme', 'sounds/yakety-sax.mp3')
     sm.PlayMusic('theme');
 
 		this.mario = new Dog(90, 200);
