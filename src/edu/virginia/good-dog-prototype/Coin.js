@@ -3,7 +3,7 @@
 class Coin extends Sprite {
 
   constructor(game, x, y) {
-    super("Coin", "sprites/Coin.png");
+    super("Coin", "sprites/poo.png");
     this.sprite = this;
 		game.addChild(this);
 		this.position.x = x;

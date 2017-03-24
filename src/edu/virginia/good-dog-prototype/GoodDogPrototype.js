@@ -21,9 +21,9 @@ class GoodDogPrototype extends Game {
     TweenJuggler.add(marioFadeIn);
 
     this.platforms = [
-      new Platform('p0', 230, 380),
-      new Platform('p1', 480, 250),
-      new Platform('p2', 230, 100),
+      new Platform('p0', 350, 30),
+      new Platform('p1', 350, 300),
+      new Platform('p2', 480, 250),
       new Platform('p3', 0, 470),
       new Platform('p4', 160, 470),
       new Platform('p5', 320, 470),
@@ -39,6 +39,9 @@ class GoodDogPrototype extends Game {
       new Platform('p15', 680, 160),
       new Platform('p16', 680, 320),
     ]
+    this.platforms[0].setRotation(Math.PI / 2)
+    this.platforms[1].setRotation(Math.PI / 2)
+
     this.platforms[7].setRotation(Math.PI / 2)
     this.platforms[8].setRotation(Math.PI / 2)
     this.platforms[9].setRotation(Math.PI / 2)
@@ -52,7 +55,7 @@ class GoodDogPrototype extends Game {
     this.coins = new ArrayList([
 	    new Coin(this, 100, 20),
       new Coin(this, 550, 400),
-      new Coin(this, 0, 330),
+      new Coin(this, 20, 330),
     ]);
 		this.questManager = new QuestManager();
     for (let coin of this.coins.contents) {
