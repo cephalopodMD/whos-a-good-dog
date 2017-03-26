@@ -6,21 +6,21 @@ class SoundManager {
     this.music = {};
   }
 
-  LoadSoundEffect(id, filename) {
+  loadSoundEffect(id, filename) {
     var audio = new Audio('resources/' + filename);
     this.soundEffects[id] = audio
   }
 
-  PlaySoundEffect(id) {
+  playSoundEffect(id) {
     this.soundEffects[id].play();
   }
 
-  LoadMusic(id, filename, loop) {
+  loadMusic(id, filename, loop) {
     var audio = new Audio('resources/' + filename);
     this.music[id] = audio
   }
 
-  PlayMusic(id, loop=true) {
+  playMusic(id, loop=true) {
     this.music[id].loop = loop;
     this.music[id].play();
   }

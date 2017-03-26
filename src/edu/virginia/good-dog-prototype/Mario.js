@@ -156,7 +156,7 @@ class Mario extends AnimatedSprite {
       this.grounded = false;
       this.running = false;
       this.applyForce(new Vec2(0, -24));
-      GoodDogPrototype.soundManager.PlaySoundEffect('jump')
+      GoodDogPrototype.soundManager.playSoundEffect('jump')
       this.animate('jump');
     }
   }

@@ -59,7 +59,7 @@ class Dog extends AnimatedSprite {
       this.animate('run_s');
     }
     if(pressedKeys.contains(32)) {
-
+      GoodDogPrototype.soundManager.playSoundEffect('yip')
     }
 
     // gamepad buttons move
@@ -181,7 +181,7 @@ class Dog extends AnimatedSprite {
       this.grounded = false;
       this.running = false;
       this.applyForce(new Vec2(0, -24));
-      GoodDogPrototype.soundManager.PlaySoundEffect('jump')
+      GoodDogPrototype.soundManager.playSoundEffect('jump')
       this.animate('jump');
     }
   }

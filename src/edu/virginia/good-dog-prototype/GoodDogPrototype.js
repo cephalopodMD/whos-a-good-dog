@@ -9,10 +9,11 @@ class GoodDogPrototype extends Game {
     super("Who's A Good Dog?", 640, 480, canvas);
 
     var sm = GoodDogPrototype.soundManager;
-    sm.LoadSoundEffect('coin', 'sounds/smw_coin.wav');
-    sm.LoadSoundEffect('jump', 'sounds/smb_jump-small.wav');
-    sm.LoadMusic('theme', 'sounds/yakety-sax.mp3')
-    sm.PlayMusic('theme');
+    sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
+    sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
+    sm.loadSoundEffect('yip', 'sounds/yip.mp3');
+    sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
+    sm.playMusic('theme');
 
     this.mario = new Dog(90, 200);
     this.addChild(this.mario);
@@ -68,7 +69,7 @@ class GoodDogPrototype extends Game {
 
   handleEvent(e) {
     if (e.eventType == PickedUpEvent.COIN_PICKED_UP) {
-      GoodDogPrototype.soundManager.PlaySoundEffect('coin');
+      GoodDogPrototype.soundManager.playSoundEffect('coin');
       var coinZoom = new Tween(e.getSource().sprite, TweenTransitions.quadinout);
       coinZoom.animate(TweenableParams.SCALEX, .2, .8, 1000);
       coinZoom.animate(TweenableParams.SCALEY, .2, .8, 1000);
