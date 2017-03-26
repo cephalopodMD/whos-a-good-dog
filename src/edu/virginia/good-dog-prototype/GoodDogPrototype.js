@@ -5,8 +5,8 @@
  */
 class GoodDogPrototype extends Game {
 
-	constructor(canvas){
-		super("Who's A Good Dog?", 640, 480, canvas);
+  constructor(canvas){
+    super("Who's A Good Dog?", 640, 480, canvas);
 
     var sm = GoodDogPrototype.soundManager;
     sm.LoadSoundEffect('coin', 'sounds/smw_coin.wav');
@@ -14,8 +14,8 @@ class GoodDogPrototype extends Game {
     sm.LoadMusic('theme', 'sounds/yakety-sax.mp3')
     sm.PlayMusic('theme');
 
-		this.mario = new Dog(90, 200);
-		this.addChild(this.mario);
+    this.mario = new Dog(90, 200);
+    this.addChild(this.mario);
     var marioFadeIn = new Tween(this.mario);
     marioFadeIn.animate(TweenableParams.ALPHA, 0, 1, 3000);
     TweenJuggler.add(marioFadeIn);
@@ -53,18 +53,18 @@ class GoodDogPrototype extends Game {
       this.addChild(plat);
 
     this.coins = new ArrayList([
-	    new Coin(this, 100, 20),
+      new Coin(this, 100, 20),
       new Coin(this, 550, 400),
       new Coin(this, 20, 330),
     ]);
-		this.questManager = new QuestManager();
+    this.questManager = new QuestManager();
     for (let coin of this.coins.contents) {
-  		coin.addEventListener(this, PickedUpEvent.COIN_PICKED_UP);
-  		coin.addEventListener(this.questManager, PickedUpEvent.COIN_PICKED_UP);
+      coin.addEventListener(this, PickedUpEvent.COIN_PICKED_UP);
+      coin.addEventListener(this.questManager, PickedUpEvent.COIN_PICKED_UP);
     }
 
-		this.clock = new GameClock();
-	}
+    this.clock = new GameClock();
+  }
 
   handleEvent(e) {
     if (e.eventType == PickedUpEvent.COIN_PICKED_UP) {
@@ -91,24 +91,24 @@ class GoodDogPrototype extends Game {
     }
   }
 
-	update(pressedKeys, gamepads) {
+  update(pressedKeys, gamepads) {
     super.update(pressedKeys, gamepads);
 
     this.mario.checkCollisions(this);
 
     // update tweens
     TweenJuggler.nextFrame();
-		// reset timings
-		this.clock.resetGameClock();
-	}
+    // reset timings
+    this.clock.resetGameClock();
+  }
 
-	draw(g){
-		/*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
-		super.draw(g);
-		g.font='bold 16px Arial';
-		g.fillStyle = 'white';
-		g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
-	}
+  draw(g){
+    /*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
+    super.draw(g);
+    g.font='bold 16px Arial';
+    g.fillStyle = 'white';
+    g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
+  }
 }
 
 
@@ -117,7 +117,7 @@ class GoodDogPrototype extends Game {
  * YOU NEED TO COPY THIS VERBATIM ANYTIME YOU CREATE A GAME
  */
 function tick(){
-	game.nextFrame();
+  game.nextFrame();
 }
 
 /* Get the drawing canvas off of the  */
@@ -126,6 +126,6 @@ GoodDogPrototype.soundManager = new SoundManager();
 var drawingCanvas = document.getElementById('game');
 var debug = false;
 if(drawingCanvas.getContext) {
-	var game = new GoodDogPrototype(drawingCanvas);
-	game.start();
+  var game = new GoodDogPrototype(drawingCanvas);
+  game.start();
 }

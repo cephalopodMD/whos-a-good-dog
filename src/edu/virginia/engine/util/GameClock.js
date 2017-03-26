@@ -5,20 +5,20 @@
  * 
  * */
 class GameClock{
-	
-	constructor(){
-		this.resetGameClock();
-	}
+  
+  constructor(){
+    this.resetGameClock();
+  }
 
-	/**
-	 * Returns Milliseconds passed since the last time resetGameClock() was called
-	 */
-	getElapsedTime(){
-		return new Date().getTime() - this.start;
-	}
+  /**
+   * Returns Milliseconds passed since the last time resetGameClock() was called
+   */
+  getElapsedTime(){
+    return new Date().getTime() - this.start;
+  }
 
-	resetGameClock(){
-		this.start = new Date().getTime();
-	}
+  resetGameClock(){
+    this.start = new Date().getTime();
+  }
 }
 

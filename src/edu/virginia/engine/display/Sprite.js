@@ -6,21 +6,21 @@
  * */
 class Sprite extends DisplayObjectContainer {
 
-	constructor(id, filename){
-		super(id, filename);
-	}
+  constructor(id, filename){
+    super(id, filename);
+  }
 
-	/**
-	 * Invoked every frame, manually for now, but later automatically if this DO is in DisplayTree
-	 */
-	update(keys, gamepads){
+  /**
+   * Invoked every frame, manually for now, but later automatically if this DO is in DisplayTree
+   */
+  update(keys, gamepads){
     super.update(keys, gamepads)
-	}
+  }
 
-	/**
-	 * Draws this image to the screen
-	 */
-	draw(g){
-		super.draw(g);
-	}
+  /**
+   * Draws this image to the screen
+   */
+  draw(g){
+    super.draw(g);
+  }
 }

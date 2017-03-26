@@ -42,12 +42,12 @@ class Mario extends AnimatedSprite {
       }
     }
 
-		// arrow keys move
-		if(pressedKeys.contains(37)) {
+    // arrow keys move
+    if(pressedKeys.contains(37)) {
       this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 4.0, 0));
       this.setScale(-.5, .5);
     }
-		if(pressedKeys.contains(39)) {
+    if(pressedKeys.contains(39)) {
       this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 4.0, 0));
       this.setScale(.5, .5);
     }
@@ -55,17 +55,17 @@ class Mario extends AnimatedSprite {
 
     // gamepad buttons move
     if (gamepads[0]) {
-			gamepads[0].printGamepadInfo();
+      gamepads[0].printGamepadInfo();
 
       if(gamepads[0].buttonPressedByIndex(14)) {
         this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 4.0, 0));
         this.setScale(-.5, .5);
       }
-  		if(gamepads[0].buttonPressedByIndex(15)) {
+      if(gamepads[0].buttonPressedByIndex(15)) {
         this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 4.0, 0));
         this.setScale(.5, .5);
       }
-			if(Math.abs(gamepads[0].getLeftStickXAxis()) > 0.1) {
+      if(Math.abs(gamepads[0].getLeftStickXAxis()) > 0.1) {
         this.applyForce(new Vec2(gamepads[0].getLeftStickXAxis() * this.parent.clock.getElapsedTime() / 4.0, 0));
         if (gamepads[0].getLeftStickXAxis() > 0)
           this.setScale(.5, .5);
@@ -77,12 +77,12 @@ class Mario extends AnimatedSprite {
   }
 
   checkCollisions(game) {
-		// check coin collisions
+    // check coin collisions
     for (let coin of game.coins) {
-    	if (this.collidesWith(coin.sprite) && !coin.collected) {
+      if (this.collidesWith(coin.sprite) && !coin.collected) {
         coin.collected = true;
-    		coin.dispatchEvent(new PickedUpEvent(coin));
-    	}
+        coin.dispatchEvent(new PickedUpEvent(coin));
+      }
     }
 
     //check platform collisions
@@ -168,11 +168,11 @@ class Mario extends AnimatedSprite {
 
   // override height width stuff
   getUnscaledHeight() {
-		if (this.frames)
-			return this.frames.get(0).height;
+    if (this.frames)
+      return this.frames.get(0).height;
   }
   getUnscaledWidth() {
-		if (this.frames)
-			return this.frames.get(0).width;
+    if (this.frames)
+      return this.frames.get(0).width;
   }
 }
