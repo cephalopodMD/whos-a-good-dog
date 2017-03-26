@@ -107,7 +107,7 @@ class GoodDogPrototype extends Game {
 		super.draw(g);
 		g.font='bold 16px Arial';
 		g.fillStyle = 'white';
-		g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 20);
+		g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
 	}
 }
 

@@ -43,19 +43,19 @@ class Dog extends AnimatedSprite {
 
 		// arrow keys move
 		if(pressedKeys.contains(37)) {
-      this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 4.0, 0));
+      this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 8.0, 0));
       this.animate('run_w');
     }
 		if(pressedKeys.contains(38)) {
-      this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() / 4.0));
+      this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() / 8.0));
       this.animate('run_n');
     }
 		if(pressedKeys.contains(39)) {
-      this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 4.0, 0));
+      this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 8.0, 0));
       this.animate('run_e');
     }
 		if(pressedKeys.contains(40)) {
-      this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 4.0));
+      this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 8.0));
       this.animate('run_s');
     }
     if(pressedKeys.contains(32)) {
@@ -66,23 +66,23 @@ class Dog extends AnimatedSprite {
     if (gamepads[0]) {
 
       if(gamepads[0].buttonPressedByIndex(12)) {
-        this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() / 4.0));
+        this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() / 8.0));
         this.animate('run_n');
       }
   		if(gamepads[0].buttonPressedByIndex(13)) {
-        this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 4.0));
+        this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 8.0));
         this.animate('run_s');
       }
       if(gamepads[0].buttonPressedByIndex(14)) {
-        this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 4.0, 0));
+        this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 8.0, 0));
         this.animate('run_w');
       }
   		if(gamepads[0].buttonPressedByIndex(15)) {
-        this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 4.0, 0));
+        this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 8.0, 0));
         this.animate('run_e');
       }
 			if(Math.abs(gamepads[0].getLeftStickYAxis()) > 0.1) {
-        this.applyForce(new Vec2(0, gamepads[0].getLeftStickYAxis() * this.parent.clock.getElapsedTime() / 4.0));
+        this.applyForce(new Vec2(0, gamepads[0].getLeftStickYAxis() * this.parent.clock.getElapsedTime() / 8.0));
         if (Math.abs(gamepads[0].getLeftStickYAxis()) > Math.abs(gamepads[0].getLeftStickXAxis()))
           if (gamepads[0].getLeftStickYAxis() > 0)
             this.animate('run_s');
@@ -90,7 +90,7 @@ class Dog extends AnimatedSprite {
             this.animate('run_n');
       }
 			if(Math.abs(gamepads[0].getLeftStickXAxis()) > 0.1) {
-        this.applyForce(new Vec2(gamepads[0].getLeftStickXAxis() * this.parent.clock.getElapsedTime() / 4.0, 0));
+        this.applyForce(new Vec2(gamepads[0].getLeftStickXAxis() * this.parent.clock.getElapsedTime() / 8.0, 0));
         if (Math.abs(gamepads[0].getLeftStickXAxis()) > Math.abs(gamepads[0].getLeftStickYAxis()))
           if (gamepads[0].getLeftStickXAxis() > 0)
             this.animate('run_e');

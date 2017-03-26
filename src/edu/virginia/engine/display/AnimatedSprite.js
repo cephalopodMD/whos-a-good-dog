@@ -14,21 +14,23 @@ class AnimatedSprite extends Sprite{
       console.log(foldername + 0 + '.png')
 		this.frames = new ArrayList();
 		this.frames.add(this.displayImage);
-    for (let i=1; i<frames; i++)
-      this.frames.add(null);
+    for (let i=1; i<=frames; i++)
+      this.frames.add(new Image());
 		var i = 0,
 				loading = true,
 				t = this;
 		for (i=1; i <= frames; i++) {
-			var newDisplayImage = new Image();
-			newDisplayImage.onload = function() {
+      /*
+			t.frames.get(i).onload = function() {
         t.frames.contents[this.title] = this;
       }
-      newDisplayImage.title = i;
-			newDisplayImage.src = 'resources/' + foldername + i + '.png';
+      */
+      t.frames.get(i).title = i;
+			t.frames.get(i).src = 'resources/' + foldername + i + '.png';
       if (debug)
         console.log('resources/' + foldername + i + '.png')
 		}
+    loading = false;
 
 		this.currFrame = 0;
 		this.startIndex = 0;
