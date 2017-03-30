@@ -13,7 +13,7 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
     sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
-    sm.playMusic('theme');
+    // sm.playMusic('theme');
 
     this.mario = new Dog(90, 200);
     this.addChild(this.mario);
