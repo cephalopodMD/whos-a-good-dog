@@ -21,6 +21,9 @@ class GoodDogPrototype extends Game {
     marioFadeIn.animate(TweenableParams.ALPHA, 0, 1, 3000);
     TweenJuggler.add(marioFadeIn);
 
+    this.owner = new Owner(40, 40);
+    this.addChild(this.owner);
+
     this.platforms = [
       new Platform('p0', 350, 30),
       new Platform('p1', 350, 300),
@@ -88,34 +91,32 @@ class GoodDogPrototype extends Game {
       }
       grid.push(row);
     }
-    grid[0][8] = new Node(8, 0, false);
-    grid[1][8] = new Node(8, 1, false);
-    grid[2][8] = new Node(8, 2, false);
-    grid[3][8] = new Node(8, 3, false);
-    grid[4][8] = new Node(8, 4, false);
-    grid[0][7] = new Node(7, 0, false);
-    grid[1][7] = new Node(7, 1, false);
-    grid[2][7] = new Node(7, 2, false);
-    grid[3][7] = new Node(7, 3, false);
-    grid[4][7] = new Node(7, 4, false);
 
+    for (var i = 0; i < 5; i++) {
+      grid[i][7] = 1;
+      grid[i][8] = 1; 
+      grid[numRows-i-1][7] = 1;
+      grid[numRows-i-1][8] = 1;
+      grid[6][numCols-i-1] = 1;
+      grid[7][numCols-i-1] = 1;
+    }
 
     // Obstacles
-    // for (var r = 0; r < grid.length; r++) {
-    //   for (var c = 0; c < grid[0].length; c++) {
-    //     if (grid[r][c] == 1) {
-    //       grid[r][c] = new Node(c, r, false);
-    //     }
-    //   }
-    // }
+    for (var r = 0; r < grid.length; r++) {
+      for (var c = 0; c < grid[0].length; c++) {
+        if (grid[r][c] == 1) {
+          grid[r][c] = new Node(c, r, false);
+        }
+      }
+    }
 
     // Init start/end nodes
-    grid[0][0] = new Node(0, 0);
+    grid[1][1] = new Node(1, 1);
     grid[1][1] = new Node(1, 1);
 
     // Find the path
     this.ai = new PathAI(grid);
-    this.startNode = grid[0][0];
+    this.startNode = grid[1][1];
     this.path = this.ai.aStar(this.startNode, grid[1][1]);
 
     // AI move update delay
@@ -152,23 +153,42 @@ class GoodDogPrototype extends Game {
     super.update(pressedKeys, gamepads);
 
     // Update ai
+    // Set the new end node based on dog position
     var dogPos = this.mario.getPosition();
     var cellX = ((dogPos.getx() + this.mario.getUnscaledWidth()/2)/this.cellSize) | 0;
     var cellY = ((dogPos.gety() + this.mario.getUnscaledHeight()/2)/this.cellSize) | 0;
     var endNode = new Node(cellX, cellY);
     this.ai.grid[cellY][cellX] = endNode;
+
+    // Set the new start node based on owner position
+    var ownerPos = this.owner.getPosition();
+    var ownerX = (ownerPos.x/this.cellSize) | 0;
+    var ownerY = (ownerPos.y/this.cellSize) | 0;
+    var startNode = new Node(ownerX, ownerY);
+    this.startNode = startNode;
+    this.ai.grid[ownerY][ownerX] = startNode;
+
+    // Reset the cells and find the new path
     this.ai.resetCells();
     this.path = this.ai.aStar(this.startNode, endNode);
     this.curAiMoveTime += this.clock.getElapsedTime();
-    if (this.path.length > 1 && !this.pressedKeys.contains(16)) {
-      // Only update the AI so often
-      if (this.curAiMoveTime > this.aiMoveTime) {
-        this.curAiMoveTime = 0;
-        this.startNode = this.path[1];
+    if (!this.pressedKeys.contains(16)) {
+      if (this.path.length > 1) {
+
+        this.owner.setPath(this.path);
+        
+        // Only update the AI so often
+        // if (this.curAiMoveTime > this.aiMoveTime) {
+        //   this.curAiMoveTime = 0;
+        //   this.startNode = this.path[1];
+        // }
       }
+    } else {
+      this.owner.setPath([]);
     }
 
     this.mario.checkCollisions(this);
+    this.owner.checkCollisions(this);
 
     // update tweens
     TweenJuggler.nextFrame();
