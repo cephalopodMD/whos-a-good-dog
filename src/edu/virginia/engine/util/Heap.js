@@ -33,15 +33,31 @@ class Heap {
 		var heap = this.heap;
 
 		// Add item to end of array
-		heap.push(item);
+		heap[heap[0]+1] = item;
 
 		// Update the size
 		heap[0] += 1;
 
 		// Percolate up to maintain heap property
-		var idx = heap[0];
+		this._percolateUp(heap[0]);
+	}
+
+	decreaseKey(item, val) {
+		// Find the corresponding item in the heap
+		for (var idx = 1; idx <= this.heap[0]; idx++) {
+			if (this.heap[idx] == item) {
+				break;
+			}
+		}
+
+		// Update the item's value and percolate
+		this.heap[idx] = val;
+		this._percolateUp(idx);
+	}
+
+	_percolateUp(idx) {
 		// Continue while not at the root and child < parent
-		while (idx > 1 && this.compare(heap[idx],heap[idx >> 1])) {
+		while (idx > 1 && this.compare(this.heap[idx],this.heap[idx >> 1])) {
 			// Swap current node with parent
 			this.swap(idx, idx >> 1);
 
@@ -66,7 +82,7 @@ class Heap {
 	remove() {
 		// Alias for shorter code
 		var heap = this.heap;
-		
+
 		// Return undefined if heap is empty
 		if (!heap[0]) {
 			return undefined;
