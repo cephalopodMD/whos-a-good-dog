@@ -42,7 +42,7 @@ class Heap {
 		this._percolateUp(heap[0]);
 	}
 
-	decreaseKey(item, val) {
+	decreaseKey(item, val, updateValFunc = undefined) {
 		// Find the corresponding item in the heap
 		for (var idx = 1; idx <= this.heap[0]; idx++) {
 			if (this.heap[idx] == item) {
@@ -51,7 +51,11 @@ class Heap {
 		}
 
 		// Update the item's value and percolate
-		this.heap[idx] = val;
+		if (updateValFunc) {
+			updateValFunc(this.heap[idx], val);
+		} else {
+			this.heap[idx] = val;
+		}
 		this._percolateUp(idx);
 	}
 
