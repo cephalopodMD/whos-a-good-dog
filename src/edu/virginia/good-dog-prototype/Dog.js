@@ -12,7 +12,7 @@ class Dog extends AnimatedSprite {
     this.addAnimation('run_e', 6, 8);
     this.addAnimation('run_n', 9, 11);
     this.addAnimation('jump', 6, 6);
-    this.animate('stand');
+    this.animate('run_s');
     this.play();
     this.setPosition(x, y);
     this.lastPosition = new Vec2(this.position.x, this.position.y);
@@ -62,15 +62,15 @@ class Dog extends AnimatedSprite {
     if(pressedKeys.contains(32) && this.pooTimer.getElapsedTime() > 1000) {
       var pos;
       if (this.currAnimation == 'run_n')
-        pos = new Vec2(this.position.x + 38, this.position.y + 45);
+        pos = new Vec2(this.getHitbox().x + 12, this.getHitbox().y + 45);
       else if (this.currAnimation == 'run_s')
-        pos = new Vec2(this.position.x + 38, this.position.y - 35);
+        pos = new Vec2(this.getHitbox().x + 12, this.getHitbox().y - 35);
       else if (this.currAnimation == 'run_e')
-        pos = new Vec2(this.position.x, this.position.y + 20);
+        pos = new Vec2(this.getHitbox().x - 12, this.getHitbox().y + 20);
       else if (this.currAnimation == 'run_w')
-        pos = new Vec2(this.position.x + this.getWidth() + 20, this.position.y + 20);
+        pos = new Vec2(this.getHitbox().x + this.getWidth() + 12, this.getHitbox().y + 20);
       else
-        pos = new Vec2(this.position.x, this.position.y);
+        pos = new Vec2(this.getHitbox().x, this.getHitbox().y);
       this.parent.poos.addChild(new Poo(this.parent, pos.x, pos.y));
       this.pooTimer.resetGameClock();
     }

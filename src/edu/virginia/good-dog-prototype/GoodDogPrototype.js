@@ -17,13 +17,16 @@ class GoodDogPrototype extends Game {
 
     this.poos = new DisplayObjectContainer('poos');
     this.addChild(this.poos);
-    
+
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
     var dogFadeIn = new Tween(this.dog);
     dogFadeIn.animate(TweenableParams.ALPHA, 0, 1, 3000);
     TweenJuggler.add(dogFadeIn);
-    
+
+    this.owner = new Owner(80, 80);
+    this.addChild(this.owner);
+
     this.platforms = [
       new Platform('p0', 344, 32),
       new Platform('p1', 344, 296),
@@ -173,15 +176,15 @@ class GoodDogPrototype extends Game {
   draw(g){
     /*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
-    g.font='bold 16px Arial';
-    g.fillStyle = 'white';
-    g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
+    //g.font='bold 16px Arial';
+    //g.fillStyle = 'white';
+    //g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
 
     // DEBUG: Draw grid
     if (debug && this.grid) {
       this.drawGrid(g);
     }
-    
+
   }
 
   /**
