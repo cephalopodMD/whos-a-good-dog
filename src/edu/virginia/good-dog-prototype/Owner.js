@@ -20,6 +20,7 @@ class Owner extends Sprite {
     this.hasPhysics = true;
     this.grounded = false;
     this.running = false;
+    this.chasing = false;
 
     // Keep track of path to follow
     this.path = [];
@@ -31,7 +32,7 @@ class Owner extends Sprite {
     // Character specific physics
     this.velocity.scale(0.5);
     // TODO: Update running animation here
-    
+
     // Apply forces based on the path
     if (this.path.length > 1) {
       var node0 = this.path[0];
