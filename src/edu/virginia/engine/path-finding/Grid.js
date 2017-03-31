@@ -97,4 +97,29 @@ class Grid {
       }
     }
   }
+
+  /**
+   * Load the grid from a matrix
+   *
+   * Given a matrix of 1's and 0's, create a grid of cells
+   * 1 = untraversable
+   * 0 = traversable
+   */
+  static FromMatrix(matrix) {
+    var numRows = matrix.length;
+    var numCols = matrix[0].length;
+    var g = [];
+    for (var r = 0; r < numRows; r++) {
+      var curRow = [];
+      for (var c = 0; c < numCols; c++) {
+        var traversable = (matrix[r][c] == 1) ? false : true;
+        curRow.push(new GridCell(c, r, traversable));
+      }
+      g.push(curRow);
+    }
+
+    var grid = new Grid(numRows, numCols);
+    grid.grid = g;
+    return grid;
+  }
 }

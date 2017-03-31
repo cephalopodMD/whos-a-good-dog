@@ -17,7 +17,7 @@ class Dog extends AnimatedSprite {
     this.setPosition(x, y);
     this.lastPosition = new Vec2(this.position.x, this.position.y);
     this.setScale(.5, .5);
-    this.setPivotPoint(112/2, 0);
+    this.setPivotPoint(-112/2, -96/2);
     this.hasPhysics = true;
     this.grounded = false;
     this.running = false;
