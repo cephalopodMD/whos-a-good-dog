@@ -25,13 +25,13 @@ class GoodDogPrototype extends Game {
     this.addChild(this.owner);
 
     this.platforms = [
-      new Platform('p0', 350, 30),
-      new Platform('p1', 350, 300),
+      new Platform('p0', 344, 32),
+      new Platform('p1', 344, 296),
       new Platform('p2', 500, 150),
-      new Platform('p3', 0, 470),
-      new Platform('p4', 160, 470),
-      new Platform('p5', 320, 470),
-      new Platform('p6', 480, 470),
+      new Platform('p3', 0, 472),
+      new Platform('p4', 160, 472),
+      new Platform('p5', 320, 472),
+      new Platform('p6', 480, 472),
       new Platform('p7', 10, 0),
       new Platform('p8', 10, 160),
       new Platform('p9', 10, 320),

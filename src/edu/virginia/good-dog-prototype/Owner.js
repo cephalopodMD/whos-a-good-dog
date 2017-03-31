@@ -14,7 +14,7 @@ class Owner extends Sprite {
     this.setPosition(x, y);
     this.lastPosition = new Vec2(this.position.x, this.position.y);
     this.setScale(0.15625, 0.15625);
-    this.setPivotPoint(-25, -25);
+    this.setPivotPoint(-20, -20);
 
     // Set physics and animation flags
     this.hasPhysics = true;
