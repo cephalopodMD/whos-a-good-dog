@@ -13,7 +13,7 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
     sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
-    // sm.playMusic('theme');
+    sm.playMusic('theme');
 
     this.poos = new DisplayObjectContainer('poos');
     this.addChild(this.poos);
@@ -85,32 +85,18 @@ class GoodDogPrototype extends Game {
   }
 
   handleEvent(e) {
-    if (e.eventType == PickedUpEvent.COIN_PICKED_UP) {
-      GoodDogPrototype.soundManager.playSoundEffect('poo');
-      var pooZoom = new Tween(e.getSource().sprite, TweenTransitions.quadinout);
-      pooZoom.animate(TweenableParams.SCALEX, .2, .8, 1000);
-      pooZoom.animate(TweenableParams.SCALEY, .2, .8, 1000);
-      pooZoom.animate(TweenableParams.X, e.getSource().sprite.position.x, 200, 1000);
-      pooZoom.animate(TweenableParams.Y, e.getSource().sprite.position.y, 150, 1000);
-      pooZoom.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
-      TweenJuggler.add(pooZoom);
-    } else if (e.eventType == TweenEvent.TWEEN_COMPLETE_EVENT) {
-      if (e.getTween().object.id == 'Poo') {
-        if (e.getSource().object.alpha == 0) {
-          this.removeChild(e.getSource().object);
-          this.poos.remove(e.getSource().object);
-        } else {
-          var pooFade = new Tween(e.getSource().object);
-          pooFade.animate(TweenableParams.ALPHA, 1, 0, 1000);
-          pooFade.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
-          TweenJuggler.add(pooFade);
-        }
-      }
+    if (e.eventType == Dog.POO_EVENT) {
+      this.owner.chasing = true;
     }
   }
 
   update(pressedKeys, gamepads) {
     super.update(pressedKeys, gamepads);
+
+    // shift
+    if (pressedKeys.contains(16)) {
+
+    }
 
     // Update ai
     if (this.ai) {
@@ -142,12 +128,13 @@ class GoodDogPrototype extends Game {
     // Reset the cells and find the new path
     this.grid.resetCells();
     this.path = this.ai.aStar(ownerCell, dogCell);
-    if (!debug || !this.pressedKeys.contains(16)) {
+    if (this.owner.chasing) {
       if (this.path.length > 0) {
         this.owner.setPath(this.path);
       }
-    } else {
-      this.owner.setPath([]);
+      if (this.path.length <= 1) {
+        this.pause();
+      }
     }
   }
 
@@ -184,9 +171,14 @@ class GoodDogPrototype extends Game {
   draw(g){
     /*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
-    //g.font='bold 16px Arial';
-    //g.fillStyle = 'white';
-    //g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
+
+    if (!this.playing) {
+      this.g.fillStyle = 'white';
+      this.g.font='bold 48px Arial';
+      this.g.fillText("YOU GOT CAUGHT!", 100, 250);
+      this.g.font='bold 32px Arial';
+      this.g.fillText("ya dingus", 250, 300);
+    }
 
     // DEBUG: Draw grid
     if (debug && this.grid) {
@@ -243,7 +235,7 @@ function tick(){
 GoodDogPrototype.soundManager = new SoundManager();
 
 var drawingCanvas = document.getElementById('game');
-var debug = true;
+var debug = false;
 if(drawingCanvas.getContext) {
   var game = new GoodDogPrototype(drawingCanvas);
   game.start();
