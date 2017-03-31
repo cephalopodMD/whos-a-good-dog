@@ -14,6 +14,11 @@ class PathAI {
 	 * Note: startNode and endNode must already be added to grid
 	 */
 	aStar(startNode, endNode) {
+		// Check if startNode and endNode are the same
+		if (startNode.x == endNode.x && startNode.y == endNode.y) {
+			return [startNode];
+		}
+
 		// Keep track of neighboring nodes
 		var open = new Heap(function(lhs, rhs) { return lhs.fCost < rhs.fCost;});
 		open.add(startNode);
@@ -54,10 +59,6 @@ class PathAI {
 					open.add(neighbor);
 					openSet.add(neighbor);
 				}
-			}
-
-			if (!open.peek()) {
-				debugger;
 			}
 		}
 
@@ -105,34 +106,79 @@ class PathAI {
 
 	/**
 	 * Get the neighbors for the given cell
+	 *
+	 * Neighbors are broken into two categories:
+	 * 1. straight (s)
+	 * 2. diagonal (d)
+	 *
+	 * Neighbor indices:
+	 * + -- + -- + -- +
+	 * | d1 | s1 | d2 |
+	 * + -- + -- + -- +
+	 * | s2 |    | s3 |
+	 * + -- + -- + -- +
+	 * | d3 | s4 | d4 |
+	 * + -- + -- + -- +
+	 *
+	 * A diagonal cell is only a neighbor if it can get there without cutting any corner
 	 */
 	getNeighbors(node) {
-		var neighbors = [];
-		for (var r = -1; r <= 1; r++) {
-			for (var c = -1; c <= 1; c++) {
-				// Skip middle node
-				if (r == 0 && c == 0) {
-					continue;
-				}
+		var neighbors = new Set();
 
-				var neighborX = node.x + c;
-				var neighborY = node.y + r;
-				if (neighborY >= 0 && neighborY < this.grid.length && neighborX >= 0 && neighborX < this.grid[0].length) {
-					// Create neighboring nodes as needed
-					var neighborNode = this.grid[neighborY][neighborX];
-					if (!neighborNode) {
-						neighborNode = new Node(neighborX, neighborY);
-						this.grid[neighborY][neighborX] = neighborNode;
-					}
+		var s1 = this.getCell(node.x, node.y-1);
+		var s2 = this.getCell(node.x-1, node.y);
+		var s3 = this.getCell(node.x+1, node.y);
+		var s4 = this.getCell(node.x, node.y+1);
+		neighbors.add(s1);
+		neighbors.add(s2);
+		neighbors.add(s3);
+		neighbors.add(s4);
 
-					// Add the neighbor to the list of neighbors
-					neighbors.push(neighborNode);
-				}
-			}
+		// Only consider diagonal neighbors that are not blocked on the straight sides
+		if (s1 && s1.traversable && s2 && s2.traversable) {
+			var d1 = this.getCell(node.x-1, node.y-1);
+			neighbors.add(d1);
 		}
+		if (s1 && s1.traversable && s3 && s3.traversable) {
+			var d2 = this.getCell(node.x+1, node.y-1);
+			neighbors.add(d2);
+		}
+		if (s2 && s2.traversable && s4 && s4.traversable) {
+			var d3 = this.getCell(node.x-1, node.y+1);
+			neighbors.add(d3);
+		}
+		if (s3 && s3.traversable && s4 && s4.traversable) {
+			var d4 = this.getCell(node.x+1, node.y+1);
+			neighbors.add(d4);
+		}
+
+		// Removed any instances of undefined
+		neighbors.delete(undefined);
+
 		return neighbors;
 	}
 
+	/**
+	 * Helper method to get a cell from the grid
+	 */
+	getCell(x, y) {
+		// Check that cell is within grid
+		if (y < 0 || y >= this.grid.length || x < 0 || x >= this.grid[0].length) {
+			return undefined;
+		}
+
+		// Create neighboring nodes as needed
+		var cell = this.grid[y][x];
+		if (!cell) {
+			cell = new Node(x, y);
+			this.grid[y][x] = cell;
+		}
+		return cell;
+	}
+
+	/**
+	 * Reset the costs for all cells in the grid
+	 */
 	resetCells() {
 		for (var r = 0; r < this.grid.length; r++) {
 			for (var c = 0; c < this.grid[0].length; c++) {

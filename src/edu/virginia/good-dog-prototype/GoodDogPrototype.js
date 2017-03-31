@@ -69,18 +69,8 @@ class GoodDogPrototype extends Game {
 
     this.clock = new GameClock();
 
-    // AI Testing
-    // var grid = [
-    //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    //   [1, 0, 1, 0, 0, 0, 1, 0, 0, 1],
-    //   [1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
-    //   [1, 0, 1, 0, 1, 0, 1, 0, 0, 1],
-    //   [1, 0, 0, 0, 1, 0, 1, 0, 0, 1],
-    //   [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-    //   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    // ];
-
-    this.cellSize = 40;
+    // AI
+    this.cellSize = 10;
     var grid = []
     var numCols = this.width / this.cellSize;
     var numRows = this.height / this.cellSize;
@@ -90,15 +80,6 @@ class GoodDogPrototype extends Game {
         row.push(0);
       }
       grid.push(row);
-    }
-
-    for (var i = 0; i < 5; i++) {
-      grid[i][7] = 1;
-      grid[i][8] = 1; 
-      grid[numRows-i-1][7] = 1;
-      grid[numRows-i-1][8] = 1;
-      grid[6][numCols-i-1] = 1;
-      grid[7][numCols-i-1] = 1;
     }
 
     // Obstacles
@@ -172,8 +153,8 @@ class GoodDogPrototype extends Game {
     this.ai.resetCells();
     this.path = this.ai.aStar(this.startNode, endNode);
     this.curAiMoveTime += this.clock.getElapsedTime();
-    if (!this.pressedKeys.contains(16)) {
-      if (this.path.length > 1) {
+    if (!debug || !this.pressedKeys.contains(16)) {
+      if (this.path.length > 0) {
 
         this.owner.setPath(this.path);
         
