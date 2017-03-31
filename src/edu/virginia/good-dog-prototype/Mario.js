@@ -2,8 +2,8 @@
 
 class Mario extends AnimatedSprite {
   constructor(x, y) {
-    var id = 'mario',
-        foldername = 'sprites/mario';
+    var id = 'dog',
+        foldername = 'sprites/dog';
     super(id, foldername, 5);
     this.setSpeed(16);
     this.addAnimation('stand', 0, 0);
@@ -77,11 +77,11 @@ class Mario extends AnimatedSprite {
   }
 
   checkCollisions(game) {
-    // check coin collisions
-    for (let coin of game.coins) {
-      if (this.collidesWith(coin.sprite) && !coin.collected) {
-        coin.collected = true;
-        coin.dispatchEvent(new PickedUpEvent(coin));
+    // check poo collisions
+    for (let poo of game.poos) {
+      if (this.collidesWith(poo.sprite) && !poo.collected) {
+        poo.collected = true;
+        poo.dispatchEvent(new PickedUpEvent(poo));
       }
     }
 
@@ -91,10 +91,10 @@ class Mario extends AnimatedSprite {
       if (plat.collidesWith(this)) {
         // get normal vector by:
         //// transforming Mario to old coords
-        //// getting bounding box of mario in platform space
+        //// getting bounding box of dog in platform space
         //// checking if above, below, left, or right
         //// transforming Mario back to real coords
-        //// getting bounding box of mario in platform space
+        //// getting bounding box of dog in platform space
         //// choosing appropriate normal vector to edge
         //// transforming vector into world coords
         // get newpos by:

@@ -1,11 +1,11 @@
 "use strict";
 
-class Coin extends Sprite {
+class Poo extends Sprite {
 
   constructor(game, x, y) {
-    super("Coin", "sprites/poo.png");
+    super("Poo"+Poo.count, "sprites/poo.png");
+    Poo.count += 1;
     this.sprite = this;
-    game.addChild(this);
     this.position.x = x;
     this.position.y = y;
     this.setScale(.2, .2);
@@ -13,3 +13,5 @@ class Coin extends Sprite {
   }
 
 }
+
+Poo.count = 0

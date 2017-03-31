@@ -1,9 +1,9 @@
 "use strict";
 
 class PickedUpEvent extends Event {
-  constructor(coin) {
-    super(PickedUpEvent.COIN_PICKED_UP, coin);
+  constructor(poo) {
+    super(PickedUpEvent.COIN_PICKED_UP, poo);
   }
 }
 
-PickedUpEvent.COIN_PICKED_UP = 'coin picked up';
+PickedUpEvent.COIN_PICKED_UP = 'poo picked up';

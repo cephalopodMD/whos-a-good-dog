@@ -9,11 +9,14 @@ class GoodDogPrototype extends Game {
     super("Who's A Good Dog?", 640, 480, canvas);
 
     var sm = GoodDogPrototype.soundManager;
-    sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
+    sm.loadSoundEffect('poo', 'sounds/smw_poo.wav');
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
     sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
     // sm.playMusic('theme');
+
+    this.poos = new DisplayObjectContainer('poos');
+    this.addChild(this.poos);
 
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
@@ -57,17 +60,6 @@ class GoodDogPrototype extends Game {
     for (let plat of this.platforms)
       this.addChild(plat);
 
-    this.coins = new ArrayList([
-      new Coin(this, 100, 20),
-      new Coin(this, 550, 400),
-      new Coin(this, 20, 330),
-    ]);
-    this.questManager = new QuestManager();
-    for (let coin of this.coins.contents) {
-      coin.addEventListener(this, PickedUpEvent.COIN_PICKED_UP);
-      coin.addEventListener(this.questManager, PickedUpEvent.COIN_PICKED_UP);
-    }
-
     this.clock = new GameClock();
 
     // Init AI
@@ -86,24 +78,24 @@ class GoodDogPrototype extends Game {
 
   handleEvent(e) {
     if (e.eventType == PickedUpEvent.COIN_PICKED_UP) {
-      GoodDogPrototype.soundManager.playSoundEffect('coin');
-      var coinZoom = new Tween(e.getSource().sprite, TweenTransitions.quadinout);
-      coinZoom.animate(TweenableParams.SCALEX, .2, .8, 1000);
-      coinZoom.animate(TweenableParams.SCALEY, .2, .8, 1000);
-      coinZoom.animate(TweenableParams.X, e.getSource().sprite.position.x, 200, 1000);
-      coinZoom.animate(TweenableParams.Y, e.getSource().sprite.position.y, 150, 1000);
-      coinZoom.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
-      TweenJuggler.add(coinZoom);
+      GoodDogPrototype.soundManager.playSoundEffect('poo');
+      var pooZoom = new Tween(e.getSource().sprite, TweenTransitions.quadinout);
+      pooZoom.animate(TweenableParams.SCALEX, .2, .8, 1000);
+      pooZoom.animate(TweenableParams.SCALEY, .2, .8, 1000);
+      pooZoom.animate(TweenableParams.X, e.getSource().sprite.position.x, 200, 1000);
+      pooZoom.animate(TweenableParams.Y, e.getSource().sprite.position.y, 150, 1000);
+      pooZoom.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
+      TweenJuggler.add(pooZoom);
     } else if (e.eventType == TweenEvent.TWEEN_COMPLETE_EVENT) {
-      if (e.getTween().object.id == 'Coin') {
+      if (e.getTween().object.id == 'Poo') {
         if (e.getSource().object.alpha == 0) {
           this.removeChild(e.getSource().object);
-          this.coins.remove(e.getSource().object);
+          this.poos.remove(e.getSource().object);
         } else {
-          var coinFade = new Tween(e.getSource().object);
-          coinFade.animate(TweenableParams.ALPHA, 1, 0, 1000);
-          coinFade.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
-          TweenJuggler.add(coinFade);
+          var pooFade = new Tween(e.getSource().object);
+          pooFade.animate(TweenableParams.ALPHA, 1, 0, 1000);
+          pooFade.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
+          TweenJuggler.add(pooFade);
         }
       }
     }
@@ -184,15 +176,15 @@ class GoodDogPrototype extends Game {
   draw(g){
     /*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
-    g.font='bold 16px Arial';
-    g.fillStyle = 'white';
-    g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
+    //g.font='bold 16px Arial';
+    //g.fillStyle = 'white';
+    //g.fillText("Coin grabbed: "+this.questManager.getQuestStatus(PickedUpEvent.COIN_PICKED_UP), 260, 25);
 
     // DEBUG: Draw grid
     if (debug && this.grid) {
       this.drawGrid(g);
     }
-    
+
   }
 
   /**
