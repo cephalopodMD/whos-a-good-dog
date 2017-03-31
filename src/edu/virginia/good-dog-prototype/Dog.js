@@ -21,6 +21,7 @@ class Dog extends AnimatedSprite {
     this.hasPhysics = true;
     this.grounded = false;
     this.running = false;
+    this.pooTimer = new GameClock();
   }
 
   update(pressedKeys, gamepads) {
@@ -58,7 +59,22 @@ class Dog extends AnimatedSprite {
       this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 8.0));
       this.animate('run_s');
     }
-    if(pressedKeys.contains(32)) {
+    if(pressedKeys.contains(32) && this.pooTimer.getElapsedTime() > 1000) {
+      var pos;
+      if (this.currAnimation == 'run_n')
+        pos = new Vec2(this.position.x + 38, this.position.y + 45);
+      else if (this.currAnimation == 'run_s')
+        pos = new Vec2(this.position.x + 38, this.position.y - 35);
+      else if (this.currAnimation == 'run_e')
+        pos = new Vec2(this.position.x, this.position.y + 20);
+      else if (this.currAnimation == 'run_w')
+        pos = new Vec2(this.position.x + this.getWidth() + 20, this.position.y + 20);
+      else
+        pos = new Vec2(this.position.x, this.position.y);
+      this.parent.poos.addChild(new Poo(this.parent, pos.x, pos.y));
+      this.pooTimer.resetGameClock();
+    }
+    if(pressedKeys.contains(66)) {
       GoodDogPrototype.soundManager.playSoundEffect('yip')
     }
 
@@ -102,24 +118,27 @@ class Dog extends AnimatedSprite {
   }
 
   checkCollisions(game) {
-    // check coin collisions
-    for (let coin of game.coins.contents) {
-      if (this.collidesWith(coin.sprite) && !coin.collected) {
-        coin.collected = true;
-        coin.dispatchEvent(new PickedUpEvent(coin));
+    // check poo collisions
+    /*
+    for (let poo of game.poos.contents) {
+      if (this.collidesWith(poo.sprite) && !poo.collected) {
+        poo.collected = true;
+        poo.dispatchEvent(new PickedUpEvent(poo));
       }
     }
+    */
 
     //check platform collisions
     var collided = false;
     for (let plat of game.platforms) {
       if (plat.collidesWith(this)) {
+        // TODO fix velocity vector after collision instead of zeroing
         // get normal vector by:
         //// transforming Mario to old coords
-        //// getting bounding box of mario in platform space
+        //// getting bounding box of dog in platform space
         //// checking if above, below, left, or right
         //// transforming Mario back to real coords
-        //// getting bounding box of mario in platform space
+        //// getting bounding box of dog in platform space
         //// choosing appropriate normal vector to edge
         //// transforming vector into world coords
         // get newpos by:
@@ -174,6 +193,10 @@ class Dog extends AnimatedSprite {
         }
       }
     }
+  }
+
+  draw(g) {
+    super.draw(g)
   }
 
   jump() {
