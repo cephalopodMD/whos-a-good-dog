@@ -69,40 +69,13 @@ class GoodDogPrototype extends Game {
 
     this.clock = new GameClock();
 
-    // AI
+    // Init AI
     this.cellSize = 10;
-    var grid = []
     var numCols = this.width / this.cellSize;
     var numRows = this.height / this.cellSize;
-    for (var r = 0; r < numRows; r++) {
-      var row = []
-      for (var c = 0; c < numCols; c++) {
-        row.push(0);
-      }
-      grid.push(row);
-    }
-
-    // Obstacles
-    for (var r = 0; r < grid.length; r++) {
-      for (var c = 0; c < grid[0].length; c++) {
-        if (grid[r][c] == 1) {
-          grid[r][c] = new Node(c, r, false);
-        }
-      }
-    }
-
-    // Init start/end nodes
-    grid[1][1] = new Node(1, 1);
-    grid[1][1] = new Node(1, 1);
-
-    // Find the path
-    this.ai = new PathAI(grid);
-    this.startNode = grid[1][1];
-    this.path = this.ai.aStar(this.startNode, grid[1][1]);
-
-    // AI move update delay
-    this.aiMoveTime = 200;
-    this.curAiMoveTime = 0;
+    this.grid = new Grid(numRows, numCols);
+    this.ai = new PathAI(this.grid);
+    this.path = [];
   }
 
   handleEvent(e) {
@@ -134,47 +107,42 @@ class GoodDogPrototype extends Game {
     super.update(pressedKeys, gamepads);
 
     // Update ai
-    // Set the new end node based on dog position
-    var dogPos = this.mario.getPosition();
-    var cellX = ((dogPos.getx() + this.mario.getUnscaledWidth()/2)/this.cellSize) | 0;
-    var cellY = ((dogPos.gety() + this.mario.getUnscaledHeight()/2)/this.cellSize) | 0;
-    var endNode = new Node(cellX, cellY);
-    this.ai.grid[cellY][cellX] = endNode;
+    this.updateAI();
 
-    // Set the new start node based on owner position
-    var ownerPos = this.owner.getPosition();
-    var ownerX = (ownerPos.x/this.cellSize) | 0;
-    var ownerY = (ownerPos.y/this.cellSize) | 0;
-    var startNode = new Node(ownerX, ownerY);
-    this.startNode = startNode;
-    this.ai.grid[ownerY][ownerX] = startNode;
-
-    // Reset the cells and find the new path
-    this.ai.resetCells();
-    this.path = this.ai.aStar(this.startNode, endNode);
-    this.curAiMoveTime += this.clock.getElapsedTime();
-    if (!debug || !this.pressedKeys.contains(16)) {
-      if (this.path.length > 0) {
-
-        this.owner.setPath(this.path);
-        
-        // Only update the AI so often
-        // if (this.curAiMoveTime > this.aiMoveTime) {
-        //   this.curAiMoveTime = 0;
-        //   this.startNode = this.path[1];
-        // }
-      }
-    } else {
-      this.owner.setPath([]);
-    }
-
+    // Check collisions
     this.mario.checkCollisions(this);
     this.owner.checkCollisions(this);
 
     // update tweens
     TweenJuggler.nextFrame();
+
     // reset timings
     this.clock.resetGameClock();
+  }
+
+  updateAI() {
+    // Set the new start cell based on owner position
+    var ownerPos = this.owner.getPosition();
+    var ownerCellX = (ownerPos.x/this.cellSize) | 0;
+    var ownerCellY = (ownerPos.y/this.cellSize) | 0;
+    var ownerCell = this.grid.getCell(ownerCellX, ownerCellY);
+
+    // Set the new end cell based on dog position
+    var dogPos = this.mario.getPosition();
+    var dogCellX = ((dogPos.getx() + this.mario.getUnscaledWidth()/2)/this.cellSize) | 0;
+    var dogCellY = ((dogPos.gety() + this.mario.getUnscaledHeight()/2)/this.cellSize) | 0;
+    var dogCell = this.grid.getCell(dogCellX, dogCellY);
+
+    // Reset the cells and find the new path
+    this.grid.resetCells();
+    this.path = this.ai.aStar(ownerCell, dogCell);
+    if (!debug || !this.pressedKeys.contains(16)) {
+      if (this.path.length > 0) {
+        this.owner.setPath(this.path);
+      }
+    } else {
+      this.owner.setPath([]);
+    }
   }
 
   draw(g){
@@ -186,34 +154,42 @@ class GoodDogPrototype extends Game {
 
     // DEBUG: Draw grid
     if (debug) {
-      var cellSize = this.cellSize;
-      var grid = this.ai.grid;
-      for (var r = 0; r < grid.length; r++) {
-        for (var c = 0; c < grid[0].length; c++) {
-          var cell = grid[r][c];
-          if (cell == 0 || cell.fCost == 0) {
-            g.fillStyle = "rgba(0, 0, 0, 0.2)";
-            g.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
-          }
+      this.drawGrid(g);
+    }
+    
+  }
 
-          if (cell && !cell.traversable) {
-            g.fillStyle = "rgba(0, 0, 0, 0.5)";
-            g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
-          }
+  /**
+   * Draw the underlying grid for the A* path finding
+   */
+  drawGrid(g) {
+    var cellSize = this.cellSize;
+    var grid = this.grid;
+    for (var r = 0; r < grid.numRows; r++) {
+      for (var c = 0; c < grid.numCols; c++) {
+        var cell = grid.getCell(c, r);
+        if (cell.fCost == 0) {
+          g.fillStyle = "rgba(0, 0, 0, 0.2)";
+          g.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+        }
+
+        if (!cell.traversable) {
+          g.fillStyle = "rgba(0, 0, 0, 0.5)";
+          g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
         }
       }
+    }
 
-      for (var i = 0; i < this.path.length; i++) {
-        if (i == 0) {
-          g.fillStyle = "rgba(0, 255, 0, 0.5)";
-        } else if (i == this.path.length-1) {
-          g.fillStyle = "rgba(255, 0, 0, 0.5)";
-        } else {
-          g.fillStyle = "rgba(0, 255, 255, 0.4)";
-        }
-        var cell = this.path[i];
-        g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
+    for (var i = 0; i < this.path.length; i++) {
+      if (i == 0) {
+        g.fillStyle = "rgba(0, 255, 0, 0.5)";
+      } else if (i == this.path.length-1) {
+        g.fillStyle = "rgba(255, 0, 0, 0.5)";
+      } else {
+        g.fillStyle = "rgba(0, 255, 255, 0.4)";
       }
+      var cell = this.path[i];
+      g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
     }
   }
 }
