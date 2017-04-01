@@ -24,6 +24,12 @@ class GoodDogPrototype extends Game {
     this.owner = new Owner(80, 80);
     this.addChild(this.owner);
 
+    this.box = new InteractSprite("box", "sprites/gray_box.gif", "sprites/yellow_box.gif");
+    this.box.setScale(0.2, 0.2);
+    this.box.setPosition(120, 300);
+    this.box.moveInteractBox(0, -200);
+    this.addChild(this.box);
+
     this.platforms = [
       new Platform('p0', 344, 32),
       new Platform('p1', 344, 296),
@@ -56,6 +62,8 @@ class GoodDogPrototype extends Game {
 
     for (let plat of this.platforms)
       this.addChild(plat);
+
+    this.platforms.push(this.box);
 
     this.coins = new ArrayList([
       new Coin(this, 100, 20),
