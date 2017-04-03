@@ -28,7 +28,7 @@ class PathAI {
 		openSet.add(startCell);
 		var closedSet = new Set();
 
-		while (open.peek().x != endCell.x || open.peek().y != endCell.y) {
+		while (open.peek() && (open.peek().x != endCell.x || open.peek().y != endCell.y)) {
 			var curCell = open.remove();
 			closedSet.add(curCell);
 

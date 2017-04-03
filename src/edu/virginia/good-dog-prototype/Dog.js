@@ -24,6 +24,9 @@ class Dog extends AnimatedSprite {
     this.grounded = false;
     this.running = false;
     this.pooTimer = new GameClock();
+    this.pooTime = 500;
+    this.interactTimer = new GameClock();
+    this.interactTime = 500;
     this.addEventListener(GoodDogPrototype.getInstance(), Dog.POO_EVENT);
   }
 
@@ -45,14 +48,17 @@ class Dog extends AnimatedSprite {
       }
     }
 
-    if(pressedKeys.contains(32) && this.pooTimer.getElapsedTime() > 1000) {
+    if((pressedKeys.contains(32) || pressedKeys.contains(81)) && this.pooTimer.getElapsedTime() > this.pooTime) {
       this.poo();
+    }
+    if (pressedKeys.contains(87) && this.interactTimer.getElapsedTime() > this.interactTime) {
+      this.checkInteractions();
     }
     if(pressedKeys.contains(66)) {
       GoodDogPrototype.soundManager.playSoundEffect('yip')
     }
 
-    if (this.pooTimer.getElapsedTime() > 1000) {
+    if (this.pooTimer.getElapsedTime() > this.pooTime) {
       // arrow keys move
       if(pressedKeys.contains(37)) {
         this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 8.0, 0));
@@ -109,6 +115,19 @@ class Dog extends AnimatedSprite {
         if(gamepads[0].buttonPressedByIndex(0) || gamepads[0].buttonPressedByIndex(1)) this.poo();
       }
     }
+  }
+
+  checkInteractions() {
+    var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
+    for (var interactableObj of interactableObjects) {
+      var interactBox = interactableObj.getInteractBox();
+      if (this.collidesWith(interactBox)) {
+        interactableObj.interact();
+      }
+    }
+
+    // Reset the interaction timer
+    this.interactTimer.resetGameClock();
   }
 
   checkCollisions(game) {

@@ -31,12 +31,6 @@ class GoodDogPrototype extends Game {
     this.owner = new Owner(80, 80);
     this.addChild(this.owner);
 
-    this.box = new InteractSprite("box", "sprites/gray_box.gif", "sprites/yellow_box.gif");
-    this.box.setScale(0.2, 0.2);
-    this.box.setPosition(120, 300);
-    this.box.moveInteractBox(0, -200);
-    this.addChild(this.box);
-
     this.platforms = [
       new Platform('p0', 344, 32),
       new Platform('p1', 344, 296),
@@ -70,7 +64,35 @@ class GoodDogPrototype extends Game {
     for (let plat of this.platforms)
       this.addChild(plat);
 
-    this.platforms.push(this.box);
+
+    // Create new interactable object
+    var box0 = new InteractSprite("yellow box", "sprites/gray_box.gif", "sprites/yellow_box.gif");
+    box0.setScale(0.2, 0.2);
+    box0.setPosition(120, 300);
+    box0.moveInteractBox(0, -40);
+    this.addChild(box0);
+
+    var box1 = new InteractSprite("green box", "sprites/gray_box.gif", "sprites/green_box.png");
+    box1.setScale(0.2, 0.2);
+    box1.setPosition(344, 432);
+    box1.moveInteractBox(40, 0);
+    this.addChild(box1);
+
+    var box2 = new InteractSprite("red box", "sprites/gray_box.gif", "sprites/red_box.png");
+    box2.setScale(0.2, 0.2);
+    box2.setPosition(584, 8);
+    box2.moveInteractBox(0, 40);
+    this.addChild(box2);
+
+    this.interactableObjects = [
+      box0,
+      box1,
+      box2
+    ];
+
+    this.platforms.push(box0);
+    this.platforms.push(box1);
+    this.platforms.push(box2);
 
     this.clock = new GameClock();
 
@@ -86,11 +108,16 @@ class GoodDogPrototype extends Game {
       thiz.ai = new PathAI(thiz.grid);
     }
     setTimeout(callback, 500, this);
+
+    // Demo
+    this.interactText = "";
   }
 
   handleEvent(e) {
     if (e.eventType == Dog.POO_EVENT) {
       this.owner.chasing = true;
+    } else if (e.eventType == InteractEvent.INTERACT_EVENT) {
+      this.interactText = e.getSource().getId();
     }
   }
 
@@ -99,7 +126,9 @@ class GoodDogPrototype extends Game {
 
     // shift
     if (pressedKeys.contains(16)) {
-
+      debug = true;
+    } else {
+      debug = false;
     }
 
     // Update ai
@@ -182,6 +211,12 @@ class GoodDogPrototype extends Game {
       this.g.fillText("YOU GOT CAUGHT!", 100, 250);
       this.g.font='bold 32px Arial';
       this.g.fillText("ya dingus", 250, 300);
+    }
+
+    if (this.interactText) {
+      this.g.fillStyle = "white";
+      this.g.font='16px Arial';
+      this.g.fillText("Interacted with: " + this.interactText, 16, 30);
     }
 
     // DEBUG: Draw grid
