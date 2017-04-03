@@ -19,6 +19,10 @@ class Tween extends EventDispatcher {
     this.paramCount = 0;
   }
 
+  getObject() {
+    return this.object;
+  }
+
   /**
    * animate(TweenableParams fieldToAnimate, double startVal, double endVal, double time);
    */

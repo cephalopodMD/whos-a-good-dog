@@ -6,7 +6,7 @@
 
 // TODO: Extend animated sprite when graphics are available
 class Owner extends Sprite {
-  constructor(x, y) {
+  constructor(x=0, y=0) {
     var id = 'owner';
     super('owner', 'sprites/Coin.png');
 

@@ -13,10 +13,13 @@ class DisplayObject extends EventDispatcher {
     this.loadImage(filename);
     this.parent = null;
 
-    this.position = new Vec2();
-    this.velocity = new Vec2();
+    this.hasPhysics = false;
+    this.mass = 1.0;
+    this.forces = [];
     this.acceleration = new Vec2();
+    this.velocity = new Vec2();
 
+    this.position = new Vec2();
     this.pivotPoint = new Vec2();
     this.scale = new Vec2(1.0, 1.0);
     this.rotation = 0.0;
@@ -24,9 +27,7 @@ class DisplayObject extends EventDispatcher {
     this.visible = true;
     this.matrix = null;
 
-    this.hasPhysics = false;
-    this.mass = 1.0;
-    this.forces = [];
+    this.setPosition(this.position.x, this.position.y)
   }
 
   /**
@@ -149,7 +150,7 @@ class DisplayObject extends EventDispatcher {
   /* ==TRANSFORMS========================================================
    * transformations which require a recalculation of the draw matrix
    */
-   
+
   recalculateMatrix() {
     if (this.matrix != null) {
       this.matrix = (this.parent && this.parent.matrix) ? this.parent.matrix: newMatrix();

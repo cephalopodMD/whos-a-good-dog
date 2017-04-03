@@ -1,7 +1,7 @@
 'use strict';
 
 class Dog extends AnimatedSprite {
-  constructor(x, y) {
+  constructor(x=0, y=0) {
     var id = 'dog',
         foldername = 'sprites/dog';
     super(id, foldername, 11);
@@ -205,7 +205,7 @@ class Dog extends AnimatedSprite {
       pos = new Vec2(this.getHitbox().x + this.getWidth() + 12, this.getHitbox().y + 20);
     else
       pos = new Vec2(this.getHitbox().x, this.getHitbox().y);
-    this.parent.poos.addChild(new Poo(this.parent, pos.x, pos.y));
+    this.parent.poos.addChild(new Poo(pos.x, pos.y));
     this.pooTimer.resetGameClock();
     this.dispatchEvent(new Event(Dog.POO_EVENT, this));
   }

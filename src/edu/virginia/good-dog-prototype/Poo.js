@@ -2,7 +2,7 @@
 
 class Poo extends Sprite {
 
-  constructor(game, x, y) {
+  constructor(x=0, y=0) {
     super("Poo"+Poo.count, "sprites/poo.png");
     Poo.count += 1;
     this.sprite = this;

@@ -9,7 +9,7 @@ class GoodDogPrototype extends Game {
     super("Who's A Good Dog?", 640, 480, canvas);
 
     var sm = GoodDogPrototype.soundManager;
-    sm.loadSoundEffect('poo', 'sounds/smw_poo.wav');
+    sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
     sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
@@ -17,6 +17,10 @@ class GoodDogPrototype extends Game {
 
     this.poos = new DisplayObjectContainer('poos');
     this.addChild(this.poos);
+
+    this.emitter = new Emitter('coin-emitter', Coin);
+    this.emitter.setPosition(320, 240);
+    this.addChild(this.emitter);
 
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
