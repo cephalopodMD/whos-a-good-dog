@@ -50,12 +50,14 @@ class InteractSprite extends Sprite
 
     setPosition(x, y) {
       super.setPosition(x, y);
-      this.interactBox.setPosition(x + this.boxOffsetX, y + this.boxOffsetY);
+      if (this.interactBox)
+        this.interactBox.setPosition(x + this.boxOffsetX, y + this.boxOffsetY);
     }
 
     setScale(x, y) {
       super.setScale(x, y);
-      this.interactBox.setScale(x, y);
+      if (this.interactBox)
+        this.interactBox.setScale(x, y);
     }
 
   	/**

@@ -18,10 +18,6 @@ class GoodDogPrototype extends Game {
     this.poos = new DisplayObjectContainer('poos');
     this.addChild(this.poos);
 
-    this.emitter = new Emitter('coin-emitter', Coin);
-    this.emitter.setPosition(320, 240);
-    this.addChild(this.emitter);
-
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
     var dogFadeIn = new Tween(this.dog);
