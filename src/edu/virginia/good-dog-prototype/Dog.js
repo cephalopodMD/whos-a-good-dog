@@ -4,13 +4,13 @@ class Dog extends AnimatedSprite {
   constructor(x=0, y=0) {
     var id = 'dog',
         foldername = 'sprites/dog';
-    super(id, foldername, 11);
+    super(id, foldername, 15);
     this.addAnimation('stand', 1, 1);
-    this.addAnimation('run', 6, 8);
-    this.addAnimation('run_s', 0, 2);
-    this.addAnimation('run_w', 3, 5);
-    this.addAnimation('run_e', 6, 8);
-    this.addAnimation('run_n', 9, 11);
+    this.addAnimation('run', 8, 11);
+    this.addAnimation('run_s', 0, 3);
+    this.addAnimation('run_w', 4, 7);
+    this.addAnimation('run_e', 8, 11);
+    this.addAnimation('run_n', 12, 15);
     this.addAnimation('jump', 6, 6);
     this.animate('run_s');
     this.play();
