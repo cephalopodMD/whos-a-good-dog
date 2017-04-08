@@ -5,9 +5,10 @@
  */
 class Grid {
 
-  constructor(numRows, numCols) {
+  constructor(numRows, numCols, cellSize) {
     this.numRows = numRows;
     this.numCols = numCols;
+    this.cellSize = cellSize;
 
     // Initialize the grid with empty grid cells
     this.grid = [];
@@ -99,6 +100,45 @@ class Grid {
   }
 
   /**
+   * Draw the underlying grid for the A* path finding
+   */
+  drawGrid(g) {
+    var cellSize = this.cellSize;
+    for (var r = 0; r < this.numRows; r++) {
+      for (var c = 0; c < this.numCols; c++) {
+        var cell = this.getCell(c, r);
+        if (cell.fCost != 0) {
+          g.fillStyle = "rgba(0, 255, 255, 0.2)";
+          g.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+        }
+
+        if (!cell.traversable) {
+          g.fillStyle = "rgba(0, 0, 0, 0.5)";
+          g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
+        }
+      }
+    }
+  }
+
+  /**
+   * Draw a given path along the grid
+   */
+  drawPath(g, path) {
+    var cellSize = this.cellSize;
+    for (var i = 0; i < path.length; i++) {
+      if (i == 0) {
+        g.fillStyle = "rgba(0, 255, 0, 0.5)";
+      } else if (i == path.length-1) {
+        g.fillStyle = "rgba(255, 0, 0, 0.5)";
+      } else {
+        g.fillStyle = "rgba(0, 255, 255, 0.4)";
+      }
+      var cell = path[i];
+      g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
+    }
+  }
+
+  /**
    * Load the grid from a matrix
    *
    * Given a matrix of 1's and 0's, create a grid of cells
@@ -122,4 +162,7 @@ class Grid {
     grid.grid = g;
     return grid;
   }
+
+  setCellSize(cellSize) { this.cellSize = cellSize; }
+  getCellSize() { return this.cellSize; }
 }
