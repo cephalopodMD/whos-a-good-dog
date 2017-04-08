@@ -89,9 +89,3 @@ var enhanceContext = function(context) {
 
   return context;
 };
-
-var transformPoint = function(m, p) {
-  var xx = p.x * m.a + p.y * m.c + m.e;
-  var yy = p.x * m.b + p.y * m.d + m.f;
-  return {'x':xx, 'y':yy};
-}

@@ -132,70 +132,63 @@ class Dog extends AnimatedSprite {
 
   checkCollisions(game) {
     //check platform collisions
-    var collided = false;
-    for (let plat of game.platforms) {
+    for (let plat of game.collidables) {
+      var i = 0;
       if (plat.collidesWith(this)) {
-        // TODO fix velocity vector after collision instead of zeroing
+        // fix velocity vector after collision instead of zeroing
         // get normal vector by:
-        //// transforming Mario to old coords
-        //// getting bounding box of dog in platform space
+        //// transforming Dog to old coords
+        var currPos = new Vec2();
+        currPos.set(this.position);
+        this.setPosition(this.lastPosition.x, this.lastPosition.y);
+        //// getting bounding box of dog in plat space
+        var box = this.getHitbox(plat)
         //// checking if above, below, left, or right
-        //// transforming Mario back to real coords
-        //// getting bounding box of dog in platform space
+        var relative = {a:false, b:false, l:false, r:false};
+        if (box.x >= plat.getUnscaledWidth())
+          relative.r = true;
+        if (box.y >= plat.getUnscaledHeight())
+          relative.b = true;
+        if (box.x <= -box.w)
+          relative.l = true;
+        if (box.y <= -box.h)
+          relative.a = true;
+        //// transforming Dog back to real coords
+        this.setPosition(currPos.x, currPos.y);
+        //// getting bounding box of dog in plat space
+        box = this.getHitbox(plat);
         //// choosing appropriate normal vector to edge
+        var norm = new Vec2();
+        if (relative.r)
+          norm = new Vec2(plat.getUnscaledWidth() - box.x, 0);
+        if (relative.b)
+          norm = new Vec2(0, plat.getUnscaledHeight() - box.y);
+        if (relative.l)
+          norm = new Vec2(-box.x - box.w, 0);
+        if (relative.a)
+          norm = new Vec2(0, -box.y - box.h);
         //// transforming vector into world coords
-        // get newpos by:
-        //// taking normal vector
-        //// adding to current position
+        norm.rotate(plat.rotation);
+        norm.scale(plat.scale.x);
+        // get newpos by taking normal vector and adding to current position
+        //this.applyForce((new Vec2()).set(norm));
+        var newPos = this.position.add_i(norm.scale_i(1.1));
+        this.setPosition(newPos.x, newPos.y);
         // get newvel by:
-        //// taking normal vector
-        //// rotating 90 degrees - new Vec2(y, -x)
-        //// projecting this.velocity onto rotated normal vector
-        //*
-        var i = 0
-        while (plat.collidesWith(this) && i < 10) {
-          var newpos = this.position.add_i(this.lastPosition.sub_i(this.position).scale_i(0.45));
-          this.setPosition(newpos.x, newpos.y);
-          i++;
+        //// project velocity onto the normal of the normal
+        if (norm.magnitude() > 0) {
+          norm = new Vec2(norm.y, -norm.x);
+          this.velocity = norm.scale_i(norm.dot(this.velocity)/(norm.magnitude()*norm.magnitude()))
         }
-        //*
+      }
+    }
+    // recheck collisions after the fact
+    var collided = false;
+    for (let plat of game.collidables)
+      if (plat.collidesWith(this))
         collided = true;
-        if (!this.grounded &&
-          this.velocity.y>0 &&
-          this.velocity.y>Math.abs(this.velocity.x) &&
-          this.lastPosition.y<plat.position.y-this.getHeight()) {
-          this.grounded = true;
-          var normal = new Vec2(0, -2);
-          this.applyForce(normal);
-        }
-        this.velocity = new Vec2();
-        break;
-      }
-    }
-    if (!collided) {
+    if (!collided)
       this.lastPosition.set(this.position);
-      if (this.grounded) {
-        var onPlatform = false,
-        groundPoints = [
-          new Vec2(this.getHitbox().x, this.getHitbox().y+this.getHitbox().h+2),
-          new Vec2(this.getHitbox().x+this.getHitbox().w, this.getHitbox().y+this.getHitbox().h+2),
-        ];
-        for (let plat of game.platforms) {
-          //check that at least one platform is under if grounded
-          for (let point of groundPoints) {
-            var transformedPoint = point.transform_i(plat.matrix.inverse());
-            if (transformedPoint.x > 0 && transformedPoint.x < plat.getUnscaledWidth() &&
-                transformedPoint.y > 0 && transformedPoint.y < plat.getUnscaledHeight()) {
-              onPlatform = true;
-              break;
-            }
-          }
-        }
-        if (!onPlatform) {
-          this.grounded = false;
-        }
-      }
-    }
   }
 
   draw(g) {
@@ -248,12 +241,10 @@ class Dog extends AnimatedSprite {
 
   // override height width stuff
   getUnscaledHeight() {
-    if (this.frames)
-      return this.frames.get(this.currFrame).height;
+    return 96;
   }
   getUnscaledWidth() {
-    if (this.frames)
-      return this.frames.get(this.currFrame).width;
+    return 112;
   }
 }
 

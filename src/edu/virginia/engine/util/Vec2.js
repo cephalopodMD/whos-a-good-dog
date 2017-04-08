@@ -32,6 +32,10 @@ class Vec2 {
 
   zero() {this.setxy(0, 0);}
 
+  dot(p2) {
+    return this.x * p2.x + this.y * p2.y;
+  }
+
   add(p2) {
     var x = this.x + p2.x,
         y = this.y + p2.y;
@@ -48,6 +52,12 @@ class Vec2 {
     var x = this.x * s,
         y = this.y * s;
     return this.setxy(x, y);
+  }
+
+  rotate(theta) {
+    var rot_mat = newMatrix();
+    rot_mat = rot_mat.rotate(theta * 180 / Math.PI);
+    return this.transform(rot_mat);
   }
 
   transform(matrix) {
@@ -74,6 +84,12 @@ class Vec2 {
     var x = this.x * s,
         y = this.y * s;
     return new Vec2(x, y);
+  }
+
+  rotate_i(theta) {
+    var rot_mat = newMatrix();
+    rot_mat = rot_mat.rotate(theta * 180 / Math.PI);
+    return this.transform_i(rot_mat);
   }
 
   // idempotent transform
