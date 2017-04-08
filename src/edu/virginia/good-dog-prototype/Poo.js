@@ -8,10 +8,11 @@ class Poo extends Sprite {
     this.sprite = this;
     this.position.x = x;
     this.position.y = y;
-    this.setScale(.2, .2);
+    this.setScale(Poo.scale, Poo.scale);
     this.collected = false;
   }
 
 }
 
 Poo.count = 0
+Poo.scale = .2

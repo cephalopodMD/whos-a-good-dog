@@ -99,6 +99,7 @@ class GoodDogPrototype extends Game {
     var callback = function(thiz) {
       var matrix = GridHelper.CreateObstacleMatrix(640, 480, thiz.cellSize, thiz.platforms, 56/2, 48/2);
       thiz.grid = Grid.FromMatrix(matrix);
+      thiz.grid.setCellSize(thiz.cellSize);
 
       // Init AI
       thiz.ai = new PathAI(thiz.grid);
@@ -241,44 +242,11 @@ class GoodDogPrototype extends Game {
 
     // DEBUG: Draw grid
     if (debug && this.grid) {
-      this.drawGrid(g);
-    }
-
-  }
-
-  /**
-   * Draw the underlying grid for the A* path finding
-   */
-  drawGrid(g) {
-    var cellSize = this.cellSize;
-    var grid = this.grid;
-    for (var r = 0; r < grid.numRows; r++) {
-      for (var c = 0; c < grid.numCols; c++) {
-        var cell = grid.getCell(c, r);
-        if (cell.fCost != 0) {
-          g.fillStyle = "rgba(0, 255, 255, 0.2)";
-          g.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
-        }
-
-        if (!cell.traversable) {
-          g.fillStyle = "rgba(0, 0, 0, 0.5)";
-          g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
-        }
-      }
-    }
-
-    for (var i = 0; i < this.path.length; i++) {
-      if (i == 0) {
-        g.fillStyle = "rgba(0, 255, 0, 0.5)";
-      } else if (i == this.path.length-1) {
-        g.fillStyle = "rgba(255, 0, 0, 0.5)";
-      } else {
-        g.fillStyle = "rgba(0, 255, 255, 0.4)";
-      }
-      var cell = this.path[i];
-      g.fillRect(cell.x*cellSize, cell.y*cellSize, cellSize, cellSize);
+      this.grid.drawGrid(g);
+      this.grid.drawPath(g, this.path);
     }
   }
+
 }
 
 

@@ -4,13 +4,13 @@ class Dog extends AnimatedSprite {
   constructor(x=0, y=0) {
     var id = 'dog',
         foldername = 'sprites/dog';
-    super(id, foldername, 11);
+    super(id, foldername, 15);
     this.addAnimation('stand', 1, 1);
-    this.addAnimation('run', 6, 8);
-    this.addAnimation('run_s', 0, 2);
-    this.addAnimation('run_w', 3, 5);
-    this.addAnimation('run_e', 6, 8);
-    this.addAnimation('run_n', 9, 11);
+    this.addAnimation('run', 8, 11);
+    this.addAnimation('run_s', 0, 3);
+    this.addAnimation('run_w', 4, 7);
+    this.addAnimation('run_e', 8, 11);
+    this.addAnimation('run_n', 12, 15);
     this.addAnimation('jump', 6, 6);
     this.animate('run_s');
     this.play();
@@ -213,18 +213,27 @@ class Dog extends AnimatedSprite {
   }
 
   poo() {
+    this.pooTime *= 1.1;
+    this.velocity = new Vec2();
     var pos;
     if (this.currAnimation == 'run_n')
-      pos = new Vec2(this.getHitbox().x + 12, this.getHitbox().y + 45);
+      pos = new Vec2(this.getHitbox().x + 10, this.getHitbox().y + 45);
     else if (this.currAnimation == 'run_s')
-      pos = new Vec2(this.getHitbox().x + 12, this.getHitbox().y - 35);
+      pos = new Vec2(this.getHitbox().x + 10, this.getHitbox().y - 35);
     else if (this.currAnimation == 'run_e')
-      pos = new Vec2(this.getHitbox().x - 12, this.getHitbox().y + 20);
+      pos = new Vec2(this.getHitbox().x - 32, this.getHitbox().y + 20);
     else if (this.currAnimation == 'run_w')
-      pos = new Vec2(this.getHitbox().x + this.getWidth() + 12, this.getHitbox().y + 20);
+      pos = new Vec2(this.getHitbox().x + this.getWidth(), this.getHitbox().y + 20);
     else
       pos = new Vec2(this.getHitbox().x, this.getHitbox().y);
-    this.parent.poos.addChild(new Poo(pos.x, pos.y));
+    var newPoo = new Poo(pos.x, pos.y);
+    var pooIn = new Tween(newPoo);
+    pooIn.animate(TweenableParams.X, pos.x+16, pos.x, this.pooTime);
+    pooIn.animate(TweenableParams.Y, pos.y+32, pos.y, this.pooTime);
+    pooIn.animate(TweenableParams.SCALEX, 0, Poo.scale, this.pooTime);
+    pooIn.animate(TweenableParams.SCALEY, 0, Poo.scale, this.pooTime);
+    TweenJuggler.add(pooIn);
+    this.parent.poos.addChild(newPoo);
     this.pooTimer.resetGameClock();
     this.dispatchEvent(new Event(Dog.POO_EVENT, this));
   }
@@ -248,4 +257,4 @@ class Dog extends AnimatedSprite {
   }
 }
 
-Dog.POO_EVENT = "POO";
+Dog.POO_EVENT = "POO_EVENT";
