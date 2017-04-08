@@ -49,7 +49,7 @@ class Owner extends Sprite {
   checkCollisions(game) {
     //check platform collisions
     var collided = false;
-    for (let plat of game.platforms) {
+    for (let plat of game.collidables) {
       if (plat.collidesWith(this)) {
         // get normal vector by:
         //// transforming Mario to old coords
@@ -95,7 +95,7 @@ class Owner extends Sprite {
           new Vec2(this.getHitbox().x, this.getHitbox().y+this.getHitbox().h+2),
           new Vec2(this.getHitbox().x+this.getHitbox().w, this.getHitbox().y+this.getHitbox().h+2),
         ];
-        for (let plat of game.platforms) {
+        for (let plat of game.collidables) {
           //check that at least one platform is under if grounded
           for (let point of groundPoints) {
             var transformedPoint = point.transform_i(plat.matrix.inverse());

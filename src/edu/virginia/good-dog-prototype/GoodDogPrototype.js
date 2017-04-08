@@ -27,7 +27,7 @@ class GoodDogPrototype extends Game {
     this.owner = new Owner(80, 80);
     this.addChild(this.owner);
 
-    this.platforms = [
+    this.collidables = [
       new Platform('p0', 344, 32),
       new Platform('p1', 344, 296),
       new Platform('p2', 500, 150),
@@ -46,20 +46,19 @@ class GoodDogPrototype extends Game {
       new Platform('p15', 680, 160),
       new Platform('p16', 680, 320),
     ]
-    this.platforms[0].setRotation(Math.PI / 2)
-    this.platforms[1].setRotation(Math.PI / 2)
-    this.platforms[2].setRotation(Math.PI / 2)
+    this.collidables[0].setRotation(Math.PI / 2)
+    this.collidables[1].setRotation(Math.PI / 2)
+    this.collidables[2].setRotation(Math.PI / 2)
 
-    this.platforms[7].setRotation(Math.PI / 2)
-    this.platforms[8].setRotation(Math.PI / 2)
-    this.platforms[9].setRotation(Math.PI / 2)
-    this.platforms[14].setRotation(Math.PI / 2)
-    this.platforms[15].setRotation(Math.PI / 2)
-    this.platforms[16].setRotation(Math.PI / 2)
+    this.collidables[7].setRotation(Math.PI / 2)
+    this.collidables[8].setRotation(Math.PI / 2)
+    this.collidables[9].setRotation(Math.PI / 2)
+    this.collidables[14].setRotation(Math.PI / 2)
+    this.collidables[15].setRotation(Math.PI / 2)
+    this.collidables[16].setRotation(Math.PI / 2)
 
-    for (let plat of this.platforms)
+    for (let plat of this.collidables)
       this.addChild(plat);
-
 
     // Create new interactable object
     var box0 = new InteractSprite("yellow box", "sprites/gray_box.gif", "sprites/yellow_box.gif");
@@ -86,9 +85,9 @@ class GoodDogPrototype extends Game {
       box2
     ];
 
-    this.platforms.push(box0);
-    this.platforms.push(box1);
-    this.platforms.push(box2);
+    this.collidables.push(box0);
+    this.collidables.push(box1);
+    this.collidables.push(box2);
 
     this.clock = new GameClock();
 
@@ -97,7 +96,7 @@ class GoodDogPrototype extends Game {
     this.path = [];
     // Use setTimeout to let platforms load
     var callback = function(thiz) {
-      var matrix = GridHelper.CreateObstacleMatrix(640, 480, thiz.cellSize, thiz.platforms, 56/2, 48/2);
+      var matrix = GridHelper.CreateObstacleMatrix(640, 480, thiz.cellSize, thiz.collidables, 56/2, 48/2);
       thiz.grid = Grid.FromMatrix(matrix);
 
       // Init AI
