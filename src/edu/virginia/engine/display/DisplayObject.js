@@ -168,6 +168,8 @@ class DisplayObject extends EventDispatcher {
   }
   getPosition(){return this.position;}
 
+  getVelocity(){return this.velocity;}
+
   setPivotPoint(x, y){
     this.pivotPoint.setxy(x, y);
     this.recalculateMatrix();

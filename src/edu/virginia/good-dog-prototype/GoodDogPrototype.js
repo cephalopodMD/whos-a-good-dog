@@ -136,6 +136,30 @@ class GoodDogPrototype extends Game {
     this.dog.checkCollisions(this);
     this.owner.checkCollisions(this);
 
+    // Attempt to pan the camera with the dog
+    if(this.dog.getHitbox().x > 400)
+    {
+      if(this.dog.getVelocity().x > 0)
+        this.setPosition(this.getPosition().x-Math.abs(this.dog.getVelocity().x), this.getPosition().y);
+    }
+    if(this.dog.getHitbox().x < 100)
+    {
+      if(this.dog.getVelocity().x < 0)
+        this.setPosition(this.getPosition().x+Math.abs(this.dog.getVelocity().x), this.getPosition().y);
+    }
+    if(this.dog.getHitbox().y < 100)
+    {
+      if(this.dog.getVelocity().y < 0)
+        this.setPosition(this.getPosition().x, this.getPosition().y+Math.abs(this.dog.getVelocity().y));
+    }
+    if(this.dog.getHitbox().y > 400)
+    {
+      if(this.dog.getVelocity().y > 0)
+      this.setPosition(this.getPosition().x, this.getPosition().y-Math.abs(this.dog.getVelocity().y));
+    }
+
+    console.log(this.dog.getHitbox().x+"  "+this.dog.getHitbox().y);
+
     // update tweens
     TweenJuggler.nextFrame();
 
