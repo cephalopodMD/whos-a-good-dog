@@ -18,9 +18,6 @@ class GoodDogPrototype extends Game {
     this.poos = new DisplayObjectContainer('poos');
     this.addChild(this.poos);
 
-    // this.setPosition(30, 40);
-    // this.setScale(0.4, 0.4);
-
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
     var dogFadeIn = new Tween(this.dog);
@@ -97,7 +94,7 @@ class GoodDogPrototype extends Game {
     this.clock = new GameClock();
 
     // Init AI
-    this.cellSize = 8;
+    this.cellSize = 16;
     this.path = [];
     // Use setTimeout to let obstacles load
     var callback = function(thiz) {
@@ -115,7 +112,7 @@ class GoodDogPrototype extends Game {
     this.interactText = "";
 
     // Border size around edge of screen for camera panning
-    this.panBorderSize = 150;
+    this.panBorderSize = 200;
   }
 
   handleEvent(e) {
@@ -137,9 +134,9 @@ class GoodDogPrototype extends Game {
     }
 
     // Update ai
-    // if (this.ai) {
-    //   this.updateAI();
-    // }
+    if (this.ai) {
+      this.updateAI();
+    }
 
     // Check collisions
     this.dog.checkCollisions(this);

@@ -209,16 +209,17 @@ class Dog extends AnimatedSprite {
     this.pooTime *= 1.1;
     this.velocity = new Vec2();
     var pos;
+    var relativeHitbox = this.getHitbox(this.parent);
     if (this.currAnimation == 'run_n')
-      pos = new Vec2(this.getHitbox().x + 10, this.getHitbox().y + 45);
+      pos = new Vec2(relativeHitbox.x + 10, relativeHitbox.y + 45);
     else if (this.currAnimation == 'run_s')
-      pos = new Vec2(this.getHitbox().x + 10, this.getHitbox().y - 35);
+      pos = new Vec2(relativeHitbox.x + 10, relativeHitbox.y - 35);
     else if (this.currAnimation == 'run_e')
-      pos = new Vec2(this.getHitbox().x - 32, this.getHitbox().y + 20);
+      pos = new Vec2(relativeHitbox.x - 32, relativeHitbox.y + 20);
     else if (this.currAnimation == 'run_w')
-      pos = new Vec2(this.getHitbox().x + this.getWidth(), this.getHitbox().y + 20);
+      pos = new Vec2(relativeHitbox.x + this.getWidth(), relativeHitbox.y + 20);
     else
-      pos = new Vec2(this.getHitbox().x, this.getHitbox().y);
+      pos = new Vec2(relativeHitbox.x, relativeHitbox.y);
     var newPoo = new Poo(pos.x, pos.y);
     var pooIn = new Tween(newPoo);
     pooIn.animate(TweenableParams.X, pos.x+16, pos.x, this.pooTime);

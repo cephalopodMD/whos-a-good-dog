@@ -35,8 +35,8 @@ class GridHelper {
 		for (var obstacle of obstacles) {
 			var box = obstacle.getHitbox();
 			// debugger;
-			for (var j = box.y - extraH; j < (box.y + extraH + box.h); j += cellSize) {
-				for (var i = box.x - extraW; i < (box.x + extraW + box.w); i += cellSize) {
+			for (var j = box.y - extraH; j <= (box.y + extraH + box.h); j += cellSize) {
+				for (var i = box.x - extraW; i <= (box.x + extraW + box.w); i += cellSize) {
 					var xIdx = i/cellSize | 0;
 					var yIdx = j/cellSize | 0;
 					if (yIdx >= 0 && yIdx < numRows && xIdx >= 0 && xIdx < numCols) {

@@ -9,6 +9,13 @@ class Wall extends Sprite {
     this.blockSize = blockSize;
   }
 
+  draw(g) {
+    this.applyTransformations(g);
+    g.fillStyle = "rgba(255, 255, 255, 1.0)";
+    g.fillRect(0, 0, this.width*this.blockSize, this.height*this.blockSize);
+    this.reverseTransformations(g);
+  }
+
   getHeight() {
   	return this.height * this.blockSize * this.scale.y;
   }
