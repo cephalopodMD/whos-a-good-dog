@@ -158,7 +158,7 @@ class GoodDogPrototype extends Game {
       this.setPosition(this.getPosition().x, this.getPosition().y-Math.abs(this.dog.getVelocity().y));
     }
 
-    console.log(this.dog.getHitbox().x+"  "+this.dog.getHitbox().y);
+    // console.log(this.dog.getHitbox().x+"  "+this.dog.getHitbox().y);
 
     // update tweens
     TweenJuggler.nextFrame();
@@ -203,7 +203,9 @@ class GoodDogPrototype extends Game {
 
     // If the main cell is not traversable, check all corners
     if (!cell.traversable) {
-      var box = displayObject.getHitbox().getxywh();
+      // Get the hitbox relative to the game
+      // Use game relative coordinates to handle screen pan
+      var box = displayObject.getHitbox(this).getxywh();
       var corners = [
         new Vec2(box.x, box.y),
         new Vec2(box.x + box.w, box.y),
@@ -241,8 +243,10 @@ class GoodDogPrototype extends Game {
 
     // DEBUG: Draw grid
     if (debug && this.grid) {
+      this.applyTransformations(g);
       this.grid.drawGrid(g);
       this.grid.drawPath(g, this.path);
+      this.reverseTransformations(g);
     }
   }
 
