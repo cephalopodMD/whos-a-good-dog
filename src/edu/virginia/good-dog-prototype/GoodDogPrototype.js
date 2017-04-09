@@ -18,6 +18,9 @@ class GoodDogPrototype extends Game {
     this.poos = new DisplayObjectContainer('poos');
     this.addChild(this.poos);
 
+    // this.setPosition(30, 40);
+    // this.setScale(0.4, 0.4);
+
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
     var dogFadeIn = new Tween(this.dog);
@@ -27,35 +30,37 @@ class GoodDogPrototype extends Game {
     this.owner = new Owner(80, 80);
     this.addChild(this.owner);
 
-    this.collidables = [
-      new Platform('p0', 344, 32),
-      new Platform('p1', 344, 296),
-      new Platform('p2', 500, 150),
-      new Platform('p3', 0, 472),
-      new Platform('p4', 160, 472),
-      new Platform('p5', 320, 472),
-      new Platform('p6', 480, 472),
-      new Platform('p7', 10, 0),
-      new Platform('p8', 10, 160),
-      new Platform('p9', 10, 320),
-      new Platform('p10', 0, -40),
-      new Platform('p11', 160, -40),
-      new Platform('p12', 320, -40),
-      new Platform('p13', 480, -40),
-      new Platform('p14', 680, 0),
-      new Platform('p15', 680, 160),
-      new Platform('p16', 680, 320),
-    ]
-    this.collidables[0].setRotation(Math.PI / 2)
-    this.collidables[1].setRotation(Math.PI / 2)
-    this.collidables[2].setRotation(Math.PI / 2)
+    // this.collidables = [
+    //   new Platform('p0', 344, 32),
+    //   new Platform('p1', 344, 296),
+    //   new Platform('p2', 500, 150),
+    //   new Platform('p3', 0, 472),
+    //   new Platform('p4', 160, 472),
+    //   new Platform('p5', 320, 472),
+    //   new Platform('p6', 480, 472),
+    //   new Platform('p7', 10, 0),
+    //   new Platform('p8', 10, 160),
+    //   new Platform('p9', 10, 320),
+    //   new Platform('p10', 0, -40),
+    //   new Platform('p11', 160, -40),
+    //   new Platform('p12', 320, -40),
+    //   new Platform('p13', 480, -40),
+    //   new Platform('p14', 680, 0),
+    //   new Platform('p15', 680, 160),
+    //   new Platform('p16', 680, 320),
+    // ]
+    // this.collidables[0].setRotation(Math.PI / 2)
+    // this.collidables[1].setRotation(Math.PI / 2)
+    // this.collidables[2].setRotation(Math.PI / 2)
 
-    this.collidables[7].setRotation(Math.PI / 2)
-    this.collidables[8].setRotation(Math.PI / 2)
-    this.collidables[9].setRotation(Math.PI / 2)
-    this.collidables[14].setRotation(Math.PI / 2)
-    this.collidables[15].setRotation(Math.PI / 2)
-    this.collidables[16].setRotation(Math.PI / 2)
+    // this.collidables[7].setRotation(Math.PI / 2)
+    // this.collidables[8].setRotation(Math.PI / 2)
+    // this.collidables[9].setRotation(Math.PI / 2)
+    // this.collidables[14].setRotation(Math.PI / 2)
+    // this.collidables[15].setRotation(Math.PI / 2)
+    // this.collidables[16].setRotation(Math.PI / 2)
+
+    this.collidables = LevelFactory.CreateLevelOne().walls;
 
     for (let plat of this.collidables)
       this.addChild(plat);
@@ -94,9 +99,10 @@ class GoodDogPrototype extends Game {
     // Init AI
     this.cellSize = 8;
     this.path = [];
-    // Use setTimeout to let platforms load
+    // Use setTimeout to let obstacles load
     var callback = function(thiz) {
-      var matrix = GridHelper.CreateObstacleMatrix(640, 480, thiz.cellSize, thiz.collidables, 56/2, 48/2);
+      // TODO: Change this to use level.width and level.height
+      var matrix = GridHelper.CreateObstacleMatrix(1440, 960, thiz.cellSize, thiz.collidables, 56/2, 48/2);
       thiz.grid = Grid.FromMatrix(matrix);
       thiz.grid.setCellSize(thiz.cellSize);
 
@@ -107,6 +113,9 @@ class GoodDogPrototype extends Game {
 
     // Demo
     this.interactText = "";
+
+    // Border size around edge of screen for camera panning
+    this.panBorderSize = 150;
   }
 
   handleEvent(e) {
@@ -128,43 +137,47 @@ class GoodDogPrototype extends Game {
     }
 
     // Update ai
-    if (this.ai) {
-      this.updateAI();
-    }
+    // if (this.ai) {
+    //   this.updateAI();
+    // }
 
     // Check collisions
     this.dog.checkCollisions(this);
     this.owner.checkCollisions(this);
 
     // Attempt to pan the camera with the dog
-    if(this.dog.getHitbox().x > 400)
-    {
-      if(this.dog.getVelocity().x > 0)
-        this.setPosition(this.getPosition().x-Math.abs(this.dog.getVelocity().x), this.getPosition().y);
-    }
-    if(this.dog.getHitbox().x < 100)
-    {
-      if(this.dog.getVelocity().x < 0)
-        this.setPosition(this.getPosition().x+Math.abs(this.dog.getVelocity().x), this.getPosition().y);
-    }
-    if(this.dog.getHitbox().y < 100)
-    {
-      if(this.dog.getVelocity().y < 0)
-        this.setPosition(this.getPosition().x, this.getPosition().y+Math.abs(this.dog.getVelocity().y));
-    }
-    if(this.dog.getHitbox().y > 400)
-    {
-      if(this.dog.getVelocity().y > 0)
-      this.setPosition(this.getPosition().x, this.getPosition().y-Math.abs(this.dog.getVelocity().y));
-    }
-
-    // console.log(this.dog.getHitbox().x+"  "+this.dog.getHitbox().y);
+    this.panCamera();
 
     // update tweens
     TweenJuggler.nextFrame();
 
     // reset timings
     this.clock.resetGameClock();
+  }
+
+  panCamera() {
+    var dogAccel = this.dog.getAcceleration();
+    var dogHitbox = this.dog.getHitbox();
+    if(dogHitbox.x + dogHitbox.w > this.width - this.panBorderSize)
+    {
+      if(this.dog.getVelocity().x > 0)
+        this.setPosition(this.getPosition().x-Math.abs(this.dog.getVelocity().x)-Math.abs(dogAccel.x), this.getPosition().y);
+    }
+    if(dogHitbox.x < this.panBorderSize)
+    {
+      if(this.dog.getVelocity().x < 0)
+        this.setPosition(this.getPosition().x+Math.abs(this.dog.getVelocity().x)+Math.abs(dogAccel.x), this.getPosition().y);
+    }
+    if(dogHitbox.y < this.panBorderSize)
+    {
+      if(this.dog.getVelocity().y < 0)
+        this.setPosition(this.getPosition().x, this.getPosition().y+Math.abs(this.dog.getVelocity().y)+Math.abs(dogAccel.y));
+    }
+    if(dogHitbox.y + dogHitbox.h > this.height - this.panBorderSize)
+    {
+      if(this.dog.getVelocity().y > 0)
+        this.setPosition(this.getPosition().x, this.getPosition().y-Math.abs(this.dog.getVelocity().y)-Math.abs(dogAccel.y));
+    }
   }
 
   updateAI() {
