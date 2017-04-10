@@ -6,15 +6,16 @@ class Emitter extends DisplayObjectContainer {
     this.particleClass = particleClass;
     this.args = args
     this.timer = new GameClock()
+    this.radius = 100
   }
 
   emit() {
     var newParticle = new this.particleClass(...this.args);
 
     var particleEmit = new Tween(newParticle);
-    particleEmit.animate(TweenableParams.ALPHA, 1, 0, 3000);
-    particleEmit.animate(TweenableParams.X, 0, Math.random()*200 - 100, 3000);
-    particleEmit.animate(TweenableParams.Y, 0, Math.random()*200 - 100, 3000);
+    particleEmit.animate(TweenableParams.ALPHA, this.alpha, 0, 3000);
+    particleEmit.animate(TweenableParams.X, 0, Math.random()*2*this.radius - this.radius, 3000);
+    particleEmit.animate(TweenableParams.Y, 0, Math.random()*2*this.radius - this.radius, 3000);
     particleEmit.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
     TweenJuggler.add(particleEmit);
 

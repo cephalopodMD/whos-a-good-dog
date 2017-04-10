@@ -10,6 +10,20 @@ class Poo extends Sprite {
     this.position.y = y;
     this.setScale(Poo.scale, Poo.scale);
     this.collected = false;
+    this.timer = new GameClock()
+    this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
+    this.cloud.alpha = 0;
+    this.addChild(this.cloud);
+  }
+
+  update(pressedKeys, gamepads) {
+    super.update();
+    this.cloud.alpha = Math.min(this.timer.getElapsedTime() / 20000, 1)
+    this.cloud.radius = this.timer.getElapsedTime() / 200;
+  }
+
+  getRadius() {
+    return this.timer.getElapsedTime() / 200
   }
 
 }

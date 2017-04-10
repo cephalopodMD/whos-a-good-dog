@@ -159,14 +159,16 @@ class Dog extends AnimatedSprite {
   }
 
   draw(g) {
-    if (this.velocity.x > Math.abs(this.velocity.y))
-      this.animate('run_e');
-    if (this.velocity.y > Math.abs(this.velocity.x))
-      this.animate('run_s');
-    if (this.velocity.x < -Math.abs(this.velocity.y))
-      this.animate('run_w');
-    if (this.velocity.y < -Math.abs(this.velocity.x))
-      this.animate('run_n');
+    if (this.velocity.magnitude() > 1) {
+      if (this.velocity.x > Math.abs(this.velocity.y))
+        this.animate('run_e');
+      if (this.velocity.y > Math.abs(this.velocity.x))
+        this.animate('run_s');
+      if (this.velocity.x < -Math.abs(this.velocity.y))
+        this.animate('run_w');
+      if (this.velocity.y < -Math.abs(this.velocity.x))
+        this.animate('run_n');
+    }
     super.draw(g)
   }
 
