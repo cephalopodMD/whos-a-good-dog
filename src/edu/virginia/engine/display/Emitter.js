@@ -2,7 +2,7 @@
 
 class Emitter extends DisplayObjectContainer {
   constructor(id, particleClass, ...args) {
-    super(id, '');
+    super(id);
     this.particleClass = particleClass;
     this.args = args
     this.timer = new GameClock()
