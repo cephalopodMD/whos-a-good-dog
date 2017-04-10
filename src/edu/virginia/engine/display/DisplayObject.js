@@ -9,13 +9,9 @@ class DisplayObject extends EventDispatcher {
   constructor(id, filename){
     super()
     this.id = id;
-    // Load image file if provided
-    if (filename) {
-      this.loaded = false;
+    this.loaded = false;
+    if (filename && filename != '')
       this.loadImage(filename);
-    } else {
-      this.loaded = true;
-    }
     this.parent = null;
 
     this.hasPhysics = false;

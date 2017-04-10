@@ -2,11 +2,12 @@
 
 class Emitter extends DisplayObjectContainer {
   constructor(id, particleClass, ...args) {
-    super(id, '');
+    super(id);
     this.particleClass = particleClass;
     this.args = args
     this.timer = new GameClock()
     this.radius = 100
+    this.particleLife = 100
   }
 
   emit() {
@@ -24,7 +25,7 @@ class Emitter extends DisplayObjectContainer {
 
   update(pressedKeys, gamepads) {
     super.update(pressedKeys, gamepads)
-    if (this.timer.getElapsedTime() > 100) {
+    if (this.timer.getElapsedTime() > this.particleLife) {
       this.emit()
       this.timer.resetGameClock();
     }

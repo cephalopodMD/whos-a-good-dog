@@ -50,7 +50,7 @@ class Dog extends AnimatedSprite {
     }
 
     if((pressedKeys.contains(32) || pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
-      this.poo();
+      this.pooInteract();
     if ((pressedKeys.contains(87) || pressedKeys.contains(88)) && this.interactTimer.getElapsedTime() > this.interactTime)
       this.checkInteractions();
     if(pressedKeys.contains(66))
@@ -138,7 +138,6 @@ class Dog extends AnimatedSprite {
         norm.rotate(plat.rotation);
         norm.scale(plat.scale.x);
         // get newpos by taking normal vector and adding to current position
-        //this.applyForce((new Vec2()).set(norm));
         var newPos = this.position.add_i(norm.scale_i(1.1));
         this.setPosition(newPos.x, newPos.y);
         // get newvel by:
@@ -207,6 +206,41 @@ class Dog extends AnimatedSprite {
     this.parent.poos.addChild(newPoo);
     this.pooTimer.resetGameClock();
     this.dispatchEvent(new Event(Dog.POO_EVENT, newPoo));
+  }
+
+  pooInteract() {
+    var flag = true;
+    var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
+    for (var interactableObj of interactableObjects) {
+      var interactBox = interactableObj.getInteractBox();
+      if (this.collidesWith(interactBox))
+      {
+        if(interactableObj.isPoopable())
+        {
+          this.pooTime *= 1.1;
+          this.velocity = new Vec2();
+          var pos = interactableObj.getHitbox(this.parent);
+          var newPoo = new Poo(pos.x, pos.y);
+          var pooIn = new Tween(newPoo);
+          pooIn.animate(TweenableParams.X, pos.x, pos.x, this.pooTime);
+          pooIn.animate(TweenableParams.Y, pos.y, pos.y, this.pooTime);
+          pooIn.animate(TweenableParams.SCALEX, 0, Poo.scale, this.pooTime);
+          pooIn.animate(TweenableParams.SCALEY, 0, Poo.scale, this.pooTime);
+          TweenJuggler.add(pooIn);
+          this.parent.poos.addChild(newPoo);
+          this.pooTimer.resetGameClock();
+          this.dispatchEvent(new Event(Dog.POO_EVENT, newPoo));
+          interactableObj.poopIn(newPoo);
+          flag = false;
+        }
+      }
+    }
+    if(flag)
+    {
+      this.poo();
+    }
+    // Reset the interaction timer
+    this.interactTimer.resetGameClock();
   }
 
   pause() {

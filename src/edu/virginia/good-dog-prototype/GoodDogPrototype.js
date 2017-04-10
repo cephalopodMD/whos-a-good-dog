@@ -16,7 +16,6 @@ class GoodDogPrototype extends Game {
     sm.playMusic('theme');
 
     this.poos = new DisplayObjectContainer('poos');
-    this.addChild(this.poos);
 
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
@@ -34,19 +33,19 @@ class GoodDogPrototype extends Game {
       this.addChild(plat);
 
     // Create new interactable object
-    var box0 = new InteractSprite("yellow box", "sprites/gray_box.gif", "sprites/yellow_box.gif");
+    var box0 = new DestroyObject();
     box0.setScale(0.2, 0.2);
     box0.setPosition(120, 300);
     box0.moveInteractBox(0, -40);
     this.addChild(box0);
 
-    var box1 = new InteractSprite("green box", "sprites/gray_box.gif", "sprites/green_box.png");
+    var box1 = new OpenableObject();
     box1.setScale(0.2, 0.2);
     box1.setPosition(344, 432);
     box1.moveInteractBox(40, 0);
     this.addChild(box1);
 
-    var box2 = new InteractSprite("red box", "sprites/gray_box.gif", "sprites/red_box.png");
+    var box2 = new DestroyObject();
     box2.setScale(0.2, 0.2);
     box2.setPosition(584, 8);
     box2.moveInteractBox(0, 40);
@@ -63,6 +62,9 @@ class GoodDogPrototype extends Game {
     this.collidables.push(box2);
 
     this.clock = new GameClock();
+    this.damageValue = 0;
+    
+    this.addChild(this.poos);
 
     // Init AI
     this.cellSize = 16;
@@ -90,6 +92,9 @@ class GoodDogPrototype extends Game {
   }
 
   handleEvent(e) {
+    if (moneyVals[e.eventType])
+      this.damageValue += moneyVals[e.eventType];
+
     if (e.eventType == Dog.POO_EVENT) {
       // TODO fix room poop code
       this.owner.chasing = true;
@@ -205,21 +210,31 @@ class GoodDogPrototype extends Game {
   }
 
   draw(g){
-    /*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
+    g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
+
+    this.g.fillStyle = 'black';
+    this.g.fillRect(0, 0, 640, 48)
+
+    this.g.fillStyle = "white";
+    this.g.font='16px Arial';
+    this.g.fillText("$" + this.damageValue + " damage", 16, 30);
+
+    if (this.interactText) {
+      this.g.fillText("Interacted with: " + this.interactText, 420, 30);
+      // NICE                                                  ^^^
+    }
 
     if (!this.playing) {
       this.g.fillStyle = 'white';
+      this.g.strokeStyle = 'black'
+      this.g.lineWidth = 2
       this.g.font='bold 48px Arial';
       this.g.fillText("YOU GOT CAUGHT!", 100, 250);
+      this.g.strokeText("YOU GOT CAUGHT!", 100, 250);
       this.g.font='bold 32px Arial';
       this.g.fillText("ya dingus", 250, 300);
-    }
-
-    if (this.interactText) {
-      this.g.fillStyle = "white";
-      this.g.font='16px Arial';
-      this.g.fillText("Interacted with: " + this.interactText, 16, 30);
+      this.g.strokeText("ya dingus", 250, 300);
     }
 
     // DEBUG: Draw grid
