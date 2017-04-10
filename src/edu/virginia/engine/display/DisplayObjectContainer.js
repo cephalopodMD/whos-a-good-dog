@@ -31,7 +31,7 @@ class DisplayObjectContainer extends DisplayObject{
     child.parent = null;
   }
   removeAllChildren() {
-    for (let child of children.contents)
+    for (let child of this.children.contents)
       child.parent = null;
     this.children = new ArrayList();
   }

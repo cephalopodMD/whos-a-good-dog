@@ -15,17 +15,6 @@ class GoodDogPrototype extends Game {
     sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
     sm.playMusic('theme');
 
-    this.poos = new DisplayObjectContainer('poos');
-
-    this.dog = new Dog(90, 200);
-    this.addChild(this.dog);
-    var dogFadeIn = new Tween(this.dog);
-    dogFadeIn.animate(TweenableParams.ALPHA, 0, 1, 3000);
-    TweenJuggler.add(dogFadeIn);
-
-    this.owner = new Owner(80, 80);
-    this.addChild(this.owner);
-
     // Create level manager
     this.levelManager = new LevelManager();
     this.addEventListener(this.levelManager, LevelCompleteEvent.LEVEL_COMPLETE);
@@ -37,85 +26,20 @@ class GoodDogPrototype extends Game {
     this.levelManager.addEventListener(this, LevelUpdateEvent.LEVEL_UPDATE);
     this.levelManager.addEventListener(this, GameOverEvent.GAME_OVER);
 
-    // Initialize level 1
-    this.level = LevelFactory.CreateLevelOne();
-    this.collidables = this.level.obstacles;
-    this.titleOverlay = this.level.titleOverlay;
-
-    for (let plat of this.collidables)
-      this.addChild(plat);
-
-    // Create new interactable object
-    var box0 = new DestroyObject();
-    box0.setScale(0.2, 0.2);
-    box0.setPosition(120, 300);
-    box0.moveInteractBox(0, -40);
-    this.addChild(box0);
-
-    var box1 = new OpenableObject();
-    box1.setScale(0.2, 0.2);
-    box1.setPosition(344, 432);
-    box1.moveInteractBox(40, 0);
-    this.addChild(box1);
-
-    var box2 = new DestroyObject();
-    box2.setScale(0.2, 0.2);
-    box2.setPosition(584, 8);
-    box2.moveInteractBox(0, 40);
-    this.addChild(box2);
-
-    this.interactableObjects = [
-      box0,
-      box1,
-      box2
-    ];
-
-    this.collidables.push(box0);
-    this.collidables.push(box1);
-    this.collidables.push(box2);
+    // Load the info for level 1
+    this.loadNextLevel();
 
     this.clock = new GameClock();
     this.damageValue = 0;
-    
-    this.addChild(this.poos);
-
-    // Init AI
-    this.cellSize = 16;
-    this.path = [];
-    // Use setTimeout to let obstacles load
-    var callback = function(thiz) {
-      // TODO: Change this to use level.width and level.height
-      var matrix = GridHelper.CreateObstacleMatrix(1440, 960, thiz.cellSize, thiz.collidables, 56/2, 48/2);
-      thiz.grid = Grid.FromMatrix(matrix);
-      thiz.grid.setCellSize(thiz.cellSize);
-
-      // Init AI
-      thiz.ai = new PathAI(thiz.grid);
-    }
-    setTimeout(callback, 500, this);
 
     // Demo
     this.interactText = "";
 
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
-
-    // Fade out the level overlay last
-    this.titleOverlay.fadeOut(1500);
   }
 
   handleEvent(e) {
-    if (moneyVals[e.eventType]) {
-      this.damageValue += moneyVals[e.eventType];
-
-      // Check if the player beat the level
-      if (this.damageValue >= this.level.minDamageValue) {
-          this.pause();
-          this.damageValue = 0;
-          this.dispatchEvent(new LevelCompleteEvent(this));
-      }
-    }
-
     if (e.eventType == Dog.POO_EVENT) {
       // TODO fix room poop code
       this.owner.chasing = true;
@@ -128,6 +52,7 @@ class GoodDogPrototype extends Game {
     } else if (e.eventType == InteractEvent.INTERACT_EVENT) {
       this.interactText = e.getSource().getId();
     } else if (e.eventType == GameOverEvent.GAME_OVER) {
+      debugger;
       if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You Bad Dog", this.width, this.height);
       } else {
@@ -138,32 +63,77 @@ class GoodDogPrototype extends Game {
       this.loadNextLevel();
       this.start();
     }
+
+    // Update the money count last to handle restarting the level
+    // Do this last since POO_EVENT will update the owner AI
+    if (moneyVals[e.eventType]) {
+      this.damageValue += moneyVals[e.eventType];
+
+      // Check if the player beat the level
+      if (this.damageValue >= this.level.minDamageValue) {
+          this.pause();
+          this.damageValue = 0;
+          this.dispatchEvent(new LevelCompleteEvent(this));
+      }
+    }
   }
 
   loadNextLevel() {
-    // Remove all collidables as children
-    for (let plat of this.collidables) {
-      this.removeChild(plat);
-    }
-    this.removeChild(this.owner);
+    // Remove all children from the game to reset the level
+    this.removeAllChildren();
 
+    // Get the info for the level
     switch (this.levelManager.getCurrentLevel()) {
       case 0:
         this.level = LevelFactory.CreateLevelOne();
         break;
       case 1:
-        this.level = LevelFactory.CreateLevelOne();
+        this.level = LevelFactory.CreateLevelTwo();
         break;
     }
 
-    // Finish setting up the level
-    this.collidables = this.level.obstacles;
+    // Add the collidable objects as children of the level
+    this.collidables = this.level.collidables;
     for (let plat of this.collidables)
       this.addChild(plat)
 
-    // Reset the owner
-    this.owner = new Owner(80, 80);
+    // Keep track of all interactable objects
+    this.interactableObjects = this.level.interactableObjects;
+
+    // Create the owner
+    console.log("making new owner");
+    this.owner = this.level.owner;
     this.addChild(this.owner);
+
+    // Create the dog and fade it into the level
+    this.dog = this.level.dog;
+    this.addChild(this.dog);
+    var dogFadeIn = new Tween(this.dog);
+    dogFadeIn.animate(TweenableParams.ALPHA, 0, 1, 3000);
+    TweenJuggler.add(dogFadeIn);
+
+    // Create the poo container
+    this.poos = new DisplayObjectContainer('poos');
+    this.addChild(this.poos);
+
+    // Initialize the AI for the level
+    this.cellSize = 16;
+    this.path = [];
+    this.ai = undefined;
+    // Use setTimeout to let obstacles load
+    var callback = function(thiz) {
+      // TODO: Change this to use level.width and level.height
+      var matrix = GridHelper.CreateObstacleMatrix(1440, 960, thiz.cellSize, thiz.collidables, 56/2, 48/2);
+      thiz.grid = Grid.FromMatrix(matrix);
+      thiz.grid.setCellSize(thiz.cellSize);
+
+      // Init AI
+      thiz.ai = new PathAI(thiz.grid);
+    }
+    setTimeout(callback, 500, this);
+
+    // Reset the screen pan
+    this.setPosition(0, 0);
 
     // Set the new title overlay for the level
     this.titleOverlay = this.level.titleOverlay;
@@ -286,17 +256,17 @@ class GoodDogPrototype extends Game {
       // NICE                                                  ^^^
     }
 
-    if (!this.playing) {
-      this.g.fillStyle = 'white';
-      this.g.strokeStyle = 'black'
-      this.g.lineWidth = 2
-      this.g.font='bold 48px Arial';
-      this.g.fillText("PAUSED", 220, 250);
-      this.g.strokeText("PAUSED", 220, 250);
+    // if (!this.playing) {
+    //   this.g.fillStyle = 'white';
+    //   this.g.strokeStyle = 'black'
+    //   this.g.lineWidth = 2
+    //   this.g.font='bold 48px Arial';
+    //   this.g.fillText("PAUSED", 220, 250);
+    //   this.g.strokeText("PAUSED", 220, 250);
     //   this.g.font='bold 32px Arial';
     //   this.g.fillText("ya dingus", 250, 300);
     //   this.g.strokeText("ya dingus", 250, 300);
-    }
+    // }
 
     // DEBUG: Draw grid
     if (debug && this.grid) {
