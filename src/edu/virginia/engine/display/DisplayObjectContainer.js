@@ -60,6 +60,12 @@ class DisplayObjectContainer extends DisplayObject{
     return this.children;
   }
 
+  recalculateMatrix() {
+    super.recalculateMatrix();
+    for (let child of children)
+      child.recalculateMatrix();
+  }
+
   update(pressedKeys, gamepads){
     super.update(pressedKeys, gamepads);
     for (let child of this.children.contents) {
