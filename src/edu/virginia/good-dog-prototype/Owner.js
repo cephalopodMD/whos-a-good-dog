@@ -24,6 +24,7 @@ class Owner extends Sprite {
 
     // Keep track of path to follow
     this.path = [];
+    this.room = null;
   }
 
   update(pressedKeys, gamepads) {
@@ -105,6 +106,16 @@ class Owner extends Sprite {
         collided = true;
     if (!collided)
       this.lastPosition.set(this.position);
+
+    for (let room of game.rooms) {
+      if (this.getHitbox(game).intersectsWith(room.hitbox)) {
+        if (this.room != room) {
+          // TODO check for poop and interacted with objects here
+        }
+        this.room == room;
+        break;
+      }
+    }
   }
 
   setPath(path) {this.path = path;}

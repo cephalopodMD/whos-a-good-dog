@@ -18,12 +18,12 @@ class Poo extends Sprite {
 
   update(pressedKeys, gamepads) {
     super.update();
-    this.cloud.alpha = Math.min(this.timer.getElapsedTime() / 20000, 1)
-    this.cloud.radius = this.timer.getElapsedTime() / 200;
+    this.cloud.alpha = Math.min(this.timer.getElapsedTime() / 50000, .15)
+    this.cloud.radius = this.timer.getElapsedTime() / 100;
   }
 
   getRadius() {
-    return this.timer.getElapsedTime() / 200
+    return this.timer.getElapsedTime() / 100
   }
 
 }

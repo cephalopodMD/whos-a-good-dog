@@ -49,9 +49,9 @@ class Dog extends AnimatedSprite {
       }
     }
 
-    if((pressedKeys.contains(32) || pressedKeys.contains(81)) && this.pooTimer.getElapsedTime() > this.pooTime)
+    if((pressedKeys.contains(32) || pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
       this.poo();
-    if (pressedKeys.contains(87) && this.interactTimer.getElapsedTime() > this.interactTime)
+    if ((pressedKeys.contains(87) || pressedKeys.contains(88)) && this.interactTimer.getElapsedTime() > this.interactTime)
       this.checkInteractions();
     if(pressedKeys.contains(66))
       GoodDogPrototype.soundManager.playSoundEffect('yip')
@@ -206,7 +206,7 @@ class Dog extends AnimatedSprite {
     TweenJuggler.add(pooIn);
     this.parent.poos.addChild(newPoo);
     this.pooTimer.resetGameClock();
-    this.dispatchEvent(new Event(Dog.POO_EVENT, this));
+    this.dispatchEvent(new Event(Dog.POO_EVENT, newPoo));
   }
 
   pause() {
