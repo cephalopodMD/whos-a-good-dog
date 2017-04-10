@@ -49,9 +49,9 @@ class Dog extends AnimatedSprite {
       }
     }
 
-    if((pressedKeys.contains(32) || pressedKeys.contains(81)) && this.pooTimer.getElapsedTime() > this.pooTime)
+    if((pressedKeys.contains(32) || pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
       this.poo();
-    if (pressedKeys.contains(87) && this.interactTimer.getElapsedTime() > this.interactTime)
+    if ((pressedKeys.contains(87) || pressedKeys.contains(88)) && this.interactTimer.getElapsedTime() > this.interactTime)
       this.checkInteractions();
     if(pressedKeys.contains(66))
       GoodDogPrototype.soundManager.playSoundEffect('yip')
@@ -138,7 +138,6 @@ class Dog extends AnimatedSprite {
         norm.rotate(plat.rotation);
         norm.scale(plat.scale.x);
         // get newpos by taking normal vector and adding to current position
-        //this.applyForce((new Vec2()).set(norm));
         var newPos = this.position.add_i(norm.scale_i(1.1));
         this.setPosition(newPos.x, newPos.y);
         // get newvel by:
@@ -159,14 +158,16 @@ class Dog extends AnimatedSprite {
   }
 
   draw(g) {
-    if (this.velocity.x > Math.abs(this.velocity.y))
-      this.animate('run_e');
-    if (this.velocity.y > Math.abs(this.velocity.x))
-      this.animate('run_s');
-    if (this.velocity.x < -Math.abs(this.velocity.y))
-      this.animate('run_w');
-    if (this.velocity.y < -Math.abs(this.velocity.x))
-      this.animate('run_n');
+    if (this.velocity.magnitude() > 1) {
+      if (this.velocity.x > Math.abs(this.velocity.y))
+        this.animate('run_e');
+      if (this.velocity.y > Math.abs(this.velocity.x))
+        this.animate('run_s');
+      if (this.velocity.x < -Math.abs(this.velocity.y))
+        this.animate('run_w');
+      if (this.velocity.y < -Math.abs(this.velocity.x))
+        this.animate('run_n');
+    }
     super.draw(g)
   }
 
@@ -204,7 +205,7 @@ class Dog extends AnimatedSprite {
     TweenJuggler.add(pooIn);
     this.parent.poos.addChild(newPoo);
     this.pooTimer.resetGameClock();
-    this.dispatchEvent(new Event(Dog.POO_EVENT, this));
+    this.dispatchEvent(new Event(Dog.POO_EVENT, newPoo));
   }
 
   pause() {

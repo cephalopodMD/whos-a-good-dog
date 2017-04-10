@@ -7,7 +7,7 @@ class LevelFactory {
 
 	/**
 	 * Return the objects for level 1 of the game
-	 * 
+	 *
 	 * Level Dimensions:
 	 * 1440 x 960
 	 * 30 blocks x 20 blocks
@@ -33,6 +33,8 @@ class LevelFactory {
 			// Debug
 			new Wall("wall11", 20, 15, 1, 1, blockSize),
 		];
+
+    // TODO add rooms
 
 		// Return the objects for the level
 		return {

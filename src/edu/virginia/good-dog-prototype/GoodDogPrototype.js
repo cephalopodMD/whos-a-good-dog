@@ -27,37 +27,8 @@ class GoodDogPrototype extends Game {
     this.owner = new Owner(80, 80);
     this.addChild(this.owner);
 
-    // this.collidables = [
-    //   new Platform('p0', 344, 32),
-    //   new Platform('p1', 344, 296),
-    //   new Platform('p2', 500, 150),
-    //   new Platform('p3', 0, 472),
-    //   new Platform('p4', 160, 472),
-    //   new Platform('p5', 320, 472),
-    //   new Platform('p6', 480, 472),
-    //   new Platform('p7', 10, 0),
-    //   new Platform('p8', 10, 160),
-    //   new Platform('p9', 10, 320),
-    //   new Platform('p10', 0, -40),
-    //   new Platform('p11', 160, -40),
-    //   new Platform('p12', 320, -40),
-    //   new Platform('p13', 480, -40),
-    //   new Platform('p14', 680, 0),
-    //   new Platform('p15', 680, 160),
-    //   new Platform('p16', 680, 320),
-    // ]
-    // this.collidables[0].setRotation(Math.PI / 2)
-    // this.collidables[1].setRotation(Math.PI / 2)
-    // this.collidables[2].setRotation(Math.PI / 2)
-
-    // this.collidables[7].setRotation(Math.PI / 2)
-    // this.collidables[8].setRotation(Math.PI / 2)
-    // this.collidables[9].setRotation(Math.PI / 2)
-    // this.collidables[14].setRotation(Math.PI / 2)
-    // this.collidables[15].setRotation(Math.PI / 2)
-    // this.collidables[16].setRotation(Math.PI / 2)
-
     this.collidables = LevelFactory.CreateLevelOne().walls;
+    this.rooms = [];
 
     for (let plat of this.collidables)
       this.addChild(plat);
@@ -92,6 +63,7 @@ class GoodDogPrototype extends Game {
     this.collidables.push(box2);
 
     this.clock = new GameClock();
+    this.damageValue = 0;
 
     // Init AI
     this.cellSize = 16;
@@ -116,8 +88,18 @@ class GoodDogPrototype extends Game {
   }
 
   handleEvent(e) {
+    if (moneyVals[e.eventType])
+      this.damageValue += moneyVals[e.eventType];
+
     if (e.eventType == Dog.POO_EVENT) {
+      // TODO fix room poop code
       this.owner.chasing = true;
+      for (let room of this.rooms) {
+        if (e.getSource().getHitbox(this).intersectsWith(room.hitbox)) {
+          room.add(e.getSource());
+          break;
+        }
+      }
     } else if (e.eventType == InteractEvent.INTERACT_EVENT) {
       this.interactText = e.getSource().getId();
     }
@@ -127,16 +109,14 @@ class GoodDogPrototype extends Game {
     super.update(pressedKeys, gamepads);
 
     // shift
-    if (pressedKeys.contains(16)) {
+    if (pressedKeys.contains(16))
       debug = true;
-    } else {
+    else
       debug = false;
-    }
 
     // Update ai
-    if (this.ai) {
+    if (this.ai)
       this.updateAI();
-    }
 
     // Check collisions
     this.dog.checkCollisions(this);
@@ -156,25 +136,17 @@ class GoodDogPrototype extends Game {
     var dogAccel = this.dog.getAcceleration();
     var dogHitbox = this.dog.getHitbox();
     if(dogHitbox.x + dogHitbox.w > this.width - this.panBorderSize)
-    {
       if(this.dog.getVelocity().x > 0)
         this.setPosition(this.getPosition().x-Math.abs(this.dog.getVelocity().x)-Math.abs(dogAccel.x), this.getPosition().y);
-    }
     if(dogHitbox.x < this.panBorderSize)
-    {
       if(this.dog.getVelocity().x < 0)
         this.setPosition(this.getPosition().x+Math.abs(this.dog.getVelocity().x)+Math.abs(dogAccel.x), this.getPosition().y);
-    }
     if(dogHitbox.y < this.panBorderSize)
-    {
       if(this.dog.getVelocity().y < 0)
         this.setPosition(this.getPosition().x, this.getPosition().y+Math.abs(this.dog.getVelocity().y)+Math.abs(dogAccel.y));
-    }
     if(dogHitbox.y + dogHitbox.h > this.height - this.panBorderSize)
-    {
       if(this.dog.getVelocity().y > 0)
         this.setPosition(this.getPosition().x, this.getPosition().y-Math.abs(this.dog.getVelocity().y)-Math.abs(dogAccel.y));
-    }
   }
 
   updateAI() {
@@ -234,21 +206,31 @@ class GoodDogPrototype extends Game {
   }
 
   draw(g){
-    /*if(!this.pressedKeys.contains(66)) */ g.clearRect(0, 0, this.width, this.height);
+    g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
+
+    this.g.fillStyle = 'black';
+    this.g.fillRect(0, 0, 640, 48)
+
+    this.g.fillStyle = "white";
+    this.g.font='16px Arial';
+    this.g.fillText("$" + this.damageValue + " damage", 16, 30);
+
+    if (this.interactText) {
+      this.g.fillText("Interacted with: " + this.interactText, 420, 30);
+      // NICE                                                  ^^^
+    }
 
     if (!this.playing) {
       this.g.fillStyle = 'white';
+      this.g.strokeStyle = 'black'
+      this.g.lineWidth = 2
       this.g.font='bold 48px Arial';
       this.g.fillText("YOU GOT CAUGHT!", 100, 250);
+      this.g.strokeText("YOU GOT CAUGHT!", 100, 250);
       this.g.font='bold 32px Arial';
       this.g.fillText("ya dingus", 250, 300);
-    }
-
-    if (this.interactText) {
-      this.g.fillStyle = "white";
-      this.g.font='16px Arial';
-      this.g.fillText("Interacted with: " + this.interactText, 16, 30);
+      this.g.strokeText("ya dingus", 250, 300);
     }
 
     // DEBUG: Draw grid
