@@ -1,23 +1,29 @@
 "use strict";
 
-class InteractSprite extends Sprite
+class InteractSprite extends AnimatedSprite
 {
-	constructor(id, filename, interacted_filename)
+	constructor(id, folder, nPics, names, machine, poopables, suppressions, events)
 	{
-		super(id, filename);
+		super(id, folder, nPics);
 		this.interactBox = new DisplayObject("interact", "sprites/blue_box.gif");
 		this.interactBox.setAlpha(0.35);
 
 		// this.addChild(this.interactBox);
-    GoodDogPrototype.getInstance().addChild(this.interactBox);
-		this.new_img = new Image();
-    this.new_img.src = 'resources/' + interacted_filename;
+	    GoodDogPrototype.getInstance().addChild(this.interactBox);
 
-    this.boxOffsetX = 0;
-    this.boxOffsetY = 0;
+	    this.stateNames = names;
+	    this.stateMachine = machine;
+	    this.isPoopables = poopables;
+	    this.smellSuppressions = suppressions;
+	    this.eventNames = events;
+	    this.hasPoop = false;
+	    this.currentState = 0;
 
-    // Add event listener for interact events
-    this.addEventListener(GoodDogPrototype.getInstance(), InteractEvent.INTERACT_EVENT);
+	    this.boxOffsetX = 0;
+	    this.boxOffsetY = 0;
+
+	    // Add event listener for interact events
+	    this.addEventListener(GoodDogPrototype.getInstance(), InteractEvent.INTERACT_EVENT);
 	}
 
   	update(keys, gamepads){
@@ -45,8 +51,16 @@ class InteractSprite extends Sprite
 
   	interact()
   	{
-  		this.setDisplayImage(this.new_img);
-      this.dispatchEvent(new InteractEvent(this));
+  		if(this.stateMachine[this.currentState] != this.currentState)
+  		{
+  			this.currentState = this.stateMachine[this.currentState];
+  			this.animate(this.stateNames[this.currentState]);
+  			this.dispatchEvent(new Event(this.eventNames[this.currentState], this));
+			if(this.stateMachine[this.currentState] == this.currentState)
+			{
+  				this.interactBox.setAlpha(0.0);
+			}
+  		}
   	}
 
     setPosition(x, y) {

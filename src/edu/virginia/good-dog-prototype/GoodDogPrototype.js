@@ -63,19 +63,19 @@ class GoodDogPrototype extends Game {
       this.addChild(plat);
 
     // Create new interactable object
-    var box0 = new InteractSprite("yellow box", "sprites/gray_box.gif", "sprites/yellow_box.gif");
+    var box0 = new DestroyObject();
     box0.setScale(0.2, 0.2);
     box0.setPosition(120, 300);
     box0.moveInteractBox(0, -40);
     this.addChild(box0);
 
-    var box1 = new InteractSprite("green box", "sprites/gray_box.gif", "sprites/green_box.png");
+    var box1 = new OpenableObject();
     box1.setScale(0.2, 0.2);
     box1.setPosition(344, 432);
     box1.moveInteractBox(40, 0);
     this.addChild(box1);
 
-    var box2 = new InteractSprite("red box", "sprites/gray_box.gif", "sprites/red_box.png");
+    var box2 = new DestroyObject();
     box2.setScale(0.2, 0.2);
     box2.setPosition(584, 8);
     box2.moveInteractBox(0, 40);
