@@ -16,17 +16,19 @@ class Dog extends AnimatedSprite {
     this.play();
 
     this.setPosition(x, y);
-    this.lastPosition = new Vec2(this.position.x, this.position.y);
     this.setScale(.5, .5);
     this.setPivotPoint(-112/2, -96/2);
+    this.lastPosition = new Vec2(this.position.x, this.position.y);
 
     this.hasPhysics = true;
     this.grounded = false;
     this.running = false;
+    this.speedFactor = .1;
     this.pooTimer = new GameClock();
     this.pooTime = 500;
     this.interactTimer = new GameClock();
     this.interactTime = 500;
+
     this.addEventListener(GoodDogPrototype.getInstance(), Dog.POO_EVENT);
   }
 
@@ -47,42 +49,38 @@ class Dog extends AnimatedSprite {
       }
     }
 
-    if((pressedKeys.contains(32) || pressedKeys.contains(81)) && this.pooTimer.getElapsedTime() > this.pooTime) {
+    if((pressedKeys.contains(32) || pressedKeys.contains(81)) && this.pooTimer.getElapsedTime() > this.pooTime)
       this.poo();
-    }
-    if (pressedKeys.contains(87) && this.interactTimer.getElapsedTime() > this.interactTime) {
+    if (pressedKeys.contains(87) && this.interactTimer.getElapsedTime() > this.interactTime)
       this.checkInteractions();
-    }
-    if(pressedKeys.contains(66)) {
+    if(pressedKeys.contains(66))
       GoodDogPrototype.soundManager.playSoundEffect('yip')
-    }
 
     if (this.pooTimer.getElapsedTime() > this.pooTime) {
       // arrow keys move
       if(pressedKeys.contains(37))
-        this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 8.0, 0));
+        this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() * this.speedFactor, 0));
       if(pressedKeys.contains(38))
-        this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() / 8.0));
+        this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() * this.speedFactor));
       if(pressedKeys.contains(39))
-        this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 8.0, 0));
+        this.applyForce(new Vec2(this.parent.clock.getElapsedTime() * this.speedFactor, 0));
       if(pressedKeys.contains(40))
-        this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 8.0));
+        this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() * this.speedFactor));
 
       // gamepad buttons move
       if (gamepads[0]) {
-
         if(gamepads[0].buttonPressedByIndex(12))
-          this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() / 8.0));
+          this.applyForce(new Vec2(0, -this.parent.clock.getElapsedTime() * this.speedFactor));
         if(gamepads[0].buttonPressedByIndex(13))
-          this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() / 8.0));
+          this.applyForce(new Vec2(0, this.parent.clock.getElapsedTime() * this.speedFactor));
         if(gamepads[0].buttonPressedByIndex(14))
-          this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() / 8.0, 0));
+          this.applyForce(new Vec2(-this.parent.clock.getElapsedTime() * this.speedFactor, 0));
         if(gamepads[0].buttonPressedByIndex(15))
-          this.applyForce(new Vec2(this.parent.clock.getElapsedTime() / 8.0, 0));
+          this.applyForce(new Vec2(this.parent.clock.getElapsedTime() * this.speedFactor, 0));
         if(Math.abs(gamepads[0].getLeftStickYAxis()) > 0.1)
-          this.applyForce(new Vec2(0, gamepads[0].getLeftStickYAxis() * this.parent.clock.getElapsedTime() / 8.0));
+          this.applyForce(new Vec2(0, gamepads[0].getLeftStickYAxis() * this.parent.clock.getElapsedTime() * this.speedFactor));
         if(Math.abs(gamepads[0].getLeftStickXAxis()) > 0.1)
-          this.applyForce(new Vec2(gamepads[0].getLeftStickXAxis() * this.parent.clock.getElapsedTime() / 8.0, 0));
+          this.applyForce(new Vec2(gamepads[0].getLeftStickXAxis() * this.parent.clock.getElapsedTime() * this.speedFactor, 0));
         if(gamepads[0].buttonPressedByIndex(0) || gamepads[0].buttonPressedByIndex(1)) this.poo();
       }
     }
@@ -92,11 +90,9 @@ class Dog extends AnimatedSprite {
     var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
     for (var interactableObj of interactableObjects) {
       var interactBox = interactableObj.getInteractBox();
-      if (this.collidesWith(interactBox)) {
+      if (this.collidesWith(interactBox))
         interactableObj.interact();
-      }
     }
-
     // Reset the interaction timer
     this.interactTimer.resetGameClock();
   }

@@ -17,16 +17,10 @@ class AnimatedSprite extends Sprite{
     for (let i=1; i<=frames; i++)
       this.frames.add(new Image());
     var i = 0,
-        loading = true,
-        t = this;
+        loading = true;
     for (i=1; i <= frames; i++) {
-      /*
-      t.frames.get(i).onload = function() {
-        t.frames.contents[this.title] = this;
-      }
-      */
-      t.frames.get(i).title = i;
-      t.frames.get(i).src = 'resources/' + foldername + i + '.png';
+      this.frames.get(i).title = i;
+      this.frames.get(i).src = 'resources/' + foldername + i + '.png';
       if (debug)
         console.log('resources/' + foldername + i + '.png')
     }

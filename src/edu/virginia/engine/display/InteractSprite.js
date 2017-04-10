@@ -10,7 +10,8 @@ class InteractSprite extends Sprite
 
 		// this.addChild(this.interactBox);
     GoodDogPrototype.getInstance().addChild(this.interactBox);
-		this.new_img = interacted_filename;
+		this.new_img = new Image();
+    this.new_img.src = 'resources/' + interacted_filename;
 
     this.boxOffsetX = 0;
     this.boxOffsetY = 0;
@@ -44,7 +45,7 @@ class InteractSprite extends Sprite
 
   	interact()
   	{
-  		this.loadImage(this.new_img);
+  		this.setDisplayImage(this.new_img);
       this.dispatchEvent(new InteractEvent(this));
   	}
 
