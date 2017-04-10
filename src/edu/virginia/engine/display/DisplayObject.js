@@ -10,7 +10,8 @@ class DisplayObject extends EventDispatcher {
     super()
     this.id = id;
     this.loaded = false;
-    this.loadImage(filename);
+    if (filename && filename != '')
+      this.loadImage(filename);
     this.parent = null;
 
     this.hasPhysics = false;
