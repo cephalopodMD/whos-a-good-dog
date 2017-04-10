@@ -138,7 +138,6 @@ class Dog extends AnimatedSprite {
         norm.rotate(plat.rotation);
         norm.scale(plat.scale.x);
         // get newpos by taking normal vector and adding to current position
-        //this.applyForce((new Vec2()).set(norm));
         var newPos = this.position.add_i(norm.scale_i(1.1));
         this.setPosition(newPos.x, newPos.y);
         // get newvel by:

@@ -13,6 +13,7 @@ class Poo extends Sprite {
     this.timer = new GameClock()
     this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
     this.cloud.alpha = 0;
+    this.cloud.particleLife = 200
     this.addChild(this.cloud);
   }
 
