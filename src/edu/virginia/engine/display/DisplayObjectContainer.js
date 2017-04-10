@@ -62,8 +62,9 @@ class DisplayObjectContainer extends DisplayObject{
 
   recalculateMatrix() {
     super.recalculateMatrix();
-    for (let child of children)
-      child.recalculateMatrix();
+    if (this.children)
+      for (let child of this.getChildren().contents)
+        child.recalculateMatrix();
   }
 
   update(pressedKeys, gamepads){
