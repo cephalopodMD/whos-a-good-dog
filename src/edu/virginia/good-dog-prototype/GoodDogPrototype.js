@@ -84,6 +84,9 @@ class GoodDogPrototype extends Game {
 
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
+
+    this.titleOverlay = new TitleOverlay("TitleOverlay", "Episode I", "The Phantom Menace", this.width, this.height);
+    this.titleOverlay.fadeOut(1500);
   }
 
   handleEvent(e) {
@@ -226,6 +229,8 @@ class GoodDogPrototype extends Game {
       this.grid.drawPath(g, this.path);
       this.reverseTransformations(g);
     }
+
+    this.titleOverlay.draw(g);
   }
 
 }
