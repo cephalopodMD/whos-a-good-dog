@@ -30,6 +30,14 @@ class InteractSprite extends AnimatedSprite
     	super.update(keys, gamepads)
   	}
 
+  	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
+
+  	poopIn(p)
+  	{
+  		this.hasPoop = true;
+  		this.poop = p;
+  	}
+
   	getInteractBox() { return this.interactBox; }
 
   	moveInteractBox(x, y)

@@ -16,7 +16,6 @@ class GoodDogPrototype extends Game {
     sm.playMusic('theme');
 
     this.poos = new DisplayObjectContainer('poos');
-    this.addChild(this.poos);
 
     this.dog = new Dog(90, 200);
     this.addChild(this.dog);
@@ -64,6 +63,8 @@ class GoodDogPrototype extends Game {
 
     this.clock = new GameClock();
     this.damageValue = 0;
+    
+    this.addChild(this.poos);
 
     // Init AI
     this.cellSize = 16;
