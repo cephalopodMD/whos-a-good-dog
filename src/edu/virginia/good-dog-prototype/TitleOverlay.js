@@ -50,8 +50,11 @@ class TitleOverlay extends DisplayObject {
 	 * Add a tween to fade out the title overlay
 	 */
 	fadeOut(duration) {
-		var fadeOutTween = new Tween(this, TweenTransitions.quadin);
-		fadeOutTween.animate(TweenableParams.ALPHA, 1, 0, duration);
-		TweenJuggler.add(fadeOutTween);
+		var thiz = this;
+		setTimeout(function() {
+			var fadeOutTween = new Tween(thiz, TweenTransitions.quadin);
+			fadeOutTween.animate(TweenableParams.ALPHA, 1, 0, duration);
+			TweenJuggler.add(fadeOutTween);
+		}, 500);
 	}
 }

@@ -26,8 +26,21 @@ class GoodDogPrototype extends Game {
     this.owner = new Owner(80, 80);
     this.addChild(this.owner);
 
-    this.collidables = LevelFactory.CreateLevelOne().walls;
-    this.rooms = [];
+    // Create level manager
+    this.levelManager = new LevelManager();
+    this.addEventListener(this.levelManager, LevelCompleteEvent.LEVEL_COMPLETE);
+    this.addEventListener(this.levelManager, GameOverEvent.GAME_OVER);
+
+    // Add event listeners for level complete and game over
+    this.addEventListener(this, LevelCompleteEvent.LEVEL_COMPLETE);
+    this.addEventListener(this, GameOverEvent.GAME_OVER);
+    this.levelManager.addEventListener(this, LevelUpdateEvent.LEVEL_UPDATE);
+    this.levelManager.addEventListener(this, GameOverEvent.GAME_OVER);
+
+    // Initialize level 1
+    this.level = LevelFactory.CreateLevelOne();
+    this.collidables = this.level.obstacles;
+    this.titleOverlay = this.level.titleOverlay;
 
     for (let plat of this.collidables)
       this.addChild(plat);
@@ -87,18 +100,26 @@ class GoodDogPrototype extends Game {
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
 
-    this.titleOverlay = new TitleOverlay("TitleOverlay", "Episode I", "The Phantom Menace", this.width, this.height);
+    // Fade out the level overlay last
     this.titleOverlay.fadeOut(1500);
   }
 
   handleEvent(e) {
-    if (moneyVals[e.eventType])
+    if (moneyVals[e.eventType]) {
       this.damageValue += moneyVals[e.eventType];
+
+      // Check if the player beat the level
+      if (this.damageValue >= this.level.minDamageValue) {
+          this.pause();
+          this.damageValue = 0;
+          this.dispatchEvent(new LevelCompleteEvent(this));
+      }
+    }
 
     if (e.eventType == Dog.POO_EVENT) {
       // TODO fix room poop code
       this.owner.chasing = true;
-      for (let room of this.rooms) {
+      for (let room of this.level.rooms) {
         if (e.getSource().getHitbox(this).intersectsWith(room.hitbox)) {
           room.add(e.getSource());
           break;
@@ -106,7 +127,47 @@ class GoodDogPrototype extends Game {
       }
     } else if (e.eventType == InteractEvent.INTERACT_EVENT) {
       this.interactText = e.getSource().getId();
+    } else if (e.eventType == GameOverEvent.GAME_OVER) {
+      if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
+        this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You Bad Dog", this.width, this.height);
+      } else {
+        this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus", this.width, this.height);
+      }
+      this.pause();
+    } else if (e.eventType == LevelUpdateEvent.LEVEL_UPDATE) {
+      this.loadNextLevel();
+      this.start();
     }
+  }
+
+  loadNextLevel() {
+    // Remove all collidables as children
+    for (let plat of this.collidables) {
+      this.removeChild(plat);
+    }
+    this.removeChild(this.owner);
+
+    switch (this.levelManager.getCurrentLevel()) {
+      case 0:
+        this.level = LevelFactory.CreateLevelOne();
+        break;
+      case 1:
+        this.level = LevelFactory.CreateLevelOne();
+        break;
+    }
+
+    // Finish setting up the level
+    this.collidables = this.level.obstacles;
+    for (let plat of this.collidables)
+      this.addChild(plat)
+
+    // Reset the owner
+    this.owner = new Owner(80, 80);
+    this.addChild(this.owner);
+
+    // Set the new title overlay for the level
+    this.titleOverlay = this.level.titleOverlay;
+    this.titleOverlay.fadeOut(1500);
   }
 
   update(pressedKeys, gamepads) {
@@ -172,7 +233,7 @@ class GoodDogPrototype extends Game {
         this.owner.setPath(this.path);
       }
       if (this.path.length <= 1) {
-        this.pause();
+        this.dispatchEvent(new GameOverEvent(this));
       }
     }
   }
@@ -230,11 +291,11 @@ class GoodDogPrototype extends Game {
       this.g.strokeStyle = 'black'
       this.g.lineWidth = 2
       this.g.font='bold 48px Arial';
-      this.g.fillText("YOU GOT CAUGHT!", 100, 250);
-      this.g.strokeText("YOU GOT CAUGHT!", 100, 250);
-      this.g.font='bold 32px Arial';
-      this.g.fillText("ya dingus", 250, 300);
-      this.g.strokeText("ya dingus", 250, 300);
+      this.g.fillText("PAUSED", 220, 250);
+      this.g.strokeText("PAUSED", 220, 250);
+    //   this.g.font='bold 32px Arial';
+    //   this.g.fillText("ya dingus", 250, 300);
+    //   this.g.strokeText("ya dingus", 250, 300);
     }
 
     // DEBUG: Draw grid
@@ -245,7 +306,14 @@ class GoodDogPrototype extends Game {
       this.reverseTransformations(g);
     }
 
+    // Draw the title overlay over everything else
+    // this.level.titleOverlay.draw(g);
     this.titleOverlay.draw(g);
+  }
+
+  start() {
+    this.clock.resetGameClock();
+    super.start();
   }
 
 }

@@ -14,6 +14,8 @@ class LevelFactory {
 	 */
 	static CreateLevelOne() {
 		var blockSize = 48;
+		var width = 30 * blockSize;
+		var height = 25 * blockSize;
 		var walls = [
 			// House boundaries
 			new Wall("wall0", -1, -1, 1, 22, blockSize),
@@ -34,11 +36,24 @@ class LevelFactory {
 			new Wall("wall11", 20, 15, 1, 1, blockSize),
 		];
 
-    // TODO add rooms
+		// TODO add rooms
+		var rooms = [];
+
+		// Title overlay
+		var screenWidth = GoodDogPrototype.getInstance().width;
+		var screenHeight = GoodDogPrototype.getInstance().height;
+		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode I", "The Phantom Menace", screenWidth, screenHeight);
+
+		var minDamageValue = 20;
 
 		// Return the objects for the level
-		return {
-			walls: walls
-		};
+		return new Level(
+			width,
+			height,
+			walls,
+			rooms,
+			titleOverlay,
+			minDamageValue
+		);
 	}
 }
