@@ -46,10 +46,14 @@ class LevelFactory {
 			new Wall("wall11", 0, 13, 2, 1, blockSize, objColor),
 			new Wall("wall11", 9, 13, 1, 1, blockSize, objColor),
 			new Wall("wall11", 12, 13, 1, 2, blockSize, objColor),
+			new Wall("wall11", 2, 16, 1, 2, blockSize, objColor),
+			new Wall("wall11", 5, 16, 1, 2, blockSize, objColor),
 
 			// Living room
 			new Wall("wall11", 16, 12, 1, 3, blockSize, objColor),
 			new Wall("wall11", 22, 12, 2, 3, blockSize, objColor),
+			new Wall("wall11", 21, 7, 1, 2, blockSize, objColor),
+			new Wall("wall11", 24, 7, 1, 2, blockSize, objColor),
 		];
 		
 		// Interactable objects
@@ -95,10 +99,10 @@ class LevelFactory {
 		var minDamageValue = 100;
 
 		// Create the dog
-		var dog = new Dog(90, 200);
+		var dog = new Dog(6*blockSize, 6*blockSize);
 
 		// Create the owner
-		var owner = new Owner(80, 80);
+		var owner = new Owner(10*blockSize, 6*blockSize);
 
 		// Return the objects for the level
 		return {
@@ -125,6 +129,7 @@ class LevelFactory {
 		var blockSize = 48;
 		var width = 25 * blockSize;
 		var height = 20 * blockSize;
+		var objColor = "#cccccc";
 		var walls = [
 			// House boundaries
 			new Wall("wall0", -2, -2, 2, 24, blockSize),
@@ -138,10 +143,55 @@ class LevelFactory {
 			new Wall("wall6", 13, 4, 2, 8, blockSize),
 			new Wall("wall7", 17, 6, 8, 3, blockSize),
 			new Wall("wall8", 13, 15, 2, 5, blockSize),
+
+			// Kitchen
+			new Wall("wall8", 0, 0, 1, 3, blockSize, objColor),
+			new Wall("wall8", 0, 4, 1, 1, blockSize, objColor),
+			new Wall("wall8", 7, 0, 1, 2, blockSize, objColor),
+			new Wall("wall8", 10, 0, 1, 2, blockSize, objColor),
+
+			// Bathroom
+			new Wall("wall8", 18, 2, 1, 1, blockSize, objColor),
+
+			// Living Room
+			new Wall("wall8", 7, 10, 2, 1, blockSize, objColor),
+			new Wall("wall8", 8, 13, 1, 3, blockSize, objColor),
+			new Wall("wall8", 12, 16, 1, 2, blockSize, objColor),
+
+			// Bedroom
+			new Wall("wall8", 24, 11, 1, 2, blockSize, objColor),
+			new Wall("wall8", 17, 19, 2, 1, blockSize, objColor),
 		];
 
 		// Interactable objects
-		var interactableObjects = [];
+		var interactableObjects = [
+			// Kitchen
+			LevelFactory._makeOpenableObject(2, 0, 2, 1, 2, blockSize),
+			LevelFactory._makeDestroyObject(8, 0, 2, 2, 2, blockSize),
+			LevelFactory._makeOpenableObject(0, 3, 1, 1, 1, blockSize),
+			LevelFactory._makeOpenableObject(0, 5, 1, 1, 1, blockSize),
+
+			// Bathroom
+			LevelFactory._makeOpenableObject(17, 2, 1, 1, 2, blockSize),
+			LevelFactory._makeOpenableObject(20, 2, 1, 1, 2, blockSize),
+			LevelFactory._makeOpenableObject(23, 2.5, 2, 3, 3, blockSize),
+
+			// Living Room
+			LevelFactory._makeOpenableObject(0, 13, 1, 3, 1, blockSize),
+			LevelFactory._makeDestroyObject(3, 10, 3, 1, 2, blockSize),
+			LevelFactory._makeDestroyObject(7, 13, 1, 3, 3, blockSize),
+
+			// Bedroom
+			LevelFactory._makeDestroyObject(19, 9, 3, 3, 2, blockSize),
+			LevelFactory._makeOpenableObject(15, 16, 1, 2, 1, blockSize),
+			LevelFactory._makeDestroyObject(20, 19, 1, 1, 0, blockSize),
+			LevelFactory._makeOpenableObject(24, 14, 1, 3, 3, blockSize),
+		];
+
+		// Combine the walls and interactable objects
+	   	var collidables = [];
+	   	collidables.push(...walls);
+	   	collidables.push(...interactableObjects);
 
 		// TODO add rooms
 		var rooms = [];
@@ -155,16 +205,16 @@ class LevelFactory {
 		var minDamageValue = 100;
 
 		// Create the dog
-		var dog = new Dog(90, 200);
+		var dog = new Dog(3*blockSize, 17*blockSize);
 
 		// Create the owner
-		var owner = new Owner(80, 80);
+		var owner = new Owner(9*blockSize, 18*blockSize);
 
 		// Return the objects for the level
 		return {
 			width: width,
 			height: height,
-			collidables: walls,
+			collidables: collidables,
 			rooms: rooms,
 			titleOverlay: titleOverlay,
 			minDamageValue: minDamageValue,
