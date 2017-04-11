@@ -231,6 +231,7 @@ class Dog extends AnimatedSprite {
           this.pooTimer.resetGameClock();
           this.dispatchEvent(new Event(Dog.POO_EVENT, newPoo));
           interactableObj.poopIn(newPoo);
+          newPoo.setContainer(interactableObj);
           flag = false;
         }
       }

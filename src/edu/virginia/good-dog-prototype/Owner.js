@@ -28,22 +28,24 @@ class Owner extends Sprite {
   }
 
   update(pressedKeys, gamepads) {
-    super.update(pressedKeys, gamepads);
+    if (this.parent) {
+      super.update(pressedKeys, gamepads);
 
-    // Character specific physics
-    this.velocity.scale(0.5);
-    // TODO: Update running animation here
+      // Character specific physics
+      this.velocity.scale(0.5);
+      // TODO: Update running animation here
 
-    // Apply forces based on the path
-    if (this.path.length > 1) {
-      var node0 = this.path[0];
-      var node1 = this.path[1];
+      // Apply forces based on the path
+      if (this.path.length > 1) {
+        var node0 = this.path[0];
+        var node1 = this.path[1];
 
-      // Figure out the direction of the forces based on the next node in the path
-      var xDir = Math.sign(node1.x - node0.x);
-      var yDir = Math.sign(node1.y - node0.y);
-      this.applyForce(new Vec2(xDir * this.parent.clock.getElapsedTime() / 8.0, 0));
-      this.applyForce(new Vec2(0, yDir * this.parent.clock.getElapsedTime() / 8.0));
+        // Figure out the direction of the forces based on the next node in the path
+        var xDir = Math.sign(node1.x - node0.x);
+        var yDir = Math.sign(node1.y - node0.y);
+        this.applyForce(new Vec2(xDir * this.parent.clock.getElapsedTime() / 8.0, 0));
+        this.applyForce(new Vec2(0, yDir * this.parent.clock.getElapsedTime() / 8.0));
+      }
     }
   }
 
@@ -107,7 +109,7 @@ class Owner extends Sprite {
     if (!collided)
       this.lastPosition.set(this.position);
 
-    for (let room of game.rooms) {
+    for (let room of game.level.rooms) {
       if (this.getHitbox(game).intersectsWith(room.hitbox)) {
         if (this.room != room) {
           // TODO check for poop and interacted with objects here

@@ -14,6 +14,7 @@ class Poo extends Sprite {
     this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
     this.cloud.alpha = 0;
     this.cloud.particleLife = 200
+    this.hasContainer = false;
     this.addChild(this.cloud);
   }
 
@@ -25,6 +26,12 @@ class Poo extends Sprite {
 
   getRadius() {
     return this.timer.getElapsedTime() / 100
+  }
+
+  setContainer(cont)
+  {
+    this.hasContainer = true;
+    this.container = cont;
   }
 
 }
