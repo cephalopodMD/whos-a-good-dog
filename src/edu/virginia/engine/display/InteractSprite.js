@@ -7,24 +7,25 @@ class InteractSprite extends AnimatedSprite
 		super(id, folder, nPics);
 		this.interactBox = new DisplayObject("interact", "sprites/blue_box.gif");
 		this.interactBox.setAlpha(0.35);
+    this.interactBox.interactableObject = this;
 
 		// this.addChild(this.interactBox);
-	    GoodDogPrototype.getInstance().addChild(this.interactBox);
+    GoodDogPrototype.getInstance().addChild(this.interactBox);
 
-	    this.stateNames = names;
-	    this.stateMachine = machine;
-	    this.isPoopables = poopables;
-	    this.smellSuppressions = suppressions;
-	    this.hidePoop = hide;
-	    this.eventNames = events;
-	    this.hasPoop = false;
-	    this.currentState = 0;
+    this.stateNames = names;
+    this.stateMachine = machine;
+    this.isPoopables = poopables;
+    this.smellSuppressions = suppressions;
+    this.hidePoop = hide;
+    this.eventNames = events;
+    this.hasPoop = false;
+    this.currentState = 0;
 
-	    this.boxOffsetX = 0;
-	    this.boxOffsetY = 0;
+    this.boxOffsetX = 0;
+    this.boxOffsetY = 0;
 
-	    // Add event listener for interact events
-	    this.addEventListener(GoodDogPrototype.getInstance(), InteractEvent.INTERACT_EVENT);
+    // Add event listener for interact events
+    this.addEventListener(GoodDogPrototype.getInstance(), InteractEvent.INTERACT_EVENT);
 	}
 
 	update(keys, gamepads){

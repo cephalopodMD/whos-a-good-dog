@@ -18,7 +18,7 @@ class AnimatedSprite extends Sprite{
       this.frames.add(new Image());
     var i = 0,
         loading = true;
-    for (i=1; i <= frames; i++) {
+    for (i=1; i < frames; i++) {
       this.frames.get(i).title = i;
       this.frames.get(i).src = 'resources/' + foldername + i + '.png';
       if (debug)

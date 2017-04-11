@@ -4,7 +4,7 @@ class Dog extends AnimatedSprite {
   constructor(x=0, y=0) {
     var id = 'dog',
         foldername = 'sprites/dog';
-    super(id, foldername, 15);
+    super(id, foldername, 16);
     this.addAnimation('stand', 1, 1);
     this.addAnimation('run', 8, 11);
     this.addAnimation('run_s', 0, 3);

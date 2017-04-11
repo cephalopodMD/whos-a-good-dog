@@ -134,6 +134,9 @@ class GoodDogPrototype extends Game {
     var dogPos = this.dog.getPosition();
     this.setPosition(this.width/2 - dogPos.x, this.height/2 - dogPos.y);
 
+    // Start Owner AI
+    this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)].interactBox;
+
     // Set the new title overlay for the level
     this.titleOverlay = this.level.titleOverlay;
     this.titleOverlay.fadeOut(1500);
@@ -192,17 +195,34 @@ class GoodDogPrototype extends Game {
     var ownerCell = this.grid.getCell(cellX, cellY);
 
     // Set the new end cell based on dog position
-    var dogCell = this.getTraversableGridCell(this.dog);
+    var targetCell;
+    if (this.owner.target instanceof InteractSprite)
+      targetCell = this.getTraversableGridCell(this.owner.target.interactBox);
+    else
+      targetCell = this.getTraversableGridCell(this.owner.target);
 
     // Reset the cells and find the new path
     this.grid.resetCells();
-    this.path = this.ai.aStar(ownerCell, dogCell);
-    if (this.owner.chasing) {
+    this.path = this.ai.aStar(ownerCell, targetCell);
+    if (this.owner.running) {
       if (this.path.length > 0) {
         this.owner.setPath(this.path);
       }
-      if (this.path.length <= 1) {
-        this.dispatchEvent(new GameOverEvent(this));
+      if (this.path.length < 3) {
+        if (this.owner.collidesWith(this.owner.target)) {
+          if (this.owner.target == this.dog) {
+            this.dispatchEvent(new GameOverEvent(this));
+          } else {
+            if (this.owner.target instanceof OpenableObject)
+              this.owner.target.interact();
+              this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)].interactBox;
+            if (this.owner.target instanceof DestroyObject)
+              if (this.owner.target.currentState == 1)
+                this.owner.target = this.dog
+              else
+                this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)].interactBox;
+          }
+        }
       }
     }
   }
