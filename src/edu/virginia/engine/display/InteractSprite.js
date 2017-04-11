@@ -26,67 +26,67 @@ class InteractSprite extends AnimatedSprite
 	    this.addEventListener(GoodDogPrototype.getInstance(), InteractEvent.INTERACT_EVENT);
 	}
 
-  	update(keys, gamepads){
-    	super.update(keys, gamepads)
-  	}
+	update(keys, gamepads){
+  	super.update(keys, gamepads)
+	}
 
-  	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
+	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
 
-  	poopIn(p)
-  	{
-  		this.hasPoop = true;
-  		this.poop = p;
-  	}
+	poopIn(p)
+	{
+		this.hasPoop = true;
+		this.poop = p;
+	}
 
-  	getInteractBox() { return this.interactBox; }
+	getInteractBox() { return this.interactBox; }
 
-  	moveInteractBox(x, y)
-  	{
-  		var old_x = this.interactBox.getPosition().getx();
-  		var old_y = this.interactBox.getPosition().gety();
-  		this.interactBox.setPosition((old_x + x), (old_y + y));
+	moveInteractBox(x, y)
+	{
+		var old_x = this.interactBox.getPosition().getx();
+		var old_y = this.interactBox.getPosition().gety();
+		this.interactBox.setPosition((old_x + x), (old_y + y));
 
-      this.boxOffsetX = x;
-      this.boxOffsetY = y;
-  	}
+    this.boxOffsetX = x;
+    this.boxOffsetY = y;
+	}
 
-  	setInteractBoxScale(sx, sy)
-  	{
-  		var old_sx = this.interactBox.getScale().getx();
-  		var old_sy = this.interactBox.getScale().gety();
-  		this.interactBox.setScale((old_sx*sx), (old_sy*y));
-  	}
+	setInteractBoxScale(sx, sy)
+	{
+		var old_sx = this.interactBox.getScale().getx();
+		var old_sy = this.interactBox.getScale().gety();
+		this.interactBox.setScale((old_sx*sx), (old_sy*y));
+	}
 
-  	interact()
-  	{
-  		if(this.stateMachine[this.currentState] != this.currentState)
-  		{
-  			this.currentState = this.stateMachine[this.currentState];
-  			this.animate(this.stateNames[this.currentState]);
-  			this.dispatchEvent(new Event(this.eventNames[this.currentState], this));
+	interact()
+	{
+		if(this.stateMachine[this.currentState] != this.currentState)
+		{
+			this.currentState = this.stateMachine[this.currentState];
+			this.animate(this.stateNames[this.currentState]);
+			this.dispatchEvent(new Event(this.eventNames[this.currentState], this));
 			if(this.stateMachine[this.currentState] == this.currentState)
 			{
   				this.interactBox.setAlpha(0.0);
 			}
-  		}
-  	}
+		}
+	}
 
-    setPosition(x, y) {
-      super.setPosition(x, y);
-      if (this.interactBox)
-        this.interactBox.setPosition(x + this.boxOffsetX, y + this.boxOffsetY);
-    }
+  setPosition(x, y) {
+    super.setPosition(x, y);
+    if (this.interactBox)
+      this.interactBox.setPosition(x + this.boxOffsetX, y + this.boxOffsetY);
+  }
 
-    setScale(x, y) {
-      super.setScale(x, y);
-      if (this.interactBox)
-        this.interactBox.setScale(x, y);
-    }
+  setScale(x, y) {
+    super.setScale(x, y);
+    if (this.interactBox)
+      this.interactBox.setScale(x, y);
+  }
 
-  	/**
-   	* Draws this image to the screen
-   	*/
-  	draw(g){
-   	 super.draw(g);
-  	}
+	/**
+ 	* Draws this image to the screen
+ 	*/
+	draw(g){
+ 	 super.draw(g);
+	}
 }
