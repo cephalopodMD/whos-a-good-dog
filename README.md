@@ -16,12 +16,23 @@ The goal of *Who's a Good Dog* is to destroy as much of your owner's house as po
 
 **Interactions**
 
-Two basic types of interactions:
-- Open/Close - object will turn yellow when open and grey when closed
-- Destroy - object will turn red when destroyed
+There are two basic types of interactions:
+1. Open/Close - object will turn yellow when open and grey when closed
+2. Destroy - object will turn red when destroyed
 	- Note: Destroyed objects cannot be interacted with again
 
 
 ### Level Designs
 
 Preliminary designs for alls levels are included in the `docs/` directory. All levels show the room structure and wall layout to control general flow/difficulty. Designs for the first two levels also detail the locations of interactable objects and the start/end positions of the dog and owner. This information was excluded from the final two levels since more information is needed to test our initial ideas about the spacing/frequency of InteractObjects (having people play test the alpha will hopefully get us this info). As the player advances through the game, the levels become smaller and smaller, making it more difficult to hide actions from the owner.
+
+
+### Other Misc. Progress
+
+- Levels
+	- Player must destroy **$100** worth of items in the house to advance to the next level
+	- Game will load all info for the next game automatically
+- Poop Smell Radius
+	- Poop now has an expanding radius around it that grows with time
+- Object Interactions
+	- Various types of object interactions
