@@ -1,5 +1,5 @@
 moneyVals = {
-  'Destroy': 1,
-  'POO_EVENT': 10,
+  'Destroy': 10,
+  'POO_EVENT': 5,
   'Poop in box': 30
 }

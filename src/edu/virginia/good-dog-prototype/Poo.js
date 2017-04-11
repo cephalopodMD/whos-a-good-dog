@@ -13,14 +13,14 @@ class Poo extends Sprite {
     this.timer = new GameClock()
     this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
     this.cloud.alpha = 0;
-    this.cloud.particleLife = 200
+    this.cloud.particleLife = 500
     this.hasContainer = false;
     this.addChild(this.cloud);
   }
 
   update(pressedKeys, gamepads) {
     super.update();
-    this.cloud.alpha = Math.min(this.timer.getElapsedTime() / 50000, .15)
+    this.cloud.alpha = Math.min(this.timer.getElapsedTime() / 50000, .2)
     this.cloud.radius = this.timer.getElapsedTime() / 100;
   }
 

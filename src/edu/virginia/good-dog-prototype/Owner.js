@@ -18,13 +18,13 @@ class Owner extends Sprite {
 
     // Set physics and animation flags
     this.hasPhysics = true;
-    this.grounded = false;
-    this.running = false;
+    this.running = true;
     this.chasing = false;
 
     // Keep track of path to follow
     this.path = [];
     this.room = null;
+    this.target = null;
   }
 
   update(pressedKeys, gamepads) {
@@ -46,6 +46,11 @@ class Owner extends Sprite {
         this.applyForce(new Vec2(xDir * this.parent.clock.getElapsedTime() / 8.0, 0));
         this.applyForce(new Vec2(0, yDir * this.parent.clock.getElapsedTime() / 8.0));
       }
+
+      if (this.target != game.dog)
+        for (let poo of game.poos.children.contents)
+          if (this.position.sub_i(poo.position).magnitude() < poo.getRadius())
+            this.target = Game.getInstance().dog
     }
   }
 
