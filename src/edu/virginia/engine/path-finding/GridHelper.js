@@ -33,7 +33,7 @@ class GridHelper {
 
 		// Fill in the matrix with the obstacles
 		for (var obstacle of obstacles) {
-			var box = obstacle.getHitbox();
+			var box = obstacle.getHitbox(GoodDogPrototype.getInstance());
 			// debugger;
 			for (var j = box.y - extraH; j <= (box.y + extraH + box.h); j += cellSize) {
 				for (var i = box.x - extraW; i <= (box.x + extraW + box.w); i += cellSize) {

@@ -52,9 +52,8 @@ class GoodDogPrototype extends Game {
     } else if (e.eventType == InteractEvent.INTERACT_EVENT) {
       this.interactText = e.getSource().getId();
     } else if (e.eventType == GameOverEvent.GAME_OVER) {
-      debugger;
       if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
-        this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You Bad Dog", this.width, this.height);
+        this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You're a Bad Dog", this.width, this.height);
       } else {
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus", this.width, this.height);
       }
@@ -101,7 +100,6 @@ class GoodDogPrototype extends Game {
     this.interactableObjects = this.level.interactableObjects;
 
     // Create the owner
-    console.log("making new owner");
     this.owner = this.level.owner;
     this.addChild(this.owner);
 
@@ -123,7 +121,7 @@ class GoodDogPrototype extends Game {
     // Use setTimeout to let obstacles load
     var callback = function(thiz) {
       // TODO: Change this to use level.width and level.height
-      var matrix = GridHelper.CreateObstacleMatrix(1440, 960, thiz.cellSize, thiz.collidables, 56/2, 48/2);
+      var matrix = GridHelper.CreateObstacleMatrix(thiz.level.width, thiz.level.height, thiz.cellSize, thiz.collidables, 56/2, 48/2);
       thiz.grid = Grid.FromMatrix(matrix);
       thiz.grid.setCellSize(thiz.cellSize);
 
@@ -133,7 +131,8 @@ class GoodDogPrototype extends Game {
     setTimeout(callback, 500, this);
 
     // Reset the screen pan
-    this.setPosition(0, 0);
+    var dogPos = this.dog.getPosition();
+    this.setPosition(this.width/2 - dogPos.x, this.height/2 - dogPos.y);
 
     // Set the new title overlay for the level
     this.titleOverlay = this.level.titleOverlay;
@@ -231,7 +230,7 @@ class GoodDogPrototype extends Game {
       ];
       for (var corner of corners) {
         cell = this.grid.getCell(corner.x/this.cellSize | 0, corner.y/this.cellSize | 0);
-        if (cell.traversable) {
+        if (cell && cell.traversable) {
           break;
         }
       }
