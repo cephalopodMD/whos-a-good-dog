@@ -2,7 +2,7 @@
 
 class InteractSprite extends AnimatedSprite
 {
-	constructor(id, folder, nPics, names, machine, poopables, suppressions, events)
+	constructor(id, folder, nPics, names, machine, poopables, suppressions, hide, events)
 	{
 		super(id, folder, nPics);
 		this.interactBox = new DisplayObject("interact", "sprites/blue_box.gif");
@@ -15,6 +15,7 @@ class InteractSprite extends AnimatedSprite
 	    this.stateMachine = machine;
 	    this.isPoopables = poopables;
 	    this.smellSuppressions = suppressions;
+	    this.hidePoop = hide;
 	    this.eventNames = events;
 	    this.hasPoop = false;
 	    this.currentState = 0;
@@ -31,6 +32,10 @@ class InteractSprite extends AnimatedSprite
   	}
 
   	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
+
+  	hasPoop() { return this.hasPoop; }
+
+  	poopHidden() { return this.hidePoop[this.currentState]; }
 
   	poopIn(p)
   	{
@@ -67,6 +72,13 @@ class InteractSprite extends AnimatedSprite
 			if(this.stateMachine[this.currentState] == this.currentState)
 			{
   				this.interactBox.setAlpha(0.0);
+			}
+			if(this.hasPoop)
+			{
+				if(this.hidePoop[currentState])
+					poop.hide();
+				else
+					poop.reveal();
 			}
   		}
   	}
