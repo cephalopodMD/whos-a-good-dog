@@ -75,10 +75,10 @@ class InteractSprite extends AnimatedSprite
 			}
 			if(this.hasPoop)
 			{
-				if(this.hidePoop[currentState])
-					poop.hide();
+				if(this.hidePoop[this.currentState])
+					this.poop.hide();
 				else
-					poop.reveal();
+					this.poop.reveal();
 			}
   		}
   	}
