@@ -8,12 +8,12 @@
 class Owner extends Sprite {
   constructor(x=0, y=0) {
     var id = 'owner';
-    super('owner', 'sprites/Coin.png');
+    super('owner', 'sprites/mario/0.png');
 
     // Init the position info
     this.setPosition(x, y);
     this.lastPosition = new Vec2(this.position.x, this.position.y);
-    this.setScale(0.15625, 0.15625);
+    this.setScale(0.35715, 0.25);
     this.setPivotPoint(-20, -20);
 
     // Set physics and animation flags
@@ -25,6 +25,8 @@ class Owner extends Sprite {
     this.path = [];
     this.room = null;
     this.target = null;
+
+    this.addEventListener(Game.getInstance(), Owner.ANGRY_EVENT)
   }
 
   update(pressedKeys, gamepads) {
@@ -50,7 +52,7 @@ class Owner extends Sprite {
       if (this.target != game.dog)
         for (let poo of game.poos.children.contents)
           if (this.position.sub_i(poo.position).magnitude() < poo.getRadius())
-            this.target = Game.getInstance().dog
+            this.chase();
     }
   }
 
@@ -128,5 +130,10 @@ class Owner extends Sprite {
   setPath(path) {this.path = path;}
   getPath() {return this.path;}
 
-
+  chase() {
+    this.target = Game.getInstance().dog;
+    this.dispatchEvent(new Event(Owner.ANGRY_EVENT, this))
+  }
 }
+
+Owner.ANGRY_EVENT = 'ANGRY_EVENT';

@@ -55,7 +55,7 @@ class LevelFactory {
 			new Wall("wall11", 21, 7, 1, 2, blockSize, objColor),
 			new Wall("wall11", 24, 7, 1, 2, blockSize, objColor),
 		];
-		
+
 		// Interactable objects
 		var interactableObjects = [
 			// Bedroom
@@ -96,7 +96,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode I", "The Phantom Menace", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 100;
+		var minDamageValue = 200;
 
 		// Create the dog
 		var dog = new Dog(6*blockSize, 6*blockSize);
@@ -202,7 +202,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode II", "Count DooDoo", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 100;
+		var minDamageValue = 200;
 
 		// Create the dog
 		var dog = new Dog(3*blockSize, 17*blockSize);
@@ -234,7 +234,7 @@ class LevelFactory {
 	    // 2 = bottom
 	    // 3 = left
 	    switch (iDir) {
-	    	case 0: 
+	    	case 0:
 	    		box.moveInteractBox(0, -blockSize);
 	    		break;
     		case 1:
@@ -261,7 +261,7 @@ class LevelFactory {
 	    // 2 = bottom
 	    // 3 = left
 	    switch (iDir) {
-	    	case 0: 
+	    	case 0:
 	    		box.moveInteractBox(0, -blockSize);
 	    		break;
     		case 1:
