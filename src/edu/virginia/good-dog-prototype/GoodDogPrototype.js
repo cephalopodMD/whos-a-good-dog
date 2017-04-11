@@ -137,9 +137,10 @@ class GoodDogPrototype extends Game {
     this.setPosition(this.width/2 - dogPos.x, this.height/2 - dogPos.y);
 
     // Start Owner AI
-    this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)];
+    this.owner.findNewTarget()
 
     // Set the new title overlay for the level
+    this.notificationText = '';
     this.titleOverlay = this.level.titleOverlay;
     this.titleOverlay.fadeOut(1500);
   }
@@ -203,6 +204,9 @@ class GoodDogPrototype extends Game {
     else
       targetCell = this.getTraversableGridCell(this.owner.target);
 
+    if (!targetCell.traversable)
+      this.owner.findNewTarget()
+
     // Reset the cells and find the new path
     this.grid.resetCells();
     this.path = this.ai.aStar(ownerCell, targetCell);
@@ -218,15 +222,18 @@ class GoodDogPrototype extends Game {
           } else {
             if (this.owner.target instanceof OpenableObject) {
               this.owner.target.interact();
-              this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)];
+              this.owner.findNewTarget();
             } else if (this.owner.target instanceof DestroyObject) {
               if (this.owner.target.currentState == 1)
                 this.owner.chase()
               else
-                this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)];
+                this.owner.findNewTarget()
             }
           }
         }
+      }
+      if (this.path.length < 1) {
+        this.owner.findNewTarget();
       }
     }
   }

@@ -130,6 +130,11 @@ class Owner extends Sprite {
   setPath(path) {this.path = path;}
   getPath() {return this.path;}
 
+  findNewTarget() {
+    var intObjs = Game.getInstance().interactableObjects;
+    this.target = intObjs[Math.floor(Math.random() * intObjs.length)];
+  }
+
   chase() {
     this.target = Game.getInstance().dog;
     this.dispatchEvent(new Event(Owner.ANGRY_EVENT, this))
