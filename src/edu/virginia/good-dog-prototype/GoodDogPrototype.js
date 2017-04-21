@@ -33,7 +33,7 @@ class GoodDogPrototype extends Game {
     this.damageValue = 0;
 
     // Demo
-    this.interactText = "";
+    this.notificationText = "";
 
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
@@ -50,7 +50,7 @@ class GoodDogPrototype extends Game {
         }
       }
     } else if (e.eventType == InteractEvent.INTERACT_EVENT) {
-      this.interactText = e.getSource().getId();
+      this.notificationText = e.getSource().getId();
     } else if (e.eventType == GameOverEvent.GAME_OVER) {
       if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You're a Bad Dog", this.width, this.height);
@@ -61,6 +61,8 @@ class GoodDogPrototype extends Game {
     } else if (e.eventType == LevelUpdateEvent.LEVEL_UPDATE) {
       this.loadNextLevel();
       this.start();
+    } else if (e.eventType == Owner.ANGRY_EVENT) {
+      this.notificationText = "RUN! YOUR OWNER SAW SOMETHING!"
     }
 
     // Update the money count last to handle restarting the level
@@ -140,9 +142,10 @@ class GoodDogPrototype extends Game {
     this.setPosition(this.width/2 - dogPos.x, this.height/2 - dogPos.y);
 
     // Start Owner AI
-    this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)].interactBox;
+    this.owner.findNewTarget()
 
     // Set the new title overlay for the level
+    this.notificationText = '';
     this.titleOverlay = this.level.titleOverlay;
     this.titleOverlay.fadeOut(1500);
   }
@@ -206,6 +209,9 @@ class GoodDogPrototype extends Game {
     else
       targetCell = this.getTraversableGridCell(this.owner.target);
 
+    if (!targetCell.traversable)
+      this.owner.findNewTarget()
+
     // Reset the cells and find the new path
     this.grid.resetCells();
     this.path = this.ai.aStar(ownerCell, targetCell);
@@ -214,20 +220,25 @@ class GoodDogPrototype extends Game {
         this.owner.setPath(this.path);
       }
       if (this.path.length < 3) {
-        if (this.owner.collidesWith(this.owner.target)) {
+        if ((this.owner.target.interactBox && this.owner.collidesWith(this.owner.target.interactBox)) ||
+            this.owner.collidesWith(this.owner.target)) {
           if (this.owner.target == this.dog) {
             this.dispatchEvent(new GameOverEvent(this));
           } else {
-            if (this.owner.target instanceof OpenableObject)
+            if (this.owner.target instanceof OpenableObject) {
               this.owner.target.interact();
-              this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)].interactBox;
-            if (this.owner.target instanceof DestroyObject)
+              this.owner.findNewTarget();
+            } else if (this.owner.target instanceof DestroyObject) {
               if (this.owner.target.currentState == 1)
-                this.owner.target = this.dog
+                this.owner.chase()
               else
-                this.owner.target = this.interactableObjects[Math.floor(Math.random() * this.interactableObjects.length)].interactBox;
+                this.owner.findNewTarget()
+            }
           }
         }
+      }
+      if (this.path.length < 1) {
+        this.owner.findNewTarget();
       }
     }
   }
@@ -275,10 +286,7 @@ class GoodDogPrototype extends Game {
     this.g.font='16px Arial';
     this.g.fillText("$" + this.damageValue + " damage", 16, 30);
 
-    if (this.interactText) {
-      this.g.fillText("Interacted with: " + this.interactText, 420, 30);
-      // NICE                                                  ^^^
-    }
+    this.g.fillText(this.notificationText, 320, 30);
 
     // if (!this.playing) {
     //   this.g.fillStyle = 'white';

@@ -42,6 +42,7 @@ class InteractSprite extends AnimatedSprite
 	{
 		this.hasPoop = true;
 		this.poop = p;
+    this.dispatchEvent(new Event('Poop in box', this));
 	}
 
 	getInteractBox() { return this.interactBox; }

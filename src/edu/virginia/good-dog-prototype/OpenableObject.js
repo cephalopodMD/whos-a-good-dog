@@ -19,6 +19,6 @@ class OpenableObject extends InteractSprite
 	    this.animate('start');
 	    this.play();
 
-	    this.addEventListener(GoodDogPrototype.getInstance(), "Destroy");
+	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in box");
 	}
 }
