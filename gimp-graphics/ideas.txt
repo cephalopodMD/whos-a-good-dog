@@ -1,0 +1,24 @@
+Every object is its own class
+
+Fireplace
+	On/off
+	Poop smell and speed are increased if fireplace is on
+Grill
+	Similar interaction to fireplace
+Toilet
+TV
+	On/off
+	Owner comes to 
+Paper/Book
+	Pops up info on screen
+Couch (regular)
+	Bite to destroy
+Couch cushion
+	Move cushion on/off couch
+	If cushion is off couch, can poop under it
+Fridge
+	Open/close
+	Poop smell and speed are descreased if door closed
+
+Chocolate bar
+	Kills player instantly
