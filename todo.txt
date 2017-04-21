@@ -1,0 +1,27 @@
+Cosmetic:
+	Add sprites to stuff -- Hard
+	Some amount of story needs to be added -- Medium
+	Change web background to something dog-themed -- Easy
+	Music/Sound Effects -- Medium
+
+Mechanics:
+	Create different objects to actually do different things -- Hard
+	Adjust smell spread rate -- Easy
+	Change detection of poop -- Easy
+	Read functionality -- Easy
+
+Screens:
+	Add 2 more levels -- Medium
+	Start and end screens -- Medium
+	Pause game and pause screen -- Medium
+
+
+
+
+
+
+
+
+Things for the final build:
+Some kind of chapters/multi-part levels
+Maybe achievements
