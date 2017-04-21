@@ -104,6 +104,9 @@ class LevelFactory {
 		// Create the owner
 		var owner = new Owner(10*blockSize, 6*blockSize);
 
+	    // Set the background for the level
+	    var bgSprite = new Sprite("background", "sprites/levels/level1_bg.png");
+
 		// Return the objects for the level
 		return {
 			width: width,
@@ -114,7 +117,8 @@ class LevelFactory {
 			minDamageValue: minDamageValue,
 			dog: dog,
 			owner: owner,
-			interactableObjects: interactableObjects
+			interactableObjects: interactableObjects,
+			backgroundSprite: bgSprite,
 		};
 	}
 
@@ -210,6 +214,9 @@ class LevelFactory {
 		// Create the owner
 		var owner = new Owner(9*blockSize, 18*blockSize);
 
+	    // Set the background for the level
+	    var bgSprite = new Sprite("background", "sprites/levels/level2_bg.png");
+
 		// Return the objects for the level
 		return {
 			width: width,
@@ -221,6 +228,7 @@ class LevelFactory {
 			dog: dog,
 			owner: owner,
 			interactableObjects: interactableObjects,
+			backgroundSprite: bgSprite,
 		};
 	}
 

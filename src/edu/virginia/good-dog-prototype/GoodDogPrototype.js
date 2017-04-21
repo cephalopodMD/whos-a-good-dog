@@ -91,6 +91,11 @@ class GoodDogPrototype extends Game {
         break;
     }
 
+    // Add the background sprite as the first child of the game
+    var tmpDispObj = this.children.get(0);
+    this.addChildAtIndex(this.level.backgroundSprite, 0);
+    this.addChild(tmpDispObj);
+
     // Add the collidable objects as children of the level
     this.collidables = this.level.collidables;
     for (let plat of this.collidables)

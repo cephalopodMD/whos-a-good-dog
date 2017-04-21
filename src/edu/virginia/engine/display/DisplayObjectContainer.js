@@ -20,7 +20,7 @@ class DisplayObjectContainer extends DisplayObject{
     child.parent = this;
   }
   addChildAtIndex(child, index) {
-    this.children.set(child, index);
+    this.children.set(index, child);
     child.parent = this;
   }
   removeChild(child) {
