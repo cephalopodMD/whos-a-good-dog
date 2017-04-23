@@ -5,10 +5,18 @@
  */
 
 // TODO: Extend animated sprite when graphics are available
-class Owner extends Sprite {
+class Owner extends AnimatedSprite {
   constructor(x=0, y=0) {
-    var id = 'owner';
-    super('owner', 'sprites/mario/0.png');
+    var id = 'owner',
+      foldername = 'sprites/Owner';
+    super(id, foldername, 27);
+    this.addAnimation('stand', 0, 0);
+    this.addAnimation('run', 18, 26);
+    this.addAnimation('run_s', 0, 8);
+    this.addAnimation('run_ew', 18, 26);
+    this.addAnimation('run_n', 9, 17);
+    this.animate('run_s');
+    this.play();
 
     // Init the position info
     this.setPosition(x, y);
@@ -138,6 +146,30 @@ class Owner extends Sprite {
   chase() {
     this.target = Game.getInstance().dog;
     this.dispatchEvent(new Event(Owner.ANGRY_EVENT, this))
+  }
+
+  draw(g) {
+    if (this.velocity.magnitude() > 1) {
+      if (this.velocity.x > Math.abs(this.velocity.y))
+      {
+        this.animate('run_ew');
+        this.setScale(-0.35715, 0.25);
+      }
+      if (this.velocity.y > Math.abs(this.velocity.x))
+      {
+        this.animate('run_s');
+      }
+      if (this.velocity.x < -Math.abs(this.velocity.y))
+      {
+        this.animate('run_ew');
+        this.setScale(0.35715, 0.25);
+      }
+      if (this.velocity.y < -Math.abs(this.velocity.x))
+      {
+        this.animate('run_n');
+      }
+    }
+    super.draw(g)
   }
 }
 
