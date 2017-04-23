@@ -96,7 +96,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode I", "The Phantom Menace", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 200;
+		var minDamageValue = 100;
 
 		// Create the dog
 		var dog = new Dog(6*blockSize, 6*blockSize);
@@ -209,7 +209,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode II", "Count DooDoo", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 200;
+		var minDamageValue = 100;
 
 		// Create the dog
 		var dog = new Dog(3*blockSize, 17*blockSize);
