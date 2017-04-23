@@ -59,7 +59,7 @@ class LevelFactory {
 		// Interactable objects
 		var interactableObjects = [
 			// Bedroom
-			LevelFactory._makeDestroyObject(6, 0, 3, 3, 2, blockSize),
+			LevelFactory._makeBed(6, 0, 3, 3, 2, blockSize),
 			LevelFactory._makeOpenableObject(0, 5, 1, 3, 1, blockSize),
 			LevelFactory._makeDestroyObject(3, 4.5, 1, 1, 1, blockSize),
 			LevelFactory._makeDestroyObject(3, 7.5, 1, 1, 1, blockSize),
@@ -134,20 +134,22 @@ class LevelFactory {
 		var blockSize = 48;
 		var width = 25 * blockSize;
 		var height = 20 * blockSize;
+		// Draw walls as transparent
+		var wallColor = "rgba(0, 0, 0, 0.0)";
 		var objColor = "#cccccc";
 		var walls = [
 			// House boundaries
-			new Wall("wall0", -2, -2, 2, 24, blockSize),
-			new Wall("wall1", 25, -2, 2, 24, blockSize),
-			new Wall("wall2", 0, -2, 25, 2, blockSize),
-			new Wall("wall3", 0, 20, 25, 2, blockSize),
+			new Wall("wall0", -2, -2, 2, 24, blockSize, wallColor),
+			new Wall("wall1", 25, -2, 2, 24, blockSize, wallColor),
+			new Wall("wall2", 0, -2, 25, 2, blockSize, wallColor),
+			new Wall("wall3", 0, 20, 25, 2, blockSize, wallColor),
 
 			// Interior walls
-			new Wall("wall4", 13, 0, 12, 2, blockSize),
-			new Wall("wall5", 0, 7, 10, 3, blockSize),
-			new Wall("wall6", 13, 4, 2, 8, blockSize),
-			new Wall("wall7", 17, 6, 8, 3, blockSize),
-			new Wall("wall8", 13, 15, 2, 5, blockSize),
+			new Wall("wall4", 13, 0, 12, 2, blockSize, wallColor),
+			new Wall("wall5", 0, 7, 10, 3, blockSize, wallColor),
+			new Wall("wall6", 13, 4, 2, 8, blockSize, wallColor),
+			new Wall("wall7", 17, 6, 8, 3, blockSize, wallColor),
+			new Wall("wall8", 13, 15, 2, 5, blockSize, wallColor),
 
 			// Kitchen
 			new Wall("wall8", 0, 0, 1, 3, blockSize, objColor),
@@ -217,6 +219,7 @@ class LevelFactory {
 
 	    // Set the background for the level
 	    var bgSprite = new Sprite("background", "sprites/levels/level2_bg.png");
+	    bgSprite.setPosition(-3*blockSize, -3*blockSize);
 
 		// Return the objects for the level
 		return {
@@ -262,6 +265,33 @@ class LevelFactory {
 
 	static _makeCouch(x, y, w, h, iDir, blockSize) {
 		var box = new Couch();
+		// Use 0.24 to make the object 48px
+	    box.setScale(0.24*w, 0.24*h);
+	    box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
+
+	    return box;
+	}
+
+	static _makeBed(x, y, w, h, iDir, blockSize) {
+		var box = new Bed();
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);
