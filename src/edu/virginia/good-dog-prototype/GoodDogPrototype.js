@@ -159,6 +159,13 @@ class GoodDogPrototype extends Game {
     else
       debug = false;
 
+    if (pressedKeys.contains(27)) {
+      this.notificationText = '~~ PAUSED ~~';
+      this.pause();
+      this.justPaused = true;
+      this.paused = true;
+    }
+
     // Update ai
     if (this.ai)
       this.updateAI();
@@ -286,7 +293,9 @@ class GoodDogPrototype extends Game {
     this.g.font='16px Arial';
     this.g.fillText("$" + this.damageValue + " damage", 16, 30);
 
-    this.g.fillText(this.notificationText, 320, 30);
+    this.g.textAlign = 'right'
+    this.g.fillText(this.notificationText, 624, 30);
+    this.g.textAlign = 'left'
 
     // if (!this.playing) {
     //   this.g.fillStyle = 'white';
@@ -311,6 +320,14 @@ class GoodDogPrototype extends Game {
     // Draw the title overlay over everything else
     // this.level.titleOverlay.draw(g);
     this.titleOverlay.draw(g);
+
+    if (this.paused) {
+      this.g.fillStyle = 'black';
+      g.save()
+      this.g.globalAlpha = .5;
+      this.g.fillRect(0, 0, 640, 480);
+      g.restore()
+    }
   }
 
   start() {
@@ -318,6 +335,18 @@ class GoodDogPrototype extends Game {
     super.start();
   }
 
+  removeKey(keyCode){
+    super.removeKey(keyCode);
+    if (keyCode == 27 && this.paused) {
+      if (this.justPaused)
+        this.justPaused = false;
+      else {
+        this.notificationText = ''
+        this.start();
+        this.paused = false;
+      }
+    }
+  }
 }
 
 
