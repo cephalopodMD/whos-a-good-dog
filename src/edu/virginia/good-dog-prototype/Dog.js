@@ -220,6 +220,7 @@ class Dog extends AnimatedSprite {
           this.pooTime *= 1.1;
           this.velocity = new Vec2();
           var pos = interactableObj.getHitbox(this.parent);
+          pos.setxy(pos.x + interactableObj.getPoopLocation().x, pos.y + interactableObj.getPoopLocation().y)
           var newPoo = new Poo(pos.x, pos.y);
           var pooIn = new Tween(newPoo);
           pooIn.animate(TweenableParams.X, pos.x, pos.x, this.pooTime);

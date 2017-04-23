@@ -52,8 +52,8 @@ class LevelFactory {
 			// Living room
 			new Wall("wall11", 16, 12, 1, 3, blockSize, objColor),
 			new Wall("wall11", 22, 12, 2, 3, blockSize, objColor),
-			new Wall("wall11", 21, 7, 1, 2, blockSize, objColor),
-			new Wall("wall11", 24, 7, 1, 2, blockSize, objColor),
+			//new Wall("wall11", 21, 7, 1, 2, blockSize, objColor),
+			//new Wall("wall11", 24, 7, 1, 2, blockSize, objColor),
 		];
 
 		// Interactable objects
@@ -77,7 +77,7 @@ class LevelFactory {
 			LevelFactory._makeOpenableObject(12, 15, 1, 1, 2, blockSize),
 
 			// Living Room
-			LevelFactory._makeOpenableObject(22, 7, 2, 2, 2, blockSize),
+			LevelFactory._makeCouch(21, 7, 4, 2, 2, blockSize),
 			LevelFactory._makeDestroyObject(19, 12, 1, 3, 1, blockSize),
 			LevelFactory._makeDestroyObject(26, 12, 1, 3, 3, blockSize),
 		];
@@ -234,6 +234,33 @@ class LevelFactory {
 
 	static _makeOpenableObject(x, y, w, h, iDir, blockSize) {
 		var box = new OpenableObject();
+		// Use 0.24 to make the object 48px
+	    box.setScale(0.24*w, 0.24*h);
+	    box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
+
+	    return box;
+	}
+
+	static _makeCouch(x, y, w, h, iDir, blockSize) {
+		var box = new Couch();
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);

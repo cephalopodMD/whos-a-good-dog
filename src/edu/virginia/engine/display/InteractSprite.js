@@ -20,6 +20,7 @@ class InteractSprite extends AnimatedSprite
     this.eventNames = events;
     this.hasPoop = false;
     this.currentState = 0;
+    this.poopLocation = new Vec2();
 
     this.boxOffsetX = 0;
     this.boxOffsetY = 0;
@@ -55,6 +56,16 @@ class InteractSprite extends AnimatedSprite
 
     this.boxOffsetX = x;
     this.boxOffsetY = y;
+	}
+
+	movePoopLocation(x, y)
+	{
+		this.poopLocation.setxy(this.poopLocation.x+x, this.poopLocation.y+y);
+	}
+
+	getPoopLocation()
+	{
+		return this.poopLocation;
 	}
 
 	setInteractBoxScale(sx, sy)

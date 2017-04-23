@@ -71,8 +71,8 @@
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/Level.js"></script>
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/Wall.js"></script>
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/TitleOverlay.js"></script>
+<script type="text/javascript" src="src/edu/virginia/good-dog-prototype/TitleOverlay.js"></script>
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/Couch.js"></script>
-<script type="text/javascript" src="src/edu/virginia/good-dog-prototype/LevelFactory.js"></script>
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/LevelCompleteEvent.js"></script>
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/LevelUpdateEvent.js"></script>
 <script type="text/javascript" src="src/edu/virginia/good-dog-prototype/GameOverEvent.js"></script>
