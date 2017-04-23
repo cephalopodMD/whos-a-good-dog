@@ -9,11 +9,12 @@ class Owner extends AnimatedSprite {
   constructor(x=0, y=0) {
     var id = 'owner',
       foldername = 'sprites/Owner';
-    super(id, foldername, 27);
+    super(id, foldername, 36);
     this.addAnimation('stand', 0, 0);
     this.addAnimation('run', 18, 26);
     this.addAnimation('run_s', 0, 8);
-    this.addAnimation('run_ew', 18, 26);
+    this.addAnimation('run_e', 18, 26);
+    this.addAnimation('run_w', 27, 35);
     this.addAnimation('run_n', 9, 17);
     this.animate('run_s');
     this.play();
@@ -152,8 +153,7 @@ class Owner extends AnimatedSprite {
     if (this.velocity.magnitude() > 1) {
       if (this.velocity.x > Math.abs(this.velocity.y))
       {
-        this.animate('run_ew');
-        this.setScale(-0.35715, 0.25);
+        this.animate('run_w');
       }
       if (this.velocity.y > Math.abs(this.velocity.x))
       {
@@ -161,8 +161,7 @@ class Owner extends AnimatedSprite {
       }
       if (this.velocity.x < -Math.abs(this.velocity.y))
       {
-        this.animate('run_ew');
-        this.setScale(0.35715, 0.25);
+        this.animate('run_e');
       }
       if (this.velocity.y < -Math.abs(this.velocity.x))
       {
