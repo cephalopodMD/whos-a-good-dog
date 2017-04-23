@@ -16,22 +16,24 @@ class LevelFactory {
 		var blockSize = 48;
 		var width = 30 * blockSize;
 		var height = 20 * blockSize;
+		// Draw walls as transparent
+		var wallColor = "rgba(0, 0, 0, 0.0)";
 		var objColor = "#cccccc";
 		var walls = [
 			// House boundaries
-			new Wall("wall0", -2, -2, 2, 24, blockSize),
-			new Wall("wall1", 30, -2, 2, 24, blockSize),
-			new Wall("wall2", 0, -2, 30, 2, blockSize),
-			new Wall("wall3", 0, 20, 30, 2, blockSize),
+			new Wall("wall0", -2, -2, 2, 24, blockSize, wallColor),
+			new Wall("wall1", 30, -2, 2, 24, blockSize, wallColor),
+			new Wall("wall2", 0, -2, 30, 2, blockSize, wallColor),
+			new Wall("wall3", 0, 20, 30, 2, blockSize, wallColor),
 
 			// Interior walls
-			new Wall("wall4", 13, 0, 3, 2, blockSize),
-			new Wall("wall5", 25, 0, 5, 4, blockSize),
-			new Wall("wall6", 13, 4, 17, 3, blockSize),
-			new Wall("wall7", 0, 10, 3, 3, blockSize),
-			new Wall("wall8", 6, 10, 10, 3, blockSize),
-			new Wall("wall9", 13, 13, 3, 3, blockSize),
-			new Wall("wall10", 13, 19, 3, 1, blockSize),
+			new Wall("wall4", 13, 0, 3, 2, blockSize, wallColor),
+			new Wall("wall5", 25, 0, 5, 4, blockSize, wallColor),
+			new Wall("wall6", 13, 4, 17, 3, blockSize, wallColor),
+			new Wall("wall7", 0, 10, 3, 3, blockSize, wallColor),
+			new Wall("wall8", 6, 10, 10, 3, blockSize, wallColor),
+			new Wall("wall9", 13, 13, 3, 3, blockSize, wallColor),
+			new Wall("wall10", 13, 19, 3, 1, blockSize, wallColor),
 
 			// Placeholder objects
 			// Bedroom
@@ -106,6 +108,7 @@ class LevelFactory {
 
 	    // Set the background for the level
 	    var bgSprite = new Sprite("background", "sprites/levels/level1_bg.png");
+	    bgSprite.setPosition(-3*blockSize, -3*blockSize);
 
 		// Return the objects for the level
 		return {
