@@ -46,7 +46,6 @@ class LevelFactory {
 
 			// Kitchen
 			new Wall("wall11", 0, 13, 2, 1, blockSize, objColor),
-			new Wall("wall11", 9, 13, 1, 1, blockSize, objColor),
 			new Wall("wall11", 12, 13, 1, 2, blockSize, objColor),
 			new Counter("wall11", 2, 16, 1, 2, blockSize, objColor),
 			new Counter("wall11", 5, 16, 1, 2, blockSize, objColor),
@@ -73,7 +72,7 @@ class LevelFactory {
 			// Kitchen
 			LevelFactory._makeStove(3, 16, 2, 2, 2, blockSize),
 			LevelFactory._makeOpenableObject(6.5, 13, 2, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(10, 13, 2, 1, 2, blockSize),
+			LevelFactory._makeSink(9, 13, 3, 1, 2, blockSize),
 			LevelFactory._makeOpenableObject(12, 15, 1, 1, 2, blockSize),
 
 			// Living Room
@@ -319,6 +318,33 @@ class LevelFactory {
 
 	static _makeBed(x, y, w, h, iDir, blockSize) {
 		var box = new Bed();
+		// Use 0.24 to make the object 48px
+	    box.setScale(0.24*w, 0.24*h);
+	    box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
+
+	    return box;
+	}
+
+	static _makeSink(x, y, w, h, iDir, blockSize) {
+		var box = new Sink();
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);

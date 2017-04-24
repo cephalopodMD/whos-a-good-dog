@@ -5,5 +5,6 @@ moneyVals = {
   'Destroy': 6,
   'Poop in box': 10,
   'Poop in tub': 13,
-  'Poop in couch': 15
+  'Poop in couch': 15,
+  'Poop in couch': 13
 }
