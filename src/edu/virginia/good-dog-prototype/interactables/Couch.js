@@ -21,6 +21,14 @@ class Couch extends InteractSprite
 	    this.play();
 	    this.movePoopLocation(35, 50);
 
-	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in box");
+	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in couch");
+	}
+
+	poopIn(p)
+	{
+		this.hasPoop = true;
+		this.poop = p;
+		this.stateMachine = this.poopStateMachine;
+    	this.dispatchEvent(new Event('Poop in couch', this));
 	}
 }

@@ -12,6 +12,7 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
+    sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
     sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
     sm.playMusic('theme');
 
@@ -55,6 +56,7 @@ class GoodDogPrototype extends Game {
       if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You're a Bad Dog", this.width, this.height);
       } else {
+        GoodDogPrototype.soundManager.playSoundEffect('caught')
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus", this.width, this.height);
       }
       this.pause();
@@ -158,6 +160,13 @@ class GoodDogPrototype extends Game {
       debug = true;
     else
       debug = false;
+
+    if (pressedKeys.contains(27)) {
+      this.titleOverlay = new TitleOverlay("TitleOverlay", "Paused", "ESC to resume", this.width, this.height);
+      this.pause();
+      this.justPaused = true;
+      this.paused = true;
+    }
 
     // Update ai
     if (this.ai)
@@ -286,7 +295,9 @@ class GoodDogPrototype extends Game {
     this.g.font='16px Arial';
     this.g.fillText("$" + this.damageValue + " damage", 16, 30);
 
-    this.g.fillText(this.notificationText, 320, 30);
+    this.g.textAlign = 'right'
+    this.g.fillText(this.notificationText, 624, 30);
+    this.g.textAlign = 'left'
 
     // if (!this.playing) {
     //   this.g.fillStyle = 'white';
@@ -318,6 +329,18 @@ class GoodDogPrototype extends Game {
     super.start();
   }
 
+  removeKey(keyCode){
+    super.removeKey(keyCode);
+    if (keyCode == 27 && this.paused) {
+      if (this.justPaused)
+        this.justPaused = false;
+      else {
+        this.titleOverlay.alpha = 0;
+        this.start();
+        this.paused = false;
+      }
+    }
+  }
 }
 
 

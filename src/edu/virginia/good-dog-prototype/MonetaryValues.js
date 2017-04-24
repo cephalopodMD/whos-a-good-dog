@@ -1,7 +1,8 @@
 moneyVals = {
-  'Destroy': 10,
-  'POO_EVENT': 5,
-  'Poop in box': 20,
-  'Poop in stove': 10,
-  'Burn': 30,
+  'POO_EVENT': 2,
+  'Poop in stove': 5,
+  'Burn': 20,
+  'Destroy': 6,
+  'Poop in box': 10,
+  'Poop in couch': 15
 }
