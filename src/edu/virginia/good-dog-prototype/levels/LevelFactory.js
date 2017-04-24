@@ -68,7 +68,7 @@ class LevelFactory {
 			LevelFactory._makeOpenableObject(16, 0, 1, 1, 2, blockSize),
 			LevelFactory._makeOpenableObject(18, 0, 1, 1, 2, blockSize),
 			LevelFactory._makeOpenableObject(20, 0, 1, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(23, 0.5, 2, 3, 3, blockSize),
+			LevelFactory._makeTub(23, 0.5, 2, 3, 3, blockSize),
 
 			// Kitchen
 			LevelFactory._makeStove(3, 16, 2, 2, 2, blockSize),
@@ -419,6 +419,33 @@ class LevelFactory {
 
 	static _makeCouch(x, y, w, h, iDir, blockSize) {
 		var box = new Couch();
+		// Use 0.24 to make the object 48px
+	    box.setScale(0.24*w, 0.24*h);
+	    box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
+
+	    return box;
+	}
+
+	static _makeTub(x, y, w, h, iDir, blockSize) {
+		var box = new Tub();
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);
