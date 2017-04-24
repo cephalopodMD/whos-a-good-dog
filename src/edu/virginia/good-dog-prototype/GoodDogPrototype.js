@@ -28,7 +28,6 @@ class GoodDogPrototype extends Game {
     this.levelManager.addEventListener(this, GameOverEvent.GAME_OVER);
 
     // Load the info for level 1
-    this.levelManager.curLevel = 2;
     this.loadNextLevel();
 
     this.clock = new GameClock();
@@ -96,6 +95,9 @@ class GoodDogPrototype extends Game {
         break;
       case 2:
         this.level = LevelFactory.CreateLevelThree();
+        break;
+      case 3:
+        this.level = LevelFactory.CreateLevelFour();
         break;
     }
 

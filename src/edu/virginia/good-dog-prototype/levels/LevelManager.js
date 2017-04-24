@@ -5,7 +5,7 @@ class LevelManager extends EventDispatcher {
 	constructor(curLevel=0) {
 		super();
 		this.curLevel = curLevel;
-		this.numLevels = 3;
+		this.numLevels = 4;
 	}
 
 	handleEvent(e) {
