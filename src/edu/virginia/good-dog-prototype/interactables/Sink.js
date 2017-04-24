@@ -11,10 +11,12 @@ class Sink extends InteractSprite
         ['start', 'full'],
         [1, 0],
         [1, 0],
+        [1, 0],
         [true, false],
         [1.0, 0.3],
         [false, true],
-        ["Benign", "Benign"]);
+        ["Benign", "Benign"],
+        [false, false], [500, 2000], [["again", "next"], ["next"]]);
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('full', 1, 1);
 	    this.animate('start');

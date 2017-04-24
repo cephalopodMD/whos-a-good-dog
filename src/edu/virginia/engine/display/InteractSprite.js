@@ -2,7 +2,7 @@
 
 class InteractSprite extends AnimatedSprite
 {
-	constructor(id, folder, nPics, names, machine, poopmachine, poopables, suppressions, hide, events)
+	constructor(id, folder, nPics, names, machine, poopmachine, ownermachine, poopables, suppressions, hide, events, mads, waits, nextInts)
 	{
 		super(id, folder, nPics);
 		this.interactBox = new DisplayObject("interact", "sprites/blue_box.gif");
@@ -15,6 +15,7 @@ class InteractSprite extends AnimatedSprite
     this.stateNames = names;
     this.stateMachine = machine;
     this.poopStateMachine = poopmachine;
+    this.ownerStateMachine = ownermachine;
     this.isPoopables = poopables;
     this.smellSuppressions = suppressions;
     this.hidePoop = hide;
@@ -22,6 +23,9 @@ class InteractSprite extends AnimatedSprite
     this.hasPoop = false;
     this.currentState = 0;
     this.poopLocation = new Vec2();
+    this.maddenings = mads;
+    this.waitTimes = waits;
+    this.nextTarget = nextInts;
 
     this.boxOffsetX = 0;
     this.boxOffsetY = 0;
@@ -35,6 +39,8 @@ class InteractSprite extends AnimatedSprite
 	}
 
 	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
+
+	getMaddening() { return this.maddenings[this.currentState]; }
 
 	hasPoop() { return this.hasPoop; }
 
@@ -95,6 +101,22 @@ class InteractSprite extends AnimatedSprite
   				this.poop.hide();
   			else
   				this.poop.reveal();
+  		}
+	}
+
+	interactOwner()
+	{
+		console.log(this.ownerStateMachine[this.currentState]);
+		console.log(this.currentState);
+		if(this.ownerStateMachine[this.currentState] != this.currentState)
+		{
+			this.currentState = this.ownerStateMachine[this.currentState];
+			this.animate(this.stateNames[this.currentState]);
+			this.dispatchEvent(new Event(this.eventNames[this.currentState], this));
+		}
+  		if(this.stateMachine[this.currentState] == this.currentState)
+  		{
+  				this.interactBox.setAlpha(0.0);
   		}
 	}
 

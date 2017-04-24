@@ -11,10 +11,12 @@ class OpenableObject extends InteractSprite
         ['start', 'open'],
         [1, 0],
         [1, 0],
+        [1, 0],
         [false, true],
         [0.5, 1.0],
         [true, false],
-        ["Benign", "Benign"]);
+        ["Benign", "Benign"],
+        [false, false], [1000, 1000], [["next"], ["next"]]);
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('open', 1, 1);
 	    this.animate('start');

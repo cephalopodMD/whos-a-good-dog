@@ -250,16 +250,26 @@ class GoodDogPrototype extends Game {
             this.owner.collidesWith(this.owner.target)) {
           if (this.owner.target == this.dog) {
             this.dispatchEvent(new GameOverEvent(this));
-          } else {
-            if (this.owner.target instanceof OpenableObject) {
-              this.owner.target.interact();
-              this.owner.findNewTarget();
-            } else if (this.owner.target instanceof DestroyObject) {
-              if (this.owner.target.currentState == 1)
-                this.owner.chase()
-              else
-                this.owner.findNewTarget()
+          } 
+          else if(this.owner.target != null)
+          {
+            //if(this.owner.target.hasPoop())
+            //{
+            //  this.owner.chase();
+            //}
+            if(this.owner.target.getMaddening())
+            {
+              this.owner.chase();
             }
+            else
+            {
+              this.owner.target.interactOwner();
+              this.owner.findNewTarget();
+            }
+          }
+          else
+          {
+            this.owner.findNewTarget();
           }
         }
       }

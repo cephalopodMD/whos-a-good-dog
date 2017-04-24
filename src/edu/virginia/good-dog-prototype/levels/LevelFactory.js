@@ -59,7 +59,7 @@ class LevelFactory {
 		var interactableObjects = [
 			// Bedroom
 			LevelFactory._makeBed(6, 0, 3, 3, 2, blockSize),
-			LevelFactory._makeOpenableObject(0, 5, 1, 3, 1, blockSize),
+			LevelFactory._makeCouch(0, 3.5, 1.5, 3, 1, blockSize),
 			LevelFactory._makeDestroyObject(3, 4.5, 1, 1, 1, blockSize),
 			LevelFactory._makeDestroyObject(3, 7.5, 1, 1, 1, blockSize),
 
@@ -417,7 +417,7 @@ class LevelFactory {
 	}
 
 	static _makeCouch(x, y, w, h, iDir, blockSize) {
-		var box = new Couch();
+		var box = new Couch(iDir);
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);
