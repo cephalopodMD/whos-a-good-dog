@@ -61,9 +61,10 @@ class Vec2 {
   }
 
   transform(matrix) {
-    var x = this.x * matrix.a + this.y * matrix.c + matrix.e,
-        y = this.x * matrix.b + this.y * matrix.d + matrix.f;
-    return this.setxy(x, y);
+    var x = this.x * matrix.a + this.y * matrix.c + matrix.e;
+    this.y = this.x * matrix.b + this.y * matrix.d + matrix.f;
+    this.x = x;
+    return this;
   }
 
   // idempotent add

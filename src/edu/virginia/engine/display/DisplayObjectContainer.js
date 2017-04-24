@@ -9,7 +9,7 @@ class DisplayObjectContainer extends DisplayObject{
   constructor(id, filename){
     super(id, filename);
     this.children = new ArrayList();
-    this.hideSelf = false;
+    this.hidden;
   }
 
   /**
@@ -44,11 +44,11 @@ class DisplayObjectContainer extends DisplayObject{
   }
   hide()
   {
-  	this.hideSelf = true;
+  	this.hidden = true;
   }
   reveal()
   {
-  	this.hideSelf = false;
+  	this.hidden = false;
   }
   findById(id) {
     var i;
@@ -95,10 +95,8 @@ class DisplayObjectContainer extends DisplayObject{
         g.lineWidth="4";
         g.strokeRect(hb.x, hb.y, hb.w, hb.h);
       }
-      if(this.displayImage && this.loaded) {
-      	if(!this.hideSelf)
-        	g.drawImage(this.displayImage,0,0);
-      }
+      if (this.displayImage && this.loaded && !this.hidden)
+      	g.drawImage(this.displayImage,0,0);
       for(let child of this.children.contents) {
         child.draw(g);
       }

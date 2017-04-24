@@ -24,4 +24,16 @@ class OpenableObject extends InteractSprite
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in box");
 	}
+
+	interact() {
+		// Perform normal interaction
+		super.interact();
+
+		// Play sound effect based on new animation
+		if (this.currAnimation == 'open') {
+			GoodDogPrototype.soundManager.playSoundEffect('open_door_1');
+		} else if (this.currAnimation == 'start') {
+			GoodDogPrototype.soundManager.playSoundEffect('close_door_1');
+		}
+	}
 }

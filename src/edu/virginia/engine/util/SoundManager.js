@@ -12,6 +12,9 @@ class SoundManager {
   }
 
   playSoundEffect(id) {
+    // Reset the sound before playing it
+    this.soundEffects[id].pause();
+    this.soundEffects[id].currentTime = 0;
     this.soundEffects[id].play();
   }
 
