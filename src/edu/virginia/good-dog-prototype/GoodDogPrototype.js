@@ -6,15 +6,16 @@
 class GoodDogPrototype extends Game {
 
   constructor(canvas){
-    super("Who's A Good Dog?", 640, 480, canvas);
+    super("Who's A Good Dog?", 800, 640, canvas);
 
     var sm = GoodDogPrototype.soundManager;
     sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
     sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
-    sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
-    sm.playMusic('theme');
+    sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
+    sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
+    // sm.playMusic('chase-theme');
 
     // Create level manager
     this.levelManager = new LevelManager();
@@ -56,6 +57,7 @@ class GoodDogPrototype extends Game {
       if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You're a Bad Dog", this.width, this.height);
       } else {
+        GoodDogPrototype.soundManager.stopMusic('chase-theme');
         GoodDogPrototype.soundManager.playSoundEffect('caught')
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus", this.width, this.height);
       }
@@ -65,6 +67,8 @@ class GoodDogPrototype extends Game {
       this.start();
     } else if (e.eventType == Owner.ANGRY_EVENT) {
       this.notificationText = "RUN! YOUR OWNER SAW SOMETHING!"
+      GoodDogPrototype.soundManager.stopAllMusic();
+      GoodDogPrototype.soundManager.playMusic('chase-theme');
     }
 
     // Update the money count last to handle restarting the level
@@ -85,6 +89,10 @@ class GoodDogPrototype extends Game {
     // Remove all children from the game to reset the level
     this.removeAllChildren();
 
+    // Reset all music
+    GoodDogPrototype.soundManager.stopAllMusic();
+    GoodDogPrototype.soundManager.playMusic('theme');
+
     // Get the info for the level
     switch (this.levelManager.getCurrentLevel()) {
       case 0:
@@ -92,6 +100,12 @@ class GoodDogPrototype extends Game {
         break;
       case 1:
         this.level = LevelFactory.CreateLevelTwo();
+        break;
+      case 2:
+        this.level = LevelFactory.CreateLevelThree();
+        break;
+      case 3:
+        this.level = LevelFactory.CreateLevelFour();
         break;
     }
 
@@ -218,8 +232,11 @@ class GoodDogPrototype extends Game {
     else
       targetCell = this.getTraversableGridCell(this.owner.target);
 
-    if (!targetCell.traversable)
+    while (!targetCell.traversable) {
+      debugger;
       this.owner.findNewTarget()
+      targetCell = this.getTraversableGridCell(this.owner.target.interactBox);
+    }
 
     // Reset the cells and find the new path
     this.grid.resetCells();
@@ -288,15 +305,15 @@ class GoodDogPrototype extends Game {
     g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
 
-    this.g.fillStyle = 'black';
-    this.g.fillRect(0, 0, 640, 48)
+    this.g.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    this.g.fillRect(0, 0, this.width, 48)
 
     this.g.fillStyle = "white";
     this.g.font='16px Arial';
     this.g.fillText("$" + this.damageValue + " damage", 16, 30);
 
     this.g.textAlign = 'right'
-    this.g.fillText(this.notificationText, 624, 30);
+    this.g.fillText(this.notificationText, this.width-16, 30);
     this.g.textAlign = 'left'
 
     // if (!this.playing) {

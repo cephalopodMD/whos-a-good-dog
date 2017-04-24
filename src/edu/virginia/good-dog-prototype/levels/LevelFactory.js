@@ -46,7 +46,6 @@ class LevelFactory {
 
 			// Kitchen
 			new Wall("wall11", 0, 13, 2, 1, blockSize, objColor),
-			new Wall("wall11", 9, 13, 1, 1, blockSize, objColor),
 			new Wall("wall11", 12, 13, 1, 2, blockSize, objColor),
 			new Counter("wall11", 2, 16, 1, 2, blockSize, objColor),
 			new Counter("wall11", 5, 16, 1, 2, blockSize, objColor),
@@ -73,7 +72,7 @@ class LevelFactory {
 			// Kitchen
 			LevelFactory._makeStove(3, 16, 2, 2, 2, blockSize),
 			LevelFactory._makeOpenableObject(6.5, 13, 2, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(10, 13, 2, 1, 2, blockSize),
+			LevelFactory._makeSink(9, 13, 3, 1, 2, blockSize),
 			LevelFactory._makeOpenableObject(12, 15, 1, 1, 2, blockSize),
 
 			// Living Room
@@ -236,6 +235,160 @@ class LevelFactory {
 		};
 	}
 
+	/**
+	 * Return the objects for level 3 of the game
+	 *
+	 * Level Dimensions:
+	 * 960 x 960
+	 * 20 blocks x 20 blocks
+	 */
+	static CreateLevelThree() {
+		var blockSize = 48;
+		var width = 20 * blockSize;
+		var height = 20 * blockSize;
+		// Draw walls as transparent
+		var wallColor = "rgba(0, 0, 0, 0.0)";
+		var objColor = "#cccccc";
+		var walls = [
+			// House boundaries
+			new Wall("wall0", -2, -2, 2, 24, blockSize, wallColor),
+			new Wall("wall1", 20, -2, 2, 24, blockSize, wallColor),
+			new Wall("wall2", 0, -2, 24, 2, blockSize, wallColor),
+			new Wall("wall3", 0, 20, 24, 2, blockSize, wallColor),
+
+			// Interior walls
+			new Wall("wall4", 9, 0, 2, 10, blockSize, wallColor),
+			new Wall("wall5", 0, 10, 6, 5, blockSize, wallColor),
+			new Wall("wall6", 17, 7, 3, 3, blockSize, wallColor),
+			new Wall("wall7", 8, 13, 3, 7, blockSize, wallColor),
+
+			// Placeholder objects
+		];
+
+		// Interactable objects
+		var interactableObjects = [
+			// Bedroom
+			LevelFactory._makeBed(3, 0, 3, 3, 2, blockSize),
+		];
+
+	   	// Combine the walls and interactable objects
+	   	var collidables = [];
+	   	collidables.push(...walls);
+	   	collidables.push(...interactableObjects);
+
+		// TODO add rooms
+		var rooms = [];
+
+		// Title overlay
+		var screenWidth = GoodDogPrototype.getInstance().width;
+		var screenHeight = GoodDogPrototype.getInstance().height;
+		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode III", "Revenge of the Sh*t", screenWidth, screenHeight);
+
+		// Set the min damage value for the level
+		var minDamageValue = 100;
+
+		// Create the dog
+		var dog = new Dog(13*blockSize, 15*blockSize);
+
+		// Create the owner
+		var owner = new Owner(16*blockSize, 15*blockSize);
+
+	    // Set the background for the level
+	    var bgSprite = new Sprite("background", "sprites/levels/level3_bg.png");
+	    bgSprite.setPosition(-3*blockSize, -3*blockSize);
+
+		// Return the objects for the level
+		return {
+			width: width,
+			height: height,
+			collidables: collidables,
+			rooms: rooms,
+			titleOverlay: titleOverlay,
+			minDamageValue: minDamageValue,
+			dog: dog,
+			owner: owner,
+			interactableObjects: interactableObjects,
+			backgroundSprite: bgSprite,
+		};
+	}
+
+		/**
+	 * Return the objects for level 4 of the game
+	 *
+	 * Level Dimensions:
+	 * 960 x 720
+	 * 20 blocks x 15 blocks
+	 */
+	static CreateLevelFour() {
+		var blockSize = 48;
+		var width = 20 * blockSize;
+		var height = 15 * blockSize;
+		// Draw walls as transparent
+		var wallColor = "rgba(0, 0, 0, 0.0)";
+		var objColor = "#cccccc";
+		var walls = [
+			// House boundaries
+			new Wall("wall0", -2, -2, 2, 17, blockSize, wallColor),
+			new Wall("wall1", 20, -2, 2, 17, blockSize, wallColor),
+			new Wall("wall2", 0, -2, 20, 2, blockSize, wallColor),
+			new Wall("wall3", 0, 15, 20, 2, blockSize, wallColor),
+
+			// Interior walls
+			new Wall("wall4", 9, 0, 2, 5, blockSize, wallColor),
+			new Wall("wall5", 9, 8, 4, 3, blockSize, wallColor),
+			new Wall("wall6", 15, 8, 5, 3, blockSize, wallColor),
+			new Wall("wall7", 9, 11, 2, 4, blockSize, wallColor),
+
+			// Placeholder objects
+		];
+
+		// Interactable objects
+		var interactableObjects = [
+			// Bedroom
+			LevelFactory._makeBed(3, 0, 3, 3, 2, blockSize),
+		];
+
+	   	// Combine the walls and interactable objects
+	   	var collidables = [];
+	   	collidables.push(...walls);
+	   	collidables.push(...interactableObjects);
+
+		// TODO add rooms
+		var rooms = [];
+
+		// Title overlay
+		var screenWidth = GoodDogPrototype.getInstance().width;
+		var screenHeight = GoodDogPrototype.getInstance().height;
+		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode IV", "A Poo Hope", screenWidth, screenHeight);
+
+		// Set the min damage value for the level
+		var minDamageValue = 100;
+
+		// Create the dog
+		var dog = new Dog(13*blockSize, 7*blockSize);
+
+		// Create the owner
+		var owner = new Owner(16*blockSize, 7*blockSize);
+
+	    // Set the background for the level
+	    var bgSprite = new Sprite("background", "sprites/levels/level4_bg.png");
+	    bgSprite.setPosition(-3*blockSize, -3*blockSize);
+
+		// Return the objects for the level
+		return {
+			width: width,
+			height: height,
+			collidables: collidables,
+			rooms: rooms,
+			titleOverlay: titleOverlay,
+			minDamageValue: minDamageValue,
+			dog: dog,
+			owner: owner,
+			interactableObjects: interactableObjects,
+			backgroundSprite: bgSprite,
+		};
+	}
+
 	static _makeOpenableObject(x, y, w, h, iDir, blockSize) {
 		var box = new OpenableObject();
 		// Use 0.24 to make the object 48px
@@ -319,6 +472,33 @@ class LevelFactory {
 
 	static _makeBed(x, y, w, h, iDir, blockSize) {
 		var box = new Bed();
+		// Use 0.24 to make the object 48px
+	    box.setScale(0.24*w, 0.24*h);
+	    box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
+
+	    return box;
+	}
+
+	static _makeSink(x, y, w, h, iDir, blockSize) {
+		var box = new Sink();
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);
