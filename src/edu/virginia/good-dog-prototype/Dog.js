@@ -49,11 +49,11 @@ class Dog extends AnimatedSprite {
       }
     }
 
-    if((pressedKeys.contains(32) || pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
+    if((pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
       this.pooInteract();
     if ((pressedKeys.contains(87) || pressedKeys.contains(88)) && this.interactTimer.getElapsedTime() > this.interactTime)
       this.checkInteractions();
-    if(pressedKeys.contains(66))
+    if(pressedKeys.contains(32) || pressedKeys.contains(66))
       GoodDogPrototype.soundManager.playSoundEffect('yip')
 
     if (this.pooTimer.getElapsedTime() > this.pooTime) {

@@ -13,8 +13,9 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
     sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
-    sm.loadMusic('theme', 'sounds/yakety-sax.mp3')
-    sm.playMusic('theme');
+    sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
+    sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
+    // sm.playMusic('chase-theme');
 
     // Create level manager
     this.levelManager = new LevelManager();
@@ -56,6 +57,7 @@ class GoodDogPrototype extends Game {
       if (this.levelManager.getCurrentLevel() == this.levelManager.getNumLevels()) {
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You Win", "You're a Bad Dog", this.width, this.height);
       } else {
+        GoodDogPrototype.soundManager.stopMusic('chase-theme');
         GoodDogPrototype.soundManager.playSoundEffect('caught')
         this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus", this.width, this.height);
       }
@@ -65,6 +67,8 @@ class GoodDogPrototype extends Game {
       this.start();
     } else if (e.eventType == Owner.ANGRY_EVENT) {
       this.notificationText = "RUN! YOUR OWNER SAW SOMETHING!"
+      GoodDogPrototype.soundManager.stopAllMusic();
+      GoodDogPrototype.soundManager.playMusic('chase-theme');
     }
 
     // Update the money count last to handle restarting the level
@@ -84,6 +88,10 @@ class GoodDogPrototype extends Game {
   loadNextLevel() {
     // Remove all children from the game to reset the level
     this.removeAllChildren();
+
+    // Reset all music
+    GoodDogPrototype.soundManager.stopAllMusic();
+    GoodDogPrototype.soundManager.playMusic('theme');
 
     // Get the info for the level
     switch (this.levelManager.getCurrentLevel()) {
@@ -224,8 +232,11 @@ class GoodDogPrototype extends Game {
     else
       targetCell = this.getTraversableGridCell(this.owner.target);
 
-    if (!targetCell.traversable)
+    while (!targetCell.traversable) {
+      debugger;
       this.owner.findNewTarget()
+      targetCell = this.getTraversableGridCell(this.owner.target.interactBox);
+    }
 
     // Reset the cells and find the new path
     this.grid.resetCells();
