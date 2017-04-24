@@ -6,7 +6,7 @@
 class GoodDogPrototype extends Game {
 
   constructor(canvas){
-    super("Who's A Good Dog?", 640, 480, canvas);
+    super("Who's A Good Dog?", 800, 640, canvas);
 
     var sm = GoodDogPrototype.soundManager;
     sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
@@ -92,6 +92,12 @@ class GoodDogPrototype extends Game {
         break;
       case 1:
         this.level = LevelFactory.CreateLevelTwo();
+        break;
+      case 2:
+        this.level = LevelFactory.CreateLevelThree();
+        break;
+      case 3:
+        this.level = LevelFactory.CreateLevelFour();
         break;
     }
 
@@ -288,15 +294,15 @@ class GoodDogPrototype extends Game {
     g.clearRect(0, 0, this.width, this.height);
     super.draw(g);
 
-    this.g.fillStyle = 'black';
-    this.g.fillRect(0, 0, 640, 48)
+    this.g.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    this.g.fillRect(0, 0, this.width, 48)
 
     this.g.fillStyle = "white";
     this.g.font='16px Arial';
     this.g.fillText("$" + this.damageValue + " damage", 16, 30);
 
     this.g.textAlign = 'right'
-    this.g.fillText(this.notificationText, 624, 30);
+    this.g.fillText(this.notificationText, this.width-16, 30);
     this.g.textAlign = 'left'
 
     // if (!this.playing) {
