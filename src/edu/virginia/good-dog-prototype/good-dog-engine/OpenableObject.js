@@ -10,6 +10,7 @@ class OpenableObject extends InteractSprite
 	    super(id, foldername, 2,
         ['start', 'open'],
         [1, 0],
+        [1, 0],
         [false, true],
         [0.5, 1.0],
         [true, false],

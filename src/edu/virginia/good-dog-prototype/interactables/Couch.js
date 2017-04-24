@@ -10,6 +10,7 @@ class Couch extends InteractSprite
 	    super(id, foldername, 2,
         ['start', 'open'],
         [1, 0],
+        [1, 0],
         [false, true],
         [0.5, 1.0],
         [true, false],
@@ -20,6 +21,14 @@ class Couch extends InteractSprite
 	    this.play();
 	    this.movePoopLocation(35, 50);
 
-	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in box");
+	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in couch");
+	}
+
+	poopIn(p)
+	{
+		this.hasPoop = true;
+		this.poop = p;
+		this.stateMachine = this.poopStateMachine;
+    	this.dispatchEvent(new Event('Poop in couch', this));
 	}
 }
