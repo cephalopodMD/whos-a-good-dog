@@ -41,7 +41,7 @@ class GoodDogPrototype extends Game {
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
   }
-  
+
   loadSounds() {
     var sm = GoodDogPrototype.soundManager;
     sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
@@ -60,6 +60,7 @@ class GoodDogPrototype extends Game {
 
   handleEvent(e) {
     if (e.eventType == Dog.POO_EVENT) {
+      GoodDogPrototype.soundManager.playSoundEffect('poo');
       // TODO fix room poop code
       this.owner.chasing = true;
       for (let room of this.level.rooms) {
@@ -84,6 +85,7 @@ class GoodDogPrototype extends Game {
       this.start();
     } else if (e.eventType == Owner.ANGRY_EVENT) {
       this.notificationText = "RUN! YOUR OWNER SAW SOMETHING!"
+      GoodDogPrototype.soundManager.playSoundEffect('gasp');
       GoodDogPrototype.soundManager.stopAllMusic();
       GoodDogPrototype.soundManager.playMusic('chase-theme');
     }
