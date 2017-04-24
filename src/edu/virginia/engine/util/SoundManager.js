@@ -25,4 +25,17 @@ class SoundManager {
     this.music[id].play();
   }
 
+  stopMusic(id) {
+    this.music[id].pause();
+    this.music[id].currentTime = 0;
+  }
+
+  stopAllMusic() {
+    for (var name in this.music) {
+      if (this.music.hasOwnProperty(name)) {
+        this.stopMusic(name);        
+      }
+    }
+  }
+
 }
