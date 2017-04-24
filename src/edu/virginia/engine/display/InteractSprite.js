@@ -85,17 +85,17 @@ class InteractSprite extends AnimatedSprite
 			this.animate(this.stateNames[this.currentState]);
 			this.dispatchEvent(new Event(this.eventNames[this.currentState], this));
 		}
-  		if(this.stateMachine[this.currentState] == this.currentState)
-  		{
-  				this.interactBox.setAlpha(0.0);
-  		}
-  		if(this.hasPoop)
-  		{
-  			if(this.hidePoop[this.currentState])
-  				this.poop.hide();
-  			else
-  				this.poop.reveal();
-  		}
+		if(this.stateMachine[this.currentState] == this.currentState)
+		{
+				this.interactBox.setAlpha(0.0);
+		}
+		if(this.hasPoop)
+		{
+			if(this.hidePoop[this.currentState])
+				this.poop.hide();
+			else
+				this.poop.reveal();
+		}
 	}
 
   setPosition(x, y) {

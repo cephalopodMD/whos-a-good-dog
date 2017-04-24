@@ -266,7 +266,7 @@ class GoodDogPrototype extends Game {
     if (!cell.traversable) {
       // Get the hitbox relative to the game
       // Use game relative coordinates to handle screen pan
-      var box = displayObject.getHitbox(this).getxywh();
+      var box = displayObject.getHitbox(this);
       var corners = [
         new Vec2(box.x, box.y),
         new Vec2(box.x + box.w, box.y),

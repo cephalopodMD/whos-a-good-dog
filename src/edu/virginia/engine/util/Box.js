@@ -1,7 +1,7 @@
 'using strict'
 
 class Box extends Vec2 {
-  constructor(x, y, w, h) {
+  constructor(x=0, y=0, w=0, h=0) {
     super(x, y);
     this.w = w;
     this.h = h;

@@ -148,7 +148,7 @@ class DisplayObject extends EventDispatcher {
   setVisible(visible){this.visible = visible;}
   getVisible(){return this.visible;}
 
-  /* ==TRANSFORMS========================================================
+  /* ==TRANSFORMS===========================================================
    * transformations which require a recalculation of the draw matrix
    */
 
@@ -208,7 +208,7 @@ class DisplayObject extends EventDispatcher {
 
   getHitbox(relativeTo=null) {
     if (this.matrix == null || (relativeTo != null && relativeTo.matrix == null))
-      return {x:0, y:0, w:0, h:0};
+      return new Box();
     var corners = [
       new Vec2(),
       new Vec2(this.getUnscaledWidth(), 0),
@@ -217,11 +217,14 @@ class DisplayObject extends EventDispatcher {
     ]
     // transform all of this's corners into this image's coordinate space
     // check to see if inside the resulting bounding box for dispObj2
+    var m;
+    if (relativeTo == null)
+      m = this.matrix;
+    else
+      m = relativeTo.matrix.inverse().multiply(this.matrix);
     var xs = [], ys = []
     for (let p of corners) {
-      p.transform(this.matrix)
-      if (relativeTo != null)
-        p.transform(relativeTo.matrix.inverse());
+      p.transform(m)
       xs.push(p.x);
       ys.push(p.y);
     }
