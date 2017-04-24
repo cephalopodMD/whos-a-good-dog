@@ -14,14 +14,17 @@ class Poo extends Sprite {
     this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
     this.cloud.alpha = 0;
     this.cloud.particleLife = 500
+    this.suppression = 1.0;
     this.hasContainer = false;
+    this.container = null;
     this.addChild(this.cloud);
   }
 
   update(pressedKeys, gamepads) {
     super.update();
-    this.cloud.alpha = Math.min(this.timer.getElapsedTime() / 50000, .2)
-    this.cloud.radius = this.timer.getElapsedTime() / 100;
+    this.cloud.alpha += Math.min(this.suppression * this.timer.getElapsedTime() / 50000, .2)
+    this.cloud.radius += Math.min(this.suppression * this.timer.getElapsedTime() / 50, 200);
+    this.timer.resetGameClock();
   }
 
   getRadius() {
@@ -32,16 +35,6 @@ class Poo extends Sprite {
   {
     this.hasContainer = true;
     this.container = cont;
-  }
-
-  hide() {
-    super.hide();
-    this.timer.pause()
-  }
-
-  reveal() {
-    super.reveal();
-    this.timer.play()
   }
 }
 

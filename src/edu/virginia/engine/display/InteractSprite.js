@@ -36,6 +36,8 @@ class InteractSprite extends AnimatedSprite
 
 	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
 
+  getSmellSuppression() { return this.smellSuppressions[this.currentState] }
+
 	hasPoop() { return this.hasPoop; }
 
 	poopHidden() { return this.hidePoop[this.currentState]; }
@@ -91,6 +93,7 @@ class InteractSprite extends AnimatedSprite
 		}
 		if(this.hasPoop)
 		{
+      this.poop.suppression = this.getSmellSuppression();
 			if(this.hidePoop[this.currentState])
 				this.poop.hide();
 			else

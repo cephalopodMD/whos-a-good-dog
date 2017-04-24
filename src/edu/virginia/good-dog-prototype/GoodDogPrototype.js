@@ -303,6 +303,8 @@ class GoodDogPrototype extends Game {
 
   draw(g){
     g.clearRect(0, 0, this.width, this.height);
+    this.g.fillStyle = 'rgba(0, 0, 0, 1.0)';
+    this.g.fillRect(0, 0, this.width, this.height)
     super.draw(g);
 
     this.g.fillStyle = 'rgba(0, 0, 0, 0.5)';
