@@ -5,7 +5,7 @@ class Couch extends InteractSprite
 	constructor(direction)
 	{
 	    var id = 'Couch',
-	        foldername = ((direction > 1) ? 'sprites/Couch' : 'sprites/CouchTurned');
+	        foldername = ((direction > 1) ? 'sprites/Couch' : 'sprites/TurnedCouch');
       // Id, foldername, nPics, names, machine, poopables, suppressions, events
 	    super(id, foldername, 2,
         ['start', 'open'],
@@ -19,7 +19,10 @@ class Couch extends InteractSprite
 	    this.addAnimation('open', 1, 1);
 	    this.animate('start');
 	    this.play();
-	    this.movePoopLocation(35, 50);
+	    if(direction > 1)
+	    	this.movePoopLocation(35, 50);
+	    else
+	    	this.movePoopLocation(34, 85);
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in couch");
 	}
