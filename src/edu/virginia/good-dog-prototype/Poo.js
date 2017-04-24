@@ -34,6 +34,15 @@ class Poo extends Sprite {
     this.container = cont;
   }
 
+  hide() {
+    super.hide();
+    this.timer.pause()
+  }
+
+  reveal() {
+    super.reveal();
+    this.timer.play()
+  }
 }
 
 Poo.count = 0

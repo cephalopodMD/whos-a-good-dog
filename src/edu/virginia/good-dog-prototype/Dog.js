@@ -100,7 +100,6 @@ class Dog extends AnimatedSprite {
   checkCollisions(game) {
     //check platform collisions
     for (let plat of game.collidables) {
-      var i = 0;
       if (plat.collidesWith(this)) {
         // fix velocity vector after collision instead of zeroing
         // get normal vector by:
