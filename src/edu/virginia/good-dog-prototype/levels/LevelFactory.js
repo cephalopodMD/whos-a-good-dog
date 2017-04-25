@@ -42,7 +42,7 @@ class LevelFactory {
 			new CoffeeTable("wall13", 9, 0, 1, 1, blockSize, objColor),
 
 			// Bathroom
-			new Wall("wall14", 17, 0, 1, 1, blockSize, objColor),
+			new Wall("wall14", 18, 0, 3, 1, blockSize, "#afafaf"),
 
 			// Kitchen
 			new Wall("wall11", 0, 13, 2, 1, blockSize, objColor),
@@ -65,9 +65,9 @@ class LevelFactory {
 
 			// Bathroom
 			LevelFactory._makePlant(16, 0, 1, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(18, 0, 1, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(20, 0, 1, 1, 2, blockSize),
-			LevelFactory._makeTub(23, 0.5, 2, 3, 3, blockSize),
+			LevelFactory._makeTub(23, 0, 2, 3, 3, blockSize),
+			LevelFactory._makeBathSink(18, 0, 1, 1, 2, blockSize),
+			LevelFactory._makeBathSink(20, 0, 1, 1, 2, blockSize),
 
 			// Kitchen
 			LevelFactory._makeStove(3, 16, 2, 2, 2, blockSize),
@@ -153,16 +153,14 @@ class LevelFactory {
 			// Kitchen
 			new Wall("wall8", 0, 0, 1, 3, blockSize, objColor),
 			new Wall("wall8", 0, 4, 1, 1, blockSize, objColor),
-			new Wall("wall8", 7, 0, 1, 2, blockSize, objColor),
-			new Wall("wall8", 10, 0, 1, 2, blockSize, objColor),
+			new Counter("wall11", 7, 0, 1, 2, blockSize, objColor),
+			new Counter("wall11", 10, 0, 1, 2, blockSize, objColor),
 
 			// Bathroom
-			new Wall("wall8", 18, 2, 1, 1, blockSize, objColor),
+			new Wall("wall14", 17, 2, 5, 1, blockSize, "#afafaf"),
 
 			// Living Room
-			new Wall("wall8", 7, 10, 2, 1, blockSize, objColor),
-			new Wall("wall8", 8, 13, 1, 3, blockSize, objColor),
-			new Wall("wall8", 12, 16, 1, 2, blockSize, objColor),
+
 
 			// Bedroom
 			new Wall("wall8", 24, 11, 1, 2, blockSize, objColor),
@@ -173,22 +171,22 @@ class LevelFactory {
 		var interactableObjects = [
 			// Kitchen
 			LevelFactory._makeOpenableObject(2, 0, 2, 1, 2, blockSize),
-			LevelFactory._makeDestroyObject(8, 0, 2, 2, 2, blockSize),
+			LevelFactory._makeStove(8, 0, 2, 2, 2, blockSize),
 			LevelFactory._makeOpenableObject(0, 3, 1, 1, 1, blockSize),
 			LevelFactory._makeOpenableObject(0, 5, 1, 1, 1, blockSize),
 
 			// Bathroom
-			LevelFactory._makeOpenableObject(17, 2, 1, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(20, 2, 1, 1, 2, blockSize),
-			LevelFactory._makeOpenableObject(23, 2.5, 2, 3, 3, blockSize),
+			LevelFactory._makeTub(23, 3, 2, 3, 3, blockSize),
+			LevelFactory._makeBathSink(18, 2, 1, 1, 2, blockSize),
+			LevelFactory._makeBathSink(20, 2, 1, 1, 2, blockSize),
 
 			// Living Room
-			LevelFactory._makeOpenableObject(0, 13, 1, 3, 1, blockSize),
-			LevelFactory._makeDestroyObject(3, 10, 3, 1, 2, blockSize),
-			LevelFactory._makeDestroyObject(7, 13, 1, 3, 3, blockSize),
+			LevelFactory._makeCouch(0, 13, 1.5, 3, 1, blockSize),
+			LevelFactory._makeCouch(3.5, 10, 3, 1.5, 2, blockSize),
+			LevelFactory._makeBench(8.5, 13, 1, 3, 3, true, blockSize),
 
 			// Bedroom
-			LevelFactory._makeDestroyObject(19, 9, 3, 3, 2, blockSize),
+			LevelFactory._makeBed(19, 9, 3, 3, 2, blockSize),
 			LevelFactory._makeOpenableObject(15, 16, 1, 2, 1, blockSize),
 			LevelFactory._makeDestroyObject(20, 19, 1, 1, 0, blockSize),
 			LevelFactory._makeOpenableObject(24, 14, 1, 3, 3, blockSize),
@@ -208,7 +206,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode II", "Count DooDoo", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 100;
+		var minDamageValue = 2;
 
 		// Create the dog
 		var dog = new Dog(3*blockSize, 17*blockSize);
@@ -302,6 +300,7 @@ class LevelFactory {
 
 			// Bathroom
 			LevelFactory._makeTub(0, 17, 2, 3, 1, blockSize),
+			LevelFactory._makeBathSink(5, 15, 1, 1, 2, blockSize),
 		];
 
 	   	// Combine the walls and interactable objects
@@ -581,6 +580,32 @@ class LevelFactory {
 				break;
 	    }
 
+	    return box;
+	}
+
+	static _makeBathSink(x, y, w, h, iDir, blockSize) {
+		var box = new BathSink();
+		// Use 0.24 to make object 48px
+		box.setScale(0.24*w, 0.24*h);
+		box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
 	    return box;
 	}
 
