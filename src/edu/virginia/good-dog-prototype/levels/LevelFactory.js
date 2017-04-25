@@ -170,11 +170,13 @@ class LevelFactory {
 			// Kitchen
 			LevelFactory._makeStove(0, 2.5, 2, 2, 1, blockSize),
 			LevelFactory._makeSink(4, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeTrash(2, 0, 1, 1, 2, blockSize),
 			LevelFactory._makeFridge(10, 0, 1, 1, 2, blockSize),
 
 			// Bathroom
 			LevelFactory._makeTub(23, 3, 2, 3, 3, blockSize),
 			LevelFactory._makeBathSink(18, 2, 1, 1, 2, blockSize),
+			LevelFactory._makeTrash(16, 2, 1, 1, 2, blockSize),
 			LevelFactory._makeBathSink(20, 2, 1, 1, 2, blockSize),
 
 			// Living Room
@@ -290,6 +292,7 @@ class LevelFactory {
 
 			// Kitchen
 			LevelFactory._makeSink(13, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeTrash(11, 2, 1, 1, 1, blockSize),
 			LevelFactory._makeStove(18, 3, 2, 2, 3, blockSize),
 			LevelFactory._makePlant(11, 9, 1, 1, 1, blockSize),
 			LevelFactory._makePlant(16, 9, 1, 1, 3, blockSize),
@@ -300,6 +303,7 @@ class LevelFactory {
 
 			// Bathroom
 			LevelFactory._makeTub(0, 17, 2, 3, 1, blockSize),
+			LevelFactory._makeTrash(7, 19, 1, 1, 0, blockSize),
 			LevelFactory._makeBathSink(4, 15, 1, 1, 2, blockSize),
 		];
 
