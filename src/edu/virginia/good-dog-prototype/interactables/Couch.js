@@ -20,7 +20,7 @@ class Couch extends InteractSprite
 	    this.animate('start');
 	    this.play();
 	    if(direction > 1)
-	    	this.movePoopLocation(35, 50);
+	    	this.movePoopLocation(35, 37);
 	    else
 	    	this.movePoopLocation(34, 85);
 
