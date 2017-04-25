@@ -1,7 +1,7 @@
 'use strict';
 
 class LevelManager extends EventDispatcher {
-	
+
 	constructor(curLevel=0) {
 		super();
 		this.curLevel = curLevel;
@@ -18,8 +18,7 @@ class LevelManager extends EventDispatcher {
 			}
 		}
 		if (e.eventType == GameOverEvent.GAME_OVER) {
-			this.curLevel = 0;
-			console.log("game over");
+			
 		}
 	}
 
