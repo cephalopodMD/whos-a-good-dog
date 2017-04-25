@@ -390,6 +390,9 @@ class GoodDogPrototype extends Game {
     super.start();
   }
 
+  /**
+   * override to deal with pausing and game overs
+   */
   removeKey(keyCode){
     super.removeKey(keyCode);
     if (keyCode == 27 && this.paused) {
