@@ -13,9 +13,12 @@ class SoundManager {
 
   playSoundEffect(id) {
     // Reset the sound before playing it
-    this.soundEffects[id].pause();
-    this.soundEffects[id].currentTime = 0;
-    this.soundEffects[id].play();
+    if(this.soundEffects[id] != null)
+    {
+      this.soundEffects[id].pause();
+      this.soundEffects[id].currentTime = 0;
+      this.soundEffects[id].play();
+    }
   }
 
   loadMusic(id, filename, loop) {
