@@ -53,7 +53,7 @@ class DisplayObjectContainer extends DisplayObject{
   findById(id) {
     var i;
     for (i=0; i<this.children.size(); i++) {
-      child = this.children.get(i);
+      var child = this.children.get(i);
       if (child.id == id) {
         return child;
       } else if (child instanceof DisplayObjectContainer) {

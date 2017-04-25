@@ -200,6 +200,10 @@ class DisplayObject extends EventDispatcher {
     if (dispObj2.matrix == null || this.matrix == null)
       return false;
 
+    var hb1 = dispObj2.getHitbox(),
+        hb2 = this.getHitbox()
+    if (hb1.dist(hb2) > hb1.w+hb1.h+hb2.w+hb2.h)
+      return false;
     // check to see if both display objects are in eachothers bounding boxes
     // when transformed to eachother's coordinate spaces
     return dispObj2.getHitbox(this).intersectsWith(this.getHitbox(this)) &&
@@ -209,12 +213,20 @@ class DisplayObject extends EventDispatcher {
   getHitbox(relativeTo=null) {
     if (this.matrix == null || (relativeTo != null && relativeTo.matrix == null))
       return new Box();
-    var corners = [
-      new Vec2(),
-      new Vec2(this.getUnscaledWidth(), 0),
-      new Vec2(0, this.getUnscaledHeight()),
-      new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())
-    ]
+    // optimize for corners
+    var corners;
+    if (this.rotation != 0 || (relativeTo && relativeTo.rotation != 0))
+      corners = [
+        new Vec2(),
+        new Vec2(this.getUnscaledWidth(), 0),
+        new Vec2(0, this.getUnscaledHeight()),
+        new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())
+      ]
+    else
+      corners = [
+        new Vec2(),
+        new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())
+      ]
     // transform all of this's corners into this image's coordinate space
     // check to see if inside the resulting bounding box for dispObj2
     var m;
