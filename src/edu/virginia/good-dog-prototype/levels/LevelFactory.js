@@ -375,17 +375,35 @@ class LevelFactory {
 			new Table("table1", 3.5, 10, 2, 3, blockSize, wallColor),
 
 			// Placeholder objects
+			// Bedroom
+			new CoffeeTable("wall12", 4, 6, 1, 1, blockSize, objColor),
+
+			//Bathroom
+			new Wall("wall8", 15, 11, 4.5, 1, blockSize, "#afafaf"),
+
+			// Kitchen
+			new Wall("wall11", 14, 0, 6, 1, blockSize, "#afafaf"),
 		];
 
 		// Interactable objects
 		var interactableObjects = [
 			// Bedroom
 			LevelFactory._makeBed(3, 0, 3, 3, 2, blockSize),
+			LevelFactory._makePlant(1, 0, 1, 1, 2, blockSize),
+			LevelFactory._makePlant(7, 0, 1, 1, 2, blockSize),
 
 			// Living area
-			LevelFactory._makeBench(1, 10, 1, 3, 1, false, blockSize),
-			LevelFactory._makeBench(7, 10, 1, 3, 3, true, blockSize),
+			LevelFactory._makeBench(0.5, 10, 1, 3, 1, false, blockSize),
+			LevelFactory._makeBench(7.5, 10, 1, 3, 3, true, blockSize),
 
+			// Bathroom
+			LevelFactory._makeTub(11, 11.5, 2, 3, 1, blockSize),
+			LevelFactory._makeBathSink(16, 11, 1, 1, 2, blockSize),
+			LevelFactory._makePlant(19, 14, 1, 1, 3, blockSize),
+
+			// Kitchen
+			LevelFactory._makeSink(15, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeFridge(12, 0, 1, 1, 2, blockSize),
 		];
 
 	   	// Combine the walls and interactable objects
@@ -402,7 +420,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode IV", "A Poo Hope", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 100;
+		var minDamageValue = 80;
 
 		// Create the dog
 		var dog = new Dog(13*blockSize, 7*blockSize);
