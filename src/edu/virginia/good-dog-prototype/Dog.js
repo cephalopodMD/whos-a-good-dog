@@ -181,7 +181,7 @@ class Dog extends AnimatedSprite {
   }
 
   poo() {
-    this.pooTime *= 1.2;
+    this.pooTime *= 1.1;
     this.velocity = new Vec2();
     var pos;
     var relativeHitbox = this.getHitbox(this.parent);
