@@ -371,6 +371,9 @@ class LevelFactory {
 			new Wall("wall6", 15, 8, 5, 3, blockSize, wallColor),
 			new Wall("wall7", 9, 11, 2, 4, blockSize, wallColor),
 
+			// Kitchen table
+			new Table("table1", 3.5, 10, 2, 3, blockSize, wallColor),
+
 			// Placeholder objects
 		];
 
@@ -378,6 +381,11 @@ class LevelFactory {
 		var interactableObjects = [
 			// Bedroom
 			LevelFactory._makeBed(3, 0, 3, 3, 2, blockSize),
+
+			// Living area
+			LevelFactory._makeBench(1, 10, 1, 3, 1, false, blockSize),
+			LevelFactory._makeBench(7, 10, 1, 3, 3, true, blockSize),
+
 		];
 
 	   	// Combine the walls and interactable objects
