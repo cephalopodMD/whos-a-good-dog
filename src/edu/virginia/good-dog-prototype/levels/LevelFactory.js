@@ -61,8 +61,8 @@ class LevelFactory {
 			// Bedroom
 			LevelFactory._makeBed(6, 0, 3, 3, 2, blockSize),
 			LevelFactory._makeCouch(0, 5, 1.5, 3, 1, blockSize),
-			LevelFactory._makePlant(3, 4.5, 1, 1, 1, blockSize),
-			LevelFactory._makePlant(3, 7.5, 1, 1, 1, blockSize),
+			LevelFactory._makePlant(4, 4.5, 1, 1, 1, blockSize),
+			LevelFactory._makePlant(4, 7.5, 1, 1, 1, blockSize),
 
 			// Bathroom
 			LevelFactory._makePlant(16, 0, 1, 1, 2, blockSize),
@@ -321,7 +321,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode III", "Revenge of the Sh*t", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 80;
+		var minDamageValue = 100;
 
 		// Create the dog
 		var dog = new Dog(13*blockSize, 15*blockSize);
@@ -425,7 +425,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode IV", "A Poo Hope", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 80;
+		var minDamageValue = 70;
 
 		// Create the dog
 		var dog = new Dog(13*blockSize, 7*blockSize);
