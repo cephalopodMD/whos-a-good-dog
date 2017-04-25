@@ -74,7 +74,7 @@ class LevelFactory {
 			LevelFactory._makeStove(3, 16, 2, 2, 2, blockSize),
 			LevelFactory._makeFridge(6.5, 13, 1, 1, 2, blockSize),
 			LevelFactory._makeSink(9, 13, 3, 1, 2, blockSize),
-			// LevelFactory._makeOpenableObject(12, 15, 1, 1, 2, blockSize),
+			LevelFactory._makeTrash(12, 15, 1, 1, 2, blockSize),
 
 			// Living Room
 			LevelFactory._makeCouch(21, 7, 4, 1.5, 2, blockSize),
@@ -170,11 +170,13 @@ class LevelFactory {
 			// Kitchen
 			LevelFactory._makeStove(0, 2.5, 2, 2, 1, blockSize),
 			LevelFactory._makeSink(4, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeTrash(2, 0, 1, 1, 2, blockSize),
 			LevelFactory._makeFridge(10, 0, 1, 1, 2, blockSize),
 
 			// Bathroom
 			LevelFactory._makeTub(23, 3, 2, 3, 3, blockSize),
 			LevelFactory._makeBathSink(18, 2, 1, 1, 2, blockSize),
+			LevelFactory._makeTrash(16, 2, 1, 1, 2, blockSize),
 			LevelFactory._makeBathSink(20, 2, 1, 1, 2, blockSize),
 
 			// Living Room
@@ -290,6 +292,7 @@ class LevelFactory {
 
 			// Kitchen
 			LevelFactory._makeSink(13, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeTrash(11, 2, 1, 1, 1, blockSize),
 			LevelFactory._makeStove(18, 3, 2, 2, 3, blockSize),
 			LevelFactory._makePlant(11, 9, 1, 1, 1, blockSize),
 			LevelFactory._makePlant(16, 9, 1, 1, 3, blockSize),
@@ -300,6 +303,7 @@ class LevelFactory {
 
 			// Bathroom
 			LevelFactory._makeTub(0, 17, 2, 3, 1, blockSize),
+			LevelFactory._makeTrash(7, 19, 1, 1, 0, blockSize),
 			LevelFactory._makeBathSink(4, 15, 1, 1, 2, blockSize),
 		];
 
@@ -476,6 +480,33 @@ class LevelFactory {
 
 	static _makePlant(x, y, w, h, iDir, blockSize) {
 		var box = new Plant();
+		// Use 0.24 to make the object 48px
+	    box.setScale(0.24*w, 0.24*h);
+	    box.setPosition(x*blockSize, y*blockSize);
+	    // 0 = top
+	    // 1 = right
+	    // 2 = bottom
+	    // 3 = left
+	    switch (iDir) {
+	    	case 0:
+	    		box.moveInteractBox(0, -blockSize);
+	    		break;
+    		case 1:
+    			box.moveInteractBox(blockSize, 0);
+    			break;
+    		case 2:
+    			box.moveInteractBox(0, blockSize);
+    			break;
+			case 3:
+				box.moveInteractBox(-blockSize, 0);
+				break;
+	    }
+
+	    return box;
+	}
+
+	static _makeTrash(x, y, w, h, iDir, blockSize) {
+		var box = new Trash();
 		// Use 0.24 to make the object 48px
 	    box.setScale(0.24*w, 0.24*h);
 	    box.setPosition(x*blockSize, y*blockSize);
