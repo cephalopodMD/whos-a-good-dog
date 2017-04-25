@@ -37,7 +37,7 @@ class LevelFactory {
 
 			// Placeholder objects
 			// Bedroom
-			new Wall("wall11", 0, 0, 2, 1, blockSize, objColor),
+			// new Wall("wall11", 0, 0, 2, 1, blockSize, objColor),
 			new CoffeeTable("wall12", 5, 0, 1, 1, blockSize, objColor),
 			new CoffeeTable("wall13", 9, 0, 1, 1, blockSize, objColor),
 
@@ -45,13 +45,14 @@ class LevelFactory {
 			new Wall("wall14", 18, 0, 3, 1, blockSize, "#afafaf"),
 
 			// Kitchen
-			new Wall("wall11", 0, 13, 2, 1, blockSize, objColor),
-			new Wall("wall11", 12, 13, 1, 2, blockSize, objColor),
+			new Wall("wall11", 0, 13, 3, 1, blockSize, "#afafaf"),
+			new Wall("wall11", 12, 13, 1, 2, blockSize, "#afafaf"),
+			new Wall("wall11", 8, 13, 4, 1, blockSize, "#bbbbbb"),
 			new Counter("wall11", 2, 16, 1, 2, blockSize, objColor),
 			new Counter("wall11", 5, 16, 1, 2, blockSize, objColor),
 
 			// Living room
-			new Wall("wall11", 16, 12, 1, 3, blockSize, objColor),
+			// new Wall("wall11", 16, 12, 1, 3, blockSize, objColor),
 			new Table("wall11", 22, 12, 2, 3, blockSize, objColor),
 		];
 
@@ -65,7 +66,7 @@ class LevelFactory {
 
 			// Bathroom
 			LevelFactory._makePlant(16, 0, 1, 1, 2, blockSize),
-			LevelFactory._makeTub(23, 0, 2, 3, 3, blockSize),
+			LevelFactory._makeTub(23, 0.2, 2, 3, 3, blockSize),
 			LevelFactory._makeBathSink(18, 0, 1, 1, 2, blockSize),
 			LevelFactory._makeBathSink(20, 0, 1, 1, 2, blockSize),
 
@@ -76,7 +77,7 @@ class LevelFactory {
 			LevelFactory._makeTrash(12, 15, 1, 1, 2, blockSize),
 
 			// Living Room
-			LevelFactory._makeCouch(21, 7, 4, 2, 2, blockSize),
+			LevelFactory._makeCouch(21, 7, 4, 1.5, 2, blockSize),
 			LevelFactory._makeBench(19, 12, 1, 3, 1, false, blockSize),
 			LevelFactory._makeBench(26, 12, 1, 3, 3, true, blockSize),
 		];
@@ -151,29 +152,25 @@ class LevelFactory {
 			new Wall("wall8", 13, 15, 2, 5, blockSize, wallColor),
 
 			// Kitchen
-			new Wall("wall8", 0, 0, 1, 3, blockSize, objColor),
-			new Wall("wall8", 0, 4, 1, 1, blockSize, objColor),
-			new Counter("wall11", 7, 0, 1, 2, blockSize, objColor),
-			new Counter("wall11", 10, 0, 1, 2, blockSize, objColor),
+			new Counter("wall9", 0, 4.5, 1, 2, blockSize, objColor),
+			new Counter("wall10", 0, 0.5, 1, 2, blockSize, objColor),
+			new Wall("wall11", 3, 0, 6, 1, blockSize, "#afafaf"),
 
 			// Bathroom
 			new Wall("wall14", 17, 2, 5, 1, blockSize, "#afafaf"),
 
 			// Living Room
 
-
 			// Bedroom
-			new Wall("wall8", 24, 11, 1, 2, blockSize, objColor),
-			new Wall("wall8", 17, 19, 2, 1, blockSize, objColor),
+			new CoffeeTable("wall12", 24, 11, 1, 1, blockSize, objColor),
 		];
 
 		// Interactable objects
 		var interactableObjects = [
 			// Kitchen
-			LevelFactory._makeOpenableObject(2, 0, 2, 1, 2, blockSize),
-			LevelFactory._makeStove(8, 0, 2, 2, 2, blockSize),
-			LevelFactory._makeOpenableObject(0, 3, 1, 1, 1, blockSize),
-			LevelFactory._makeOpenableObject(0, 5, 1, 1, 1, blockSize),
+			LevelFactory._makeStove(0, 2.5, 2, 2, 1, blockSize),
+			LevelFactory._makeSink(4, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeFridge(10, 0, 1, 1, 2, blockSize),
 
 			// Bathroom
 			LevelFactory._makeTub(23, 3, 2, 3, 3, blockSize),
@@ -187,9 +184,9 @@ class LevelFactory {
 
 			// Bedroom
 			LevelFactory._makeBed(19, 9, 3, 3, 2, blockSize),
-			LevelFactory._makeOpenableObject(15, 16, 1, 2, 1, blockSize),
-			LevelFactory._makeDestroyObject(20, 19, 1, 1, 0, blockSize),
-			LevelFactory._makeOpenableObject(24, 14, 1, 3, 3, blockSize),
+			LevelFactory._makeCouch(15, 16, 1.5, 3, 1, blockSize),
+			LevelFactory._makePlant(24, 16, 1, 1, 3, blockSize),
+			LevelFactory._makePlant(24, 18, 1, 1, 3, blockSize),
 		];
 
 		// Combine the walls and interactable objects
@@ -277,6 +274,9 @@ class LevelFactory {
 			new Counter("counter3", 11, 3, 1, 2, blockSize, objColor),
 			new Counter("counter4", 11, 5, 1, 2, blockSize, objColor),
 
+			// Bathroom
+			new Wall("wall8", 2, 15, 3, 1, blockSize, "#afafaf"),
+
 			// Living Room
 			table,
 
@@ -300,7 +300,7 @@ class LevelFactory {
 
 			// Bathroom
 			LevelFactory._makeTub(0, 17, 2, 3, 1, blockSize),
-			LevelFactory._makeBathSink(5, 15, 1, 1, 2, blockSize),
+			LevelFactory._makeBathSink(4, 15, 1, 1, 2, blockSize),
 		];
 
 	   	// Combine the walls and interactable objects
