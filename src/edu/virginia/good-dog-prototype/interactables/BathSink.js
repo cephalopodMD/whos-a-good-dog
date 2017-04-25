@@ -1,6 +1,6 @@
 'use strict';
 
-class Sink extends InteractSprite
+class BathSink extends InteractSprite
 {
 	constructor(x=0, y=0)
 	{
@@ -21,7 +21,7 @@ class Sink extends InteractSprite
 	    this.addAnimation('full', 1, 1);
 	    this.animate('start');
 	    this.play();
-	    this.movePoopLocation(79, 9);
+	    this.movePoopLocation(9, 9);
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in sink");
 	}
