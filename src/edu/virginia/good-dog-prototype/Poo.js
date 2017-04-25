@@ -13,6 +13,7 @@ class Poo extends Sprite {
     this.timer = new GameClock()
     this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
     this.cloud.alpha = 0;
+    this.cloud.radius = 10;
     this.cloud.particleLife = 500
     this.suppression = 1.0;
     this.hasContainer = false;
@@ -30,7 +31,7 @@ class Poo extends Sprite {
   }
 
   getRadius() {
-    return this.timer.getElapsedTime() / 100
+    return this.cloud.radius;
   }
 
   setContainer(cont)

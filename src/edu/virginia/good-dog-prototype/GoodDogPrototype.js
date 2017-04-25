@@ -116,12 +116,6 @@ class GoodDogPrototype extends Game {
     }
   }
 
-  reloadLevel() {
-    this.levelManager.curLevel -= 1;
-    this.loadNextLevel();
-    this.levelManager.curLevel += 1;
-  }
-
   loadNextLevel() {
     // Remove all children from the game to reset the level
     this.removeAllChildren();
@@ -207,11 +201,11 @@ class GoodDogPrototype extends Game {
   update(pressedKeys, gamepads) {
     super.update(pressedKeys, gamepads);
 
-    if (this.levelManager.getCurrentLevel() == 0 && !this.gameOver)
+    if (this.levelManager.getCurrentLevel() == 0 && !this.started)
       if (pressedKeys.contains(87) || pressedKeys.contains(88)) {
         // Load the info for level 1
         this.loadNextLevel();
-        this.levelManager.curLevel += 1;
+        this.started = true;
         this.start();
       } else
         return
@@ -365,7 +359,7 @@ class GoodDogPrototype extends Game {
 
     super.draw(g);
 
-    if (this.levelManager.getCurrentLevel() > 0) {
+    if (this.started) {
       this.g.fillStyle = 'rgba(0, 0, 0, 0.5)';
       this.g.fillRect(0, 0, this.width, 48)
 
@@ -409,7 +403,7 @@ class GoodDogPrototype extends Game {
     }
     if ((keyCode == 87 || keyCode == 88) && this.gameOver) {
       this.gameOver = false;
-      this.reloadLevel();
+      this.loadNextLevel();
       this.start();
       return;
     }
