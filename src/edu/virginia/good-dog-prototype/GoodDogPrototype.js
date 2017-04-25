@@ -16,6 +16,7 @@ class GoodDogPrototype extends Game {
     sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
     sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
     // sm.playMusic('chase-theme');
+    this.loadSounds();
 
     // Create level manager
     this.levelManager = new LevelManager();
@@ -41,8 +42,25 @@ class GoodDogPrototype extends Game {
     this.panBorderSize = 200;
   }
 
+  loadSounds() {
+    var sm = GoodDogPrototype.soundManager;
+    sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
+    sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
+    sm.loadSoundEffect('yip', 'sounds/yip.mp3');
+    sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
+    sm.loadSoundEffect('open_door_1', 'sounds/open_door_1.mp3');
+    sm.loadSoundEffect('close_door_1', 'sounds/close_door_1.mp3');
+    sm.loadSoundEffect('paper_rip', 'sounds/paper_rip.mp3');
+    sm.loadSoundEffect('poo', 'sounds/poo.mp3');
+    sm.loadSoundEffect('gasp', 'sounds/gasp.mp3');
+    sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
+    sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
+    // sm.playMusic('chase-theme');
+  }
+
   handleEvent(e) {
     if (e.eventType == Dog.POO_EVENT) {
+      GoodDogPrototype.soundManager.playSoundEffect('poo');
       // TODO fix room poop code
       this.owner.chasing = true;
       for (let room of this.level.rooms) {
@@ -67,6 +85,7 @@ class GoodDogPrototype extends Game {
       this.start();
     } else if (e.eventType == Owner.ANGRY_EVENT) {
       this.notificationText = "RUN! YOUR OWNER SAW SOMETHING!"
+      GoodDogPrototype.soundManager.playSoundEffect('gasp');
       GoodDogPrototype.soundManager.stopAllMusic();
       GoodDogPrototype.soundManager.playMusic('chase-theme');
     }
@@ -233,7 +252,7 @@ class GoodDogPrototype extends Game {
       targetCell = this.getTraversableGridCell(this.owner.target);
 
     while (!targetCell.traversable) {
-      debugger;
+      //debugger;
       this.owner.findNewTarget()
       targetCell = this.getTraversableGridCell(this.owner.target.interactBox);
     }
@@ -250,7 +269,7 @@ class GoodDogPrototype extends Game {
             this.owner.collidesWith(this.owner.target)) {
           if (this.owner.target == this.dog) {
             this.dispatchEvent(new GameOverEvent(this));
-          } 
+          }
           else if(this.owner.target != null)
           {
             if(this.owner.target.hasPoop())
@@ -313,6 +332,9 @@ class GoodDogPrototype extends Game {
 
   draw(g){
     g.clearRect(0, 0, this.width, this.height);
+    this.g.fillStyle = 'rgba(0, 0, 0, 1.0)';
+    this.g.fillRect(0, 0, this.width, this.height)
+
     super.draw(g);
 
     this.g.fillStyle = 'rgba(0, 0, 0, 0.5)';

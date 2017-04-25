@@ -41,7 +41,7 @@ class InteractSprite extends AnimatedSprite
 	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }
 
 	getMaddening() { return this.maddenings[this.currentState]; }
-  	
+
   	getSmellSuppression() { return this.smellSuppressions[this.currentState] }
 
 	hasPoop() { return this.hasPoop; }
@@ -109,8 +109,8 @@ class InteractSprite extends AnimatedSprite
 
 	interactOwner()
 	{
-		console.log(this.ownerStateMachine[this.currentState]);
-		console.log(this.currentState);
+		//console.log(this.ownerStateMachine[this.currentState]);
+		//console.log(this.currentState);
 		if(this.ownerStateMachine[this.currentState] != this.currentState)
 		{
 			this.currentState = this.ownerStateMachine[this.currentState];
