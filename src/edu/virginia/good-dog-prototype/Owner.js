@@ -59,9 +59,11 @@ class Owner extends AnimatedSprite {
       }
 
       if (this.target != game.dog)
-        for (let poo of game.poos.children.contents)
+        for (let poo of game.poos.children.contents) {
+          console.log(this.position.sub_i(poo.position).magnitude(), ', ', poo.getRadius())
           if (this.position.sub_i(poo.position).magnitude() < poo.getRadius())
             this.chase();
+        }
     }
   }
 
