@@ -44,7 +44,7 @@ class InteractSprite extends AnimatedSprite
 
   	getSmellSuppression() { return this.smellSuppressions[this.currentState] }
 
-	hasPoop() { return this.hasPoop; }
+	getHasPoop() { return this.hasPoop; }
 
 	poopHidden() { return this.hidePoop[this.currentState]; }
 
