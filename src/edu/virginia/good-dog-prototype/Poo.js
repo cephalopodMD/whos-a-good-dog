@@ -22,8 +22,10 @@ class Poo extends Sprite {
 
   update(pressedKeys, gamepads) {
     super.update();
-    this.cloud.alpha += Math.min(this.suppression * this.timer.getElapsedTime() / 50000, .2)
-    this.cloud.radius += Math.min(this.suppression * this.timer.getElapsedTime() / 50, 200);
+    if (this.cloud.alpha < .2 * this.suppression)
+      this.cloud.alpha += this.suppression * this.timer.getElapsedTime() / 50000
+    if (this.cloud.radius < 100 * this.suppression)
+      this.cloud.radius += this.suppression * this.timer.getElapsedTime() / 50;
     this.timer.resetGameClock();
   }
 

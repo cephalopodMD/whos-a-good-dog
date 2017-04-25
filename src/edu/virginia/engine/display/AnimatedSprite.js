@@ -28,7 +28,7 @@ class AnimatedSprite extends Sprite{
 
     this.currFrame = 0;
     this.startIndex = 0;
-    this.endIndex = this.frames.size() - 1;
+    this.endIndex = this.frames.size() - 2;
     this.animations = {'full':{'startIndex':0, 'endIndex':this.endIndex}};
     this.currAnimation = 'full'
     this.playing = true;
