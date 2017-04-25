@@ -17,4 +17,13 @@ class Bed extends InteractSprite
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Destroy");
 	}
+
+	interact() {
+		super.interact();
+
+		if (this.currAnimation == 'broken') {
+			GoodDogPrototype.soundManager.playSoundEffect('paper_rip');
+			GoodDogPrototype.soundManager.playSoundEffect('paper_rip');
+		}
+	}
 }
