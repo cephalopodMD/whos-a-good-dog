@@ -25,6 +25,12 @@ class Fridge extends InteractSprite
 		super.interact();
 	}
 
+	interactOwner()
+	{
+		this.height = this.getUnscaledHeight();
+		super.interactOwner();
+	}
+
 	poopIn(p)
 	{
 		this.hasPoop = true;

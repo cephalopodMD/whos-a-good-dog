@@ -95,6 +95,7 @@ class InteractSprite extends AnimatedSprite
 		}
 		if(this.stateMachine[this.currentState] == this.currentState)
 		{
+			if(!this.isPoopable())
 				this.interactBox.setAlpha(0.0);
 		}
 		if(this.hasPoop)
@@ -119,6 +120,7 @@ class InteractSprite extends AnimatedSprite
 		}
   		if(this.stateMachine[this.currentState] == this.currentState)
   		{
+  			if(!this.isPoopable())
   				this.interactBox.setAlpha(0.0);
   		}
 	}
