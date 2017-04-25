@@ -364,8 +364,8 @@ class GoodDogPrototype extends Game {
       this.g.fillRect(0, 0, this.width, 48)
 
       this.g.fillStyle = "white";
-      this.g.font='16px Arial';
-      this.g.fillText("$" + this.damageValue + " damage", 16, 30);
+      this.g.font='16px "Press Start 2P"';
+      this.g.fillText("$" + this.damageValue + " / $" + this.level.minDamageValue, 16, 30);
 
       this.g.textAlign = 'right'
       this.g.fillText(this.notificationText, this.width-16, 30);
