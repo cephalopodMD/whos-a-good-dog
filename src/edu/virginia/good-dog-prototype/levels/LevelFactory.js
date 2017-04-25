@@ -95,7 +95,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode I", "The Phantom Menace", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 100;
+		var minDamageValue = 2;
 
 		// Create the dog
 		var dog = new Dog(6*blockSize, 6*blockSize);
@@ -249,6 +249,12 @@ class LevelFactory {
 		// Draw walls as transparent
 		var wallColor = "rgba(0, 0, 0, 0.0)";
 		var objColor = "#cccccc";
+		var counter1 = new Counter("counter1", 13, 0, 1, 2, blockSize, objColor);
+		counter1.setRotation(Math.PI/2);
+		var counter2 = new Counter("counter2", 18, 0, 1, 2, blockSize, objColor);
+		counter2.setRotation(Math.PI/2);
+		var table = new Table("wall11", 18, 15.5, 2, 3, blockSize, objColor);
+		table.setRotation(Math.PI/2);
 		var walls = [
 			// House boundaries
 			new Wall("wall0", -2, -2, 2, 24, blockSize, wallColor),
@@ -263,12 +269,39 @@ class LevelFactory {
 			new Wall("wall7", 8, 13, 3, 7, blockSize, wallColor),
 
 			// Placeholder objects
+			// Bedroom
+			new CoffeeTable("wall12", 2, 0, 1, 1, blockSize, objColor),
+			new CoffeeTable("wall13", 6, 0, 1, 1, blockSize, objColor),
+
+			// Kitchen
+			counter1,
+			counter2,
+			new Counter("counter3", 11, 3, 1, 2, blockSize, objColor),
+			new Counter("counter4", 11, 5, 1, 2, blockSize, objColor),
+
+			// Living Room
+			table,
+
 		];
 
 		// Interactable objects
 		var interactableObjects = [
 			// Bedroom
 			LevelFactory._makeBed(3, 0, 3, 3, 2, blockSize),
+			LevelFactory._makeCouch(0, 5, 1.5, 3, 1, blockSize),
+
+			// Kitchen
+			LevelFactory._makeSink(13, 0, 3, 1, 2, blockSize),
+			LevelFactory._makeStove(18, 3, 2, 2, 3, blockSize),
+			LevelFactory._makePlant(11, 9, 1, 1, 1, blockSize),
+			LevelFactory._makePlant(16, 9, 1, 1, 3, blockSize),
+
+			// Living Room
+			LevelFactory._makeBench(11, 15, 1, 3, 1, false, blockSize),
+			LevelFactory._makeCouch(16, 12, 4, 1.5, 2, blockSize),
+
+			// Bathroom
+			LevelFactory._makeTub(0, 17, 2, 3, 1, blockSize),
 		];
 
 	   	// Combine the walls and interactable objects
@@ -285,7 +318,7 @@ class LevelFactory {
 		var titleOverlay = new TitleOverlay("TitleOverlay", "Episode III", "Revenge of the Sh*t", screenWidth, screenHeight);
 
 		// Set the min damage value for the level
-		var minDamageValue = 100;
+		var minDamageValue = 2;
 
 		// Create the dog
 		var dog = new Dog(13*blockSize, 15*blockSize);
