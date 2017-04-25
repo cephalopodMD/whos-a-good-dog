@@ -408,6 +408,7 @@ class LevelFactory {
 			// Kitchen
 			LevelFactory._makeSink(15, 0, 3, 1, 2, blockSize),
 			LevelFactory._makeFridge(12, 0, 1, 1, 2, blockSize),
+			LevelFactory._makeTrash(19, 3, 1, 1, 3, blockSize),
 		];
 
 	   	// Combine the walls and interactable objects
