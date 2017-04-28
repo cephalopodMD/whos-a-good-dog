@@ -107,7 +107,8 @@ class GoodDogPrototype extends Game {
     // Do this last since POO_EVENT will update the owner AI
     if (moneyVals[e.eventType]) {
       this.damageValue += moneyVals[e.eventType];
-
+      var hb = this.dog.position//.getHitbox(this);
+      new DollarSign(hb.x, hb.y);
       // Check if the player beat the level
       if (this.damageValue >= this.level.minDamageValue) {
           this.pause();
