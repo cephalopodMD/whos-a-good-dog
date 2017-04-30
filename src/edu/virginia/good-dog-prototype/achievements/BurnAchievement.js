@@ -17,8 +17,6 @@ class BurnAchievement extends Achievement {
 
 	updateStatus() {
 		this.burnCount += 1;
-		if (this.burnCount == this.requiredBurns) {
-			this.isComplete = true;
-		}
+		this.isComplete = (this.burnCount == this.requiredBurns);
 	}
 }

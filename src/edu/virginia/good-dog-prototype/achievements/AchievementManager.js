@@ -23,7 +23,6 @@ class AchievementManager extends EventDispatcher {
 	}
 
 	handleEvent(e) {
-		debugger;
 		if (this.achievements.hasOwnProperty(e.eventType)) {
 			// Udpate the event status
 			var achievement = this.achievements[e.eventType];
@@ -39,6 +38,7 @@ class AchievementManager extends EventDispatcher {
 	_initAchievements() {
 		var achievements = {};
 		achievements["Burn"] = new BurnAchievement();
+		achievements["Poop in plant"] = new PlantPoopAchievement();
 		return achievements;
 	}
 }

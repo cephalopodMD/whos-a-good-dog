@@ -13,6 +13,8 @@ class Plant extends InteractSprite
 	    this.play();
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Destroy");
+	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in plant");
+	    this.addEventListener(AchievementManager.getInstance(), "Poop in plant");
 	}
 
 	interact() {
@@ -20,7 +22,14 @@ class Plant extends InteractSprite
 
 		if (this.currAnimation == 'broken') {
 			GoodDogPrototype.soundManager.playSoundEffect('paper_rip');
-			GoodDogPrototype.soundManager.playSoundEffect('paper_rip');
 		}
+	}
+
+	poopIn(p)
+	{
+		this.hasPoop = true;
+		this.poop = p;
+		this.stateMachine = this.poopStateMachine;
+    	this.dispatchEvent(new Event('Poop in plant', this));
 	}
 }
