@@ -12,6 +12,7 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
+    sm.loadSoundEffect('yay', 'sounds/yay.mp3');
     sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
     sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
     sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
@@ -39,6 +40,9 @@ class GoodDogPrototype extends Game {
 
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
+
+    // TODO: DEBUG
+    this.achievement = new Achievement(this, "a1", '/achievements/fire.png', "Title", "Description");
   }
 
   showTitleScreen() {
@@ -190,7 +194,7 @@ class GoodDogPrototype extends Game {
     this.setPosition(this.width/2 - dogPos.x, this.height/2 - dogPos.y);
 
     // Start Owner AI
-    this.owner.findNewTarget()
+    this.owner.findNewTarget();
 
     // Set the new title overlay for the level
     this.damageValue = 0;
@@ -216,6 +220,12 @@ class GoodDogPrototype extends Game {
       debug = true;
     else
       debug = false;
+
+    // TODO: DEBUG
+    // space
+    if (pressedKeys.contains(32)) {
+      this.achievement.show();
+    }
 
     if (pressedKeys.contains(27)) {
       this.titleOverlay = new TitleOverlay("TitleOverlay", "Paused", "ESC to resume", this.width, this.height);
@@ -371,6 +381,10 @@ class GoodDogPrototype extends Game {
       this.g.textAlign = 'right'
       this.g.fillText(this.notificationText, this.width-16, 30);
       this.g.textAlign = 'left'
+
+      if (this.achievement) {
+        this.achievement.draw(g);
+      }
 
       // DEBUG: Draw grid
       if (debug && this.grid) {
