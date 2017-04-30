@@ -9,20 +9,16 @@ class GoodDogPrototype extends Game {
     super("Who's A Good Dog?", 800, 640, canvas);
 
     var sm = GoodDogPrototype.soundManager;
-    sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
-    sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
-    sm.loadSoundEffect('yip', 'sounds/yip.mp3');
-    sm.loadSoundEffect('yay', 'sounds/yay.mp3');
-    sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
-    sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
-    sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
-    // sm.playMusic('chase-theme');
     this.loadSounds();
 
     // Create level manager
     this.levelManager = new LevelManager();
     this.addEventListener(this.levelManager, LevelCompleteEvent.LEVEL_COMPLETE);
     this.addEventListener(this.levelManager, GameOverEvent.GAME_OVER);
+
+    // Create achievement manager and register the game as a listener
+    this.achievementManager = AchievementManager.getInstance();
+    this.achievementManager.addEventListener(this, AchievementCompleteEvent.ACHIEVEMENT_COMPLETE);
 
     // Add event listeners for level complete and game over
     this.addEventListener(this, LevelCompleteEvent.LEVEL_COMPLETE);
@@ -40,9 +36,6 @@ class GoodDogPrototype extends Game {
 
     // Border size around edge of screen for camera panning
     this.panBorderSize = 200;
-
-    // TODO: DEBUG
-    this.achievement = new Achievement(this, "a1", '/achievements/fire.png', "Title", "Description");
   }
 
   showTitleScreen() {
@@ -63,6 +56,7 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('coin', 'sounds/smw_coin.wav');
     sm.loadSoundEffect('jump', 'sounds/smb_jump-small.wav');
     sm.loadSoundEffect('yip', 'sounds/yip.mp3');
+    sm.loadSoundEffect('yay', 'sounds/yay.mp3');
     sm.loadSoundEffect('caught', 'sounds/Price-is-right-losing-horn.mp3');
     sm.loadSoundEffect('open_door_1', 'sounds/open_door_1.mp3');
     sm.loadSoundEffect('close_door_1', 'sounds/close_door_1.mp3');
@@ -71,7 +65,6 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('gasp', 'sounds/gasp.mp3');
     sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');
     sm.loadMusic('theme', 'sounds/happy_adventure.mp3');
-    // sm.playMusic('chase-theme');
   }
 
   handleEvent(e) {
@@ -105,6 +98,9 @@ class GoodDogPrototype extends Game {
       GoodDogPrototype.soundManager.playSoundEffect('gasp');
       GoodDogPrototype.soundManager.stopAllMusic();
       GoodDogPrototype.soundManager.playMusic('chase-theme');
+    } else if (e.eventType == AchievementCompleteEvent.ACHIEVEMENT_COMPLETE) {
+      this.achievement = e.getSource();
+      this.achievement.show();
     }
 
     // Update the money count last to handle restarting the level
@@ -220,12 +216,6 @@ class GoodDogPrototype extends Game {
       debug = true;
     else
       debug = false;
-
-    // TODO: DEBUG
-    // space
-    if (pressedKeys.contains(32)) {
-      this.achievement.show();
-    }
 
     if (pressedKeys.contains(27)) {
       this.titleOverlay = new TitleOverlay("TitleOverlay", "Paused", "ESC to resume", this.width, this.height);

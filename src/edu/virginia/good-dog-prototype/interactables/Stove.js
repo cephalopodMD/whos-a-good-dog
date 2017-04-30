@@ -18,6 +18,7 @@ class Stove extends InteractSprite
 	    this.movePoopLocation(57, 48);
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Burn");
+	    this.addEventListener(AchievementManager.getInstance(), "Burn");
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Poop in stove");
 	}
 

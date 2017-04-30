@@ -5,18 +5,20 @@
  */
 class Achievement extends DisplayObject {
 
-	constructor(game, id, filename, title, description, bgColor="#ffffff", fontColor="#222222", soundEffect="yay") {
+	constructor(id, filename, title, description) {
 		super(id, filename);
 		this.title = title;
 		this.description = description;
-		this.bgColor = bgColor;
-		this.fontColor = fontColor;
+		this.bgColor = "#ffffff";
+		this.fontColor = "#222222";
+		this.soundEffect = "yay";
 
 		this.height = 72;
 		this.width = 75*6;
-		this.visible = false;
+		this.isComplete = false;
 
 		// Position achievement at bottom of screen
+		var game = GoodDogPrototype.getInstance();
 		this.targetY = game.height - this.height - 8;
 		this.startY = game.height;
 		var startX = (game.width - this.width) / 2;
@@ -26,8 +28,6 @@ class Achievement extends DisplayObject {
 		this.revealDuration = 400;
 		this.showDuration = 1000;
 		this.hideDuration = 500;
-
-		this.soundEffect = soundEffect;
 	}
 
 	/**
@@ -93,5 +93,14 @@ class Achievement extends DisplayObject {
 	}
 	getUnscaledWidth() {
 		return this.width;
+	}
+
+	getIsComplete() {
+		return this.isComplete;
+	}
+
+	// Methods to override
+	updateStatus() {
+		// Extend this in subclasses to update achievement status
 	}
 }
