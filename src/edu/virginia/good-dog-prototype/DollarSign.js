@@ -16,7 +16,9 @@ class DollarSign extends Sprite {
     dollarTween.addEventListener(this, TweenEvent.TWEEN_COMPLETE_EVENT);
   }
   handleEvent(e) {
-    this.parent.removeChild(this);
+    if (this.parent) {
+      this.parent.removeChild(this);
+    }
     delete this;
   }
 }
