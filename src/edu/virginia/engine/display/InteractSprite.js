@@ -5,8 +5,14 @@ class InteractSprite extends AnimatedSprite
 	constructor(id, folder, nPics, names, machine, poopmachine, ownermachine, poopables, suppressions, hide, events, mads, waits, nextInts)
 	{
 		super(id, folder, nPics);
-		this.interactBox = new DisplayObject("interact", "sprites/blue_box.gif");
+		this.interactBox = new AnimatedSprite("interact", "sprites/boxes", 5);
+		this.interactBox.addAnimation("Blue", 0, 0);
+		this.interactBox.addAnimation("Yellow", 1, 1);
+		this.interactBox.addAnimation("Red", 2, 2);
+		this.interactBox.addAnimation("Green", 3, 3);
+		this.interactBox.addAnimation("Orange", 4, 4);
 		this.interactBox.setAlpha(0.35);
+		this.interactBox.animate("Blue");
     this.interactBox.interactableObject = this;
 
 		// this.addChild(this.interactBox);
