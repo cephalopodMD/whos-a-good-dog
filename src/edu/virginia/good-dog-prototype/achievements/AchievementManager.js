@@ -39,6 +39,7 @@ class AchievementManager extends EventDispatcher {
 		var achievements = {};
 		achievements["Burn"] = new BurnAchievement();
 		achievements["Poop in plant"] = new PlantPoopAchievement();
+		achievements["Poop in couch"] = new CouchAchievement();
 		return achievements;
 	}
 }
