@@ -90,10 +90,9 @@ class DisplayObjectContainer extends DisplayObject{
     this.applyTransformations(g);
     if (this.visible) {
       if (debug) {
-        var hb = this.getHitbox(this);
         g.strokeStyle="red";
         g.lineWidth="4";
-        g.strokeRect(hb.x, hb.y, hb.w, hb.h);
+        g.strokeRect(0, 0, this.getUnscaledWidth(), this.getUnscaledHeight());
       }
       if (this.displayImage && this.loaded && !this.hidden)
       	g.drawImage(this.displayImage,0,0);

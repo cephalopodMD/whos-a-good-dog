@@ -31,6 +31,13 @@ var enhanceContext = function(context) {
       super_.setTransform.call(this, m.a, m.b, m.c, m.d, m.e, m.f);
     },
 
+    //helper for manually forcing the canvas transformation matrix to
+    //match the stored matrix.
+    setMatrix: function(m) {
+      this._matrix = m;
+      super_.setTransform.call(this, m.a, m.b, m.c, m.d, m.e, m.f);
+    },
+
     getMatrix: function() {
       var m = this._matrix;
       return m;
@@ -68,7 +75,7 @@ var enhanceContext = function(context) {
     },
 
     transform: function(a, b, c, d, e, f) {
-      var rhs = createMatrix();
+      var rhs = newMatrix();
       //2x2 scale-skew matrix
       rhs.a = a; rhs.b = b;
       rhs.c = c; rhs.d = d;

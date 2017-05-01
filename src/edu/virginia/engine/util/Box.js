@@ -27,8 +27,8 @@ class Box extends Vec2 {
   getxywh() {return {x:this.x, y:this.y, w:this.w, h:this.h};}
 
   intersectsWith(hb2) {
-    return this.x > hb2.x - this.w &&
-           this.y > hb2.y - this.h &&
+    return this.x + this.w > hb2.x &&
+           this.y + this.h > hb2.y &&
            this.x < hb2.x + hb2.w &&
            this.y < hb2.y + hb2.h
   }

@@ -33,7 +33,7 @@ class PathAI {
 			closedSet.add(curCell);
 
 			var neighbors = this.grid.getNeighbors(curCell);
-			for (var neighbor of neighbors) {
+			for (var neighbor of neighbors.contents) {
 				// If neighbor is not traversable, skip it
 				if (!neighbor.traversable) {
 					continue;

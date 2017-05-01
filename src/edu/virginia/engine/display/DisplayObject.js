@@ -76,13 +76,12 @@ class DisplayObject extends EventDispatcher {
   draw(g){
     this.applyTransformations(g);
     if (debug) {
-      var hb = this.getHitbox();
       g.strokeStyle="red";
       g.lineWidth="4";
-      g.strokeRect(hb.x, hb.y, hb.w, hb.h);
+      g.strokeRect(0, 0, this.getUnscaledWidth(), this.getUnscaledHeight());
     }
-    if(this.displayImage && this.visible)
-      if(this.loaded) g.drawImage(this.displayImage,0,0);
+    if(this.displayImage && this.visible && this.loaded)
+      g.drawImage(this.displayImage,0,0);
     this.reverseTransformations(g);
   }
 
@@ -92,21 +91,23 @@ class DisplayObject extends EventDispatcher {
    * */
   applyTransformations(g) {
     g.save();
-    // move to position
-    g.translate(this.position.x, this.position.y);
-
-    // rotate and scale around pivotPoint, then move back
-    g.translate(this.pivotPoint.x, this.pivotPoint.y);
-    g.rotate(this.rotation);
-    g.scale(this.scale.x, this.scale.y);
-    g.translate(-this.pivotPoint.x, -this.pivotPoint.y);
-
     // set alpha
     g.globalAlpha = this.alpha;
 
     // update matrix
-    if (g.isEnhanced) {
-      this.matrix = g.getMatrix();
+    if (g.isEnhanced && this.matrix) {
+      g.setMatrix(this.matrix);
+    } else {
+      // move to position
+      g.translate(this.position.x, this.position.y);
+
+      // rotate and scale around pivotPoint, then move back
+      g.translate(this.pivotPoint.x, this.pivotPoint.y);
+      g.rotate(this.rotation);
+      g.scale(this.scale.x, this.scale.y);
+      g.translate(-this.pivotPoint.x, -this.pivotPoint.y);
+      if (g.isEnhanced)
+        this.matrix = g.getMatrix();
     }
   }
 
@@ -200,10 +201,9 @@ class DisplayObject extends EventDispatcher {
     if (dispObj2.matrix == null || this.matrix == null)
       return false;
 
-    var hb1 = dispObj2.getHitbox(),
-        hb2 = this.getHitbox()
-    if (hb1.dist(hb2) > hb1.w+hb1.h+hb2.w+hb2.h)
-      return false;
+    if (this.rotation == 0 && dispObj2.rotation == 0)
+      return this.getHitbox(this).intersectsWith(dispObj2.getHitbox(this));
+
     // check to see if both display objects are in eachothers bounding boxes
     // when transformed to eachother's coordinate spaces
     return dispObj2.getHitbox(this).intersectsWith(this.getHitbox(this)) &&
@@ -213,41 +213,58 @@ class DisplayObject extends EventDispatcher {
   getHitbox(relativeTo=null) {
     if (this.matrix == null || (relativeTo != null && relativeTo.matrix == null))
       return new Box();
-    // transform all of this's corners into this image's coordinate space
-    // check to see if inside the resulting bounding box for dispObj2
-    var m;
-    if (relativeTo)
-      m = relativeTo.matrix.inverse().multiply(this.matrix);
-    else
-      m = this.matrix;
-    if (this.rotation != 0 || (relativeTo && relativeTo.rotation != 0) || this.parent != Game.getInstance() || relativeTo) {
+    var uw = this.getUnscaledWidth(),
+        uh = this.getUnscaledHeight();
+    if (relativeTo == this)
+      return new Box(0, 0, uw, uh);
+    if (this.rotation != 0 || relativeTo) {
+      // transform all of this's corners into this image's coordinate space
+      // check to see if inside the resulting bounding box for dispObj2
+      var m;
+      if (relativeTo)
+        m = relativeTo.matrix.inverse().multiply(this.matrix);
+      else
+        m = this.matrix;
       // optimize for corners
       var corners;
       corners = [
-        new Vec2(),
-        new Vec2(this.getUnscaledWidth(), 0),
-        new Vec2(0, this.getUnscaledHeight()),
-        new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())
+        [uw, 0],
+        [0, uh],
+        [uw, uh]
       ]
-      var xs = [], ys = []
-      for (let p of corners) {
-        p.transform(m)
-        xs.push(p.x);
-        ys.push(p.y);
+      var p = (new Vec2()).transform(m)
+      var ox = p.x,
+          oy = p.y,
+          cx = p.x,
+          cy = p.y;
+      for (let c of corners) {
+        p.setxy(c[0], c[1]);
+        p.transform(m);
+        if (p.x < ox)
+          ox = p.x
+        if (p.y < oy)
+          oy = p.y
+        if (p.x > cx)
+          cx = p.x
+        if (p.y > cy)
+          cy = p.y
       }
-      var origin = {x:Math.min(...xs), y:Math.min(...ys)}
-      var corner = {x:Math.max(...xs), y:Math.max(...ys)}
-      return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y)
+      return new Box(ox, oy, cx-ox, cy-oy)
     } else {
-      if (this.parent == Game.getInstance()) {
+      if (this.parent == null) {
+        return new Box(this.position.x,
+                       this.position.y,
+                       this.getWidth(),
+                       this.getHeight());
+      } else if (this.parent == Game.getInstance()) {
         return new Box(this.parent.position.x + this.position.x * this.parent.scale.x,
                        this.parent.position.y + this.position.y * this.parent.scale.y,
-                       this.getUnscaledWidth() * this.scale.x * this.parent.scale.x,
-                       this.getUnscaledHeight() * this.scale.y * this.parent.scale.y);
+                       this.getWidth() * this.parent.scale.x,
+                       this.getHeight() * this.parent.scale.y);
       } else {
         var m = this.matrix;
         var origin = (new Vec2()).transform(m);
-        var corner = (new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())).transform(m);
+        var corner = (new Vec2(uw, uh)).transform(m);
         return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y);
       }
     }
