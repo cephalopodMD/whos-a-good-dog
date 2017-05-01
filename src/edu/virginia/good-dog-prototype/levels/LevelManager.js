@@ -11,7 +11,7 @@ class LevelManager extends EventDispatcher {
 	handleEvent(e) {
 		if (e.eventType == LevelCompleteEvent.LEVEL_COMPLETE) {
 			this.curLevel += 1;
-			if (this.curLevel == this.numLevels) {
+			if (this.curLevel >= this.numLevels) {
 				this.dispatchEvent(new GameOverEvent(e.source));
 			} else {
 				this.dispatchEvent(new LevelUpdateEvent(this));
