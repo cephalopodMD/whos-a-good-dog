@@ -39,9 +39,12 @@ class Game extends DisplayObjectContainer{
   }
 
   nextFrame(){
+    if(this.playing)
+      setTimeout(function() {
+        window.requestAnimationFrame(tick);
+      }, 1000 / 30);
     game.update(this.pressedKeys, game.pollGamepads());
     game.draw(this.g);
-    if(this.playing) window.requestAnimationFrame(tick);
   }
 
   start(){
