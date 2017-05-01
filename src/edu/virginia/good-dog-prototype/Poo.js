@@ -12,7 +12,7 @@ class Poo extends Sprite {
     this.collected = false;
     this.timer = new GameClock()
     this.cloud = new Sprite('cloud', 'sprites/circle-xxl.png')
-    this.cloud.alpha = 0.5;
+    this.cloud.alpha = 0;
     this.cloud.setScale(.1, .1);
     this.cloud.setPosition(80, 80);
     this.addChild(this.cloud);
@@ -23,9 +23,9 @@ class Poo extends Sprite {
 
   update(pressedKeys, gamepads) {
     super.update();
-    if (this.cloud.alpha < .2 * this.suppression)
+    if (this.cloud.alpha < .5)
       this.cloud.alpha += this.suppression * this.timer.getElapsedTime() / 50000
-    if (this.cloud.scale.x < 100 * this.suppression) {
+    if (this.cloud.scale.x < 16 * this.suppression) {
       var scaleFactor = this.suppression * this.timer.getElapsedTime() / 5000;
       this.cloud.scale.x += scaleFactor;
       this.cloud.scale.y += scaleFactor;
