@@ -61,6 +61,15 @@ class GoodDogPrototype extends Game {
     sm.loadSoundEffect('open_door_1', 'sounds/open_door_1.mp3');
     sm.loadSoundEffect('close_door_1', 'sounds/close_door_1.mp3');
     sm.loadSoundEffect('paper_rip', 'sounds/paper_rip.mp3');
+    sm.loadSoundEffect('sink', 'sounds/sink.mp3');
+    sm.loadSoundEffect('stove_open_close', 'sounds/stove_open_close.mp3');
+    sm.loadSoundEffect('stove_burner', 'sounds/stove_burner.mp3');
+    sm.loadSoundEffect('tub_drain', 'sounds/tub_drain.mp3');
+    sm.loadSoundEffect('tub_fill', 'sounds/tub_fill.mp3');
+    sm.loadSoundEffect('bench_break', 'sounds/bench_break.mp3');
+    sm.loadSoundEffect('couch', 'sounds/couch.mp3');
+    sm.loadSoundEffect('fridge', 'sounds/fridge.mp3');
+    sm.loadSoundEffect('trash', 'sounds/trash.mp3');
     sm.loadSoundEffect('poo', 'sounds/poo.mp3');
     sm.loadSoundEffect('gasp', 'sounds/gasp.mp3');
     sm.loadMusic('chase-theme', 'sounds/yakety-sax.mp3');

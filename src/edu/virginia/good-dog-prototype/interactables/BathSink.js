@@ -33,4 +33,8 @@ class BathSink extends InteractSprite
 		this.stateMachine = this.poopStateMachine;
     	this.dispatchEvent(new Event('Poop in sink', this));
 	}
+
+	playSoundEffect() {
+		GoodDogPrototype.soundManager.playSoundEffect('sink');
+	}
 }

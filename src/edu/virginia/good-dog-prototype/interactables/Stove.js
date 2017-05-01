@@ -29,4 +29,12 @@ class Stove extends InteractSprite
 		this.stateMachine = this.poopStateMachine;
     	this.dispatchEvent(new Event('Poop in stove', this));
 	}
+
+	playSoundEffect() {
+		if (this.currAnimation == 'start' || this.currAnimation == 'broken') {
+			GoodDogPrototype.soundManager.playSoundEffect('stove_open_close');
+		} else if (this.currAnimation == 'burn') {
+			GoodDogPrototype.soundManager.playSoundEffect('stove_burner');
+		}
+	}
 }

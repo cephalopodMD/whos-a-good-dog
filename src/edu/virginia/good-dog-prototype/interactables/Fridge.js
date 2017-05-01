@@ -47,4 +47,8 @@ class Fridge extends InteractSprite
 		else
 			return this.height;
 	}
+
+	playSoundEffect() {
+		GoodDogPrototype.soundManager.playSoundEffect('fridge');
+	}
 }

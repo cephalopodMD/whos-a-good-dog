@@ -34,4 +34,8 @@ class Couch extends InteractSprite
 		this.stateMachine = this.poopStateMachine;
     	this.dispatchEvent(new Event('Poop in couch', this));
 	}
+
+	playSoundEffect() {
+		GoodDogPrototype.soundManager.playSoundEffect('couch');
+	}
 }

@@ -33,4 +33,12 @@ class Tub extends InteractSprite
 		this.stateMachine = this.poopStateMachine;
     	this.dispatchEvent(new Event('Poop in tub', this));
 	}
+
+	playSoundEffect() {
+		if (this.currAnimation == 'full') {
+			GoodDogPrototype.soundManager.playSoundEffect('tub_fill');
+		} else if (this.currAnimation == 'start') {
+			GoodDogPrototype.soundManager.playSoundEffect('tub_drain');
+		}
+	}
 }

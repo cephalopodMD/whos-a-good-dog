@@ -106,6 +106,10 @@ class InteractSprite extends AnimatedSprite
 			else
 				this.poop.reveal();
 		}
+
+		// Play sound effect after updating state
+		// Only play sound effects when player interacts with object
+		this.playSoundEffect();
 	}
 
 	interactOwner()
@@ -123,6 +127,10 @@ class InteractSprite extends AnimatedSprite
   			if(!this.isPoopable())
   				this.interactBox.setAlpha(0.0);
   		}
+	}
+
+	playSoundEffect() {
+		// Override in subclasses to handle sound effects
 	}
 
   setPosition(x, y) {
