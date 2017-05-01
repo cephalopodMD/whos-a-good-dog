@@ -54,8 +54,8 @@ class Owner extends AnimatedSprite {
         // Figure out the direction of the forces based on the next node in the path
         var xDir = Math.sign(node1.x - node0.x);
         var yDir = Math.sign(node1.y - node0.y);
-        this.applyForce(new Vec2(xDir * this.parent.clock.getElapsedTime() / 8.0, 0));
-        this.applyForce(new Vec2(0, yDir * this.parent.clock.getElapsedTime() / 8.0));
+        this.applyForce(new Vec2(xDir * this.parent.clock.getElapsedTime() / 12.0, 0));
+        this.applyForce(new Vec2(0, yDir * this.parent.clock.getElapsedTime() / 12.0));
       }
 
       // for 160x160 poo scaled by .1 and 40x40 scaled owner sprite
