@@ -222,8 +222,6 @@ class Dog extends AnimatedSprite {
           pos.setxy(pos.x + interactableObj.getPoopLocation().x, pos.y + interactableObj.getPoopLocation().y)
           var newPoo = new Poo(pos.x, pos.y);
           var pooIn = new Tween(newPoo);
-          pooIn.animate(TweenableParams.X, pos.x, pos.x, this.pooTime);
-          pooIn.animate(TweenableParams.Y, pos.y, pos.y, this.pooTime);
           pooIn.animate(TweenableParams.SCALEX, 0, Poo.scale, this.pooTime);
           pooIn.animate(TweenableParams.SCALEY, 0, Poo.scale, this.pooTime);
           TweenJuggler.add(pooIn);

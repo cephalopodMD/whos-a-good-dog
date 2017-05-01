@@ -58,9 +58,13 @@ class Owner extends AnimatedSprite {
         this.applyForce(new Vec2(0, yDir * this.parent.clock.getElapsedTime() / 8.0));
       }
 
+      // for 160x160 poo scaled by .1 and 40x40 scaled owner sprite
+      var pooMid = new Vec2(8, 8),
+          ownerMid = new Vec2(20, 20)
       if (this.target != game.dog)
         for (let poo of game.poos.children.contents)
-          if (this.position.sub_i(poo.position).magnitude() < poo.getRadius())
+          // add on the "radius" of the owner 40 * sqrt(2) /2
+          if (this.position.add_i(ownerMid).sub_i(poo.position.add_i(pooMid)).magnitude() - 28 < poo.getRadius())
             this.chase();
     }
   }

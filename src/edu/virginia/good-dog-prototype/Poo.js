@@ -11,27 +11,33 @@ class Poo extends Sprite {
     this.setScale(Poo.scale, Poo.scale);
     this.collected = false;
     this.timer = new GameClock()
-    this.cloud = new Emitter(this.id+'_cloud', Sprite, this.id+'_cloud_particle', "sprites/poo.png")
+    this.cloud = new Sprite('cloud', 'sprites/circle-xxl.png')
     this.cloud.alpha = 0;
-    this.cloud.radius = 10;
-    this.cloud.particleLife = 500
+    this.cloud.setScale(.1, .1);
+    this.cloud.setPosition(80, 80);
+    this.addChild(this.cloud);
     this.suppression = 1.0;
     this.hasContainer = false;
     this.container = null;
-    this.addChild(this.cloud);
   }
 
   update(pressedKeys, gamepads) {
     super.update();
-    if (this.cloud.alpha < .2 * this.suppression)
+    if (this.cloud.alpha < .5)
       this.cloud.alpha += this.suppression * this.timer.getElapsedTime() / 50000
-    if (this.cloud.radius < 100 * this.suppression)
-      this.cloud.radius += this.suppression * this.timer.getElapsedTime() / 50;
+    if (this.cloud.scale.x < 16 * this.suppression) {
+      var scaleFactor = this.suppression * this.timer.getElapsedTime() / 5000;
+      this.cloud.scale.x += scaleFactor;
+      this.cloud.scale.y += scaleFactor;
+      this.cloud.position.x -= scaleFactor*140;
+      this.cloud.position.y -= scaleFactor*140;
+      this.cloud.recalculateMatrix();
+    }
     this.timer.resetGameClock();
   }
 
   getRadius() {
-    return this.cloud.radius;
+    return this.cloud.scale.x * 256 * 0.1;
   }
 
   setContainer(cont)

@@ -11,7 +11,7 @@ class Couch extends InteractSprite
         ['start', 'open'],
         [1, 0], [1, 0], [0, 0],
         [false, true],
-        [0.5, 1.0],
+        [0.2, 1.0],
         [true, false],
         ["Benign", "Benign"],
         [false, false], [3000, 4000], [["next"], ["next"]]);
