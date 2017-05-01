@@ -54,7 +54,7 @@ class InteractSprite extends AnimatedSprite
 	setCurrentColor()
 	{
 		if(this.hasPoop)
-			this.interactBox.animate(this.poopcolors[this.currentState]);
+			this.interactBox.animate(this.poopColors[this.currentState]);
 		else
 			this.interactBox.animate(this.colors[this.currentState]);
 	}

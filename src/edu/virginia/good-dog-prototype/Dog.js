@@ -87,6 +87,7 @@ class Dog extends AnimatedSprite {
   }
 
   checkInteractions() {
+    console.log("This is happening");
     var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
     for (var interactableObj of interactableObjects) {
       var interactBox = interactableObj.getInteractBox();
@@ -106,8 +107,6 @@ class Dog extends AnimatedSprite {
       else
         interactableObj.setDefaultColor();
     }
-    // Reset the interaction timer
-    this.interactTimer.resetGameClock();
   }
 
   checkCollisions(game) {
