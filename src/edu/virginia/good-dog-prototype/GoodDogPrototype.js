@@ -305,11 +305,11 @@ class GoodDogPrototype extends Game {
           }
           else if(this.owner.target != null)
           {
-            if(this.owner.target.getHasPoop())
+            /*if(this.owner.target.getHasPoop())
             {
-              this.owner.chase();
+              //this.owner.chase();
             }
-            else if(this.owner.target.getMaddening())
+            else*/ if(this.owner.target.getMaddening())
             {
               this.owner.chase();
             }
