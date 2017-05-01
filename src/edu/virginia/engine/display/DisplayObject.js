@@ -239,10 +239,17 @@ class DisplayObject extends EventDispatcher {
       var corner = {x:Math.max(...xs), y:Math.max(...ys)}
       return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y)
     } else {
-      var m = this.matrix;
-      var origin = (new Vec2()).transform(m);
-      var corner = (new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())).transform(m);
-      return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y);
+      if (this.parent == Game.getInstance()) {
+        return new Box(this.parent.position.x + this.position.x * this.parent.scale.x,
+                       this.parent.position.y + this.position.y * this.parent.scale.y,
+                       this.getUnscaledWidth() * this.scale.x * this.parent.scale.x,
+                       this.getUnscaledHeight() * this.scale.y * this.parent.scale.y);
+      } else {
+        var m = this.matrix;
+        var origin = (new Vec2()).transform(m);
+        var corner = (new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())).transform(m);
+        return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y);
+      }
     }
   }
 
