@@ -246,12 +246,6 @@ class LevelFactory {
 		// Draw walls as transparent
 		var wallColor = "rgba(0, 0, 0, 0.0)";
 		var objColor = "#cccccc";
-		var counter1 = new Counter("counter1", 13, 0, 1, 2, blockSize, objColor);
-		counter1.setRotation(Math.PI/2);
-		var counter2 = new Counter("counter2", 18, 0, 1, 2, blockSize, objColor);
-		counter2.setRotation(Math.PI/2);
-		var table = new Table("wall11", 18, 15.5, 2, 3, blockSize, objColor);
-		table.setRotation(Math.PI/2);
 		var walls = [
 			// House boundaries
 			new Wall("wall0", -2, -2, 2, 24, blockSize, wallColor),
@@ -271,8 +265,6 @@ class LevelFactory {
 			new CoffeeTable("wall13", 6, 0, 1, 1, blockSize, objColor),
 
 			// Kitchen
-			counter1,
-			counter2,
 			new Counter("counter3", 11, 4, 1, 2, blockSize, objColor),
 			new Counter("counter4", 11, 6, 1, 2, blockSize, objColor),
 
@@ -280,7 +272,7 @@ class LevelFactory {
 			new Wall("wall8", 2, 15, 3, 1, blockSize, "#afafaf"),
 
 			// Living Room
-			table,
+			new Table("wall11", 15, 17, 2, 3, blockSize, objColor),
 
 		];
 
