@@ -63,30 +63,30 @@ class Owner extends AnimatedSprite {
           ownerMid = new Vec2(20, 20)
       if (this.target != game.dog)
         for (let poo of game.poos.children.contents)
-          // add on the "radius" of the owner 40 * sqrt(2) /2
+          // add on the "radius" of the owner ~= 40 * sqrt(2) /2
           if (this.position.add_i(ownerMid).sub_i(poo.position.add_i(pooMid)).magnitude() - 28 < poo.getRadius())
             this.chase();
     }
   }
 
   checkCollisions(game) {
-    //check platform collisions
+    //check collidable collisions
     var collided = false;
-    for (let plat of game.collidables) {
-      if (plat.collidesWith(this)) {
+    for (let c of game.collidables) {
+      if (c.collidesWith(this)) {
         // fix velocity vector after collision instead of zeroing
         // get normal vector by:
         //// transforming Dog to old coords
         var currPos = new Vec2();
         currPos.set(this.position);
         this.setPosition(this.lastPosition.x, this.lastPosition.y);
-        //// getting bounding box of dog in plat space
-        var box = this.getHitbox(plat)
+        //// getting bounding box of dog in c space
+        var box = this.getHitbox(c)
         //// checking if above, below, left, or right
         var relative = {a:false, b:false, l:false, r:false};
-        if (box.x >= plat.getUnscaledWidth())
+        if (box.x >= c.getUnscaledWidth())
           relative.r = true;
-        if (box.y >= plat.getUnscaledHeight())
+        if (box.y >= c.getUnscaledHeight())
           relative.b = true;
         if (box.x <= -box.w)
           relative.l = true;
@@ -94,21 +94,21 @@ class Owner extends AnimatedSprite {
           relative.a = true;
         //// transforming Dog back to real coords
         this.setPosition(currPos.x, currPos.y);
-        //// getting bounding box of dog in plat space
-        box = this.getHitbox(plat);
+        //// getting bounding box of dog in c space
+        box = this.getHitbox(c);
         //// choosing appropriate normal vector to edge
         var norm = new Vec2();
         if (relative.r)
-          norm = new Vec2(plat.getUnscaledWidth() - box.x, 0);
+          norm = new Vec2(c.getUnscaledWidth() - box.x, 0);
         if (relative.b)
-          norm = new Vec2(0, plat.getUnscaledHeight() - box.y);
+          norm = new Vec2(0, c.getUnscaledHeight() - box.y);
         if (relative.l)
           norm = new Vec2(-box.x - box.w, 0);
         if (relative.a)
           norm = new Vec2(0, -box.y - box.h);
         //// transforming vector into world coords
-        norm.rotate(plat.rotation);
-        norm.scale(plat.scale.x);
+        norm.rotate(c.rotation);
+        norm.scale(c.scale.x);
         // get newpos by taking normal vector and adding to current position
         //this.applyForce((new Vec2()).set(norm));
         var newPos = this.position.add_i(norm.scale_i(1.1));
@@ -122,22 +122,13 @@ class Owner extends AnimatedSprite {
       }
     }
     // recheck collisions after the fact
+
     var collided = false;
-    for (let plat of game.collidables)
-      if (plat.collidesWith(this))
+    for (let c of game.collidables)
+      if (c.collidesWith(this))
         collided = true;
     if (!collided)
       this.lastPosition.set(this.position);
-
-    for (let room of game.level.rooms) {
-      if (this.getHitbox(game).intersectsWith(room.hitbox)) {
-        if (this.room != room) {
-          // TODO check for poop and interacted with objects here
-        }
-        this.room == room;
-        break;
-      }
-    }
   }
 
   setPath(path) {this.path = path;}

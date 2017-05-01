@@ -62,8 +62,9 @@ class Vec2 {
 
   transform(matrix) {
     var x = this.x * matrix.a + this.y * matrix.c + matrix.e;
-    this.y = this.x * matrix.b + this.y * matrix.d + matrix.f;
+    var y = this.x * matrix.b + this.y * matrix.d + matrix.f;
     this.x = x;
+    this.y = y;
     return this;
   }
 

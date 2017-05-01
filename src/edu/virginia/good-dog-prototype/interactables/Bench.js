@@ -18,4 +18,10 @@ class Bench extends InteractSprite
 
 	    this.addEventListener(GoodDogPrototype.getInstance(), "Destroy");
 	}
+
+	playSoundEffect() {
+		if (this.currAnimation == 'broken') {
+			GoodDogPrototype.soundManager.playSoundEffect('bench_break');
+		}
+	}
 }

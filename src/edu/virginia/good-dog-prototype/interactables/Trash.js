@@ -31,4 +31,8 @@ class Trash extends InteractSprite
 		this.stateMachine = this.poopStateMachine;
     	this.dispatchEvent(new Event('Poop in trash', this));
 	}
+
+	playSoundEffect() {
+		GoodDogPrototype.soundManager.playSoundEffect('trash');
+	}
 }

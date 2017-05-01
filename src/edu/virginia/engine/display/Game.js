@@ -15,6 +15,7 @@ class Game extends DisplayObjectContainer{
     this.canvas = canvas;
     this.g = canvas.getContext('2d'); //the graphics object
     this.g = enhanceContext(this.g);
+    this.fps = (navigator.userAgent.search("Firefox") ? 30 : 60);
 
     this.playing = false;
     this.pressedKeys = new ArrayList();
@@ -39,9 +40,12 @@ class Game extends DisplayObjectContainer{
   }
 
   nextFrame(){
+    if(this.playing)
+      setTimeout(function() {
+        window.requestAnimationFrame(tick);
+      }, 1000 / this.fps);
     game.update(this.pressedKeys, game.pollGamepads());
     game.draw(this.g);
-    if(this.playing) window.requestAnimationFrame(tick);
   }
 
   start(){

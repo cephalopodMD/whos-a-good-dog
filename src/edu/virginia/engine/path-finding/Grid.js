@@ -40,7 +40,7 @@ class Grid {
    * A diagonal cell is only a neighbor if it can get there without cutting any corner
    */
   getNeighbors(cell) {
-    var neighbors = new Set();
+    var neighbors = new ArrayList();
 
     var s1 = this.getCell(cell.x, cell.y-1);
     var s2 = this.getCell(cell.x-1, cell.y);
@@ -70,10 +70,10 @@ class Grid {
     }
 
     // Removed any instances of undefined
-    neighbors.delete(undefined);
+    neighbors.remove(undefined);
 
     return neighbors;
-  }  
+  }
 
   /**
    * Helper method to get a cell from the grid

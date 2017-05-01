@@ -17,19 +17,17 @@ class Plant extends InteractSprite
 	    this.addEventListener(AchievementManager.getInstance(), "Poop in plant");
 	}
 
-	interact() {
-		super.interact();
-
-		if (this.currAnimation == 'broken') {
-			GoodDogPrototype.soundManager.playSoundEffect('paper_rip');
-		}
-	}
-
 	poopIn(p)
 	{
 		this.hasPoop = true;
 		this.poop = p;
 		this.stateMachine = this.poopStateMachine;
     	this.dispatchEvent(new Event('Poop in plant', this));
+	}
+
+	playSoundEffect() {
+		if (this.currAnimation == 'broken') {
+			GoodDogPrototype.soundManager.playSoundEffect('paper_rip');
+		}
 	}
 }
