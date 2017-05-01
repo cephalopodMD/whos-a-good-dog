@@ -14,7 +14,8 @@ class Trash extends InteractSprite
         [0.3],
         [false],
         ["Benign"],
-        [false], [1000], [["next"]]);
+        [false], [1000], [["next"]],
+        ["Blue"], ["Blue"]);
 	    this.addAnimation('start', 0, 0);
 	    this.animate('start');
 	    this.play();

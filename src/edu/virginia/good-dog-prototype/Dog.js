@@ -97,6 +97,19 @@ class Dog extends AnimatedSprite {
     this.interactTimer.resetGameClock();
   }
 
+  checkBoxes() {
+    var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
+    for (var interactableObj of interactableObjects) {
+      var interactBox = interactableObj.getInteractBox();
+      if (this.collidesWith(interactBox))
+        interactableObj.setCurrentColor();
+      else
+        interactableObj.setDefaultColor();
+    }
+    // Reset the interaction timer
+    this.interactTimer.resetGameClock();
+  }
+
   checkCollisions(game) {
     //check platform collisions
     for (let plat of game.collidables) {

@@ -9,7 +9,8 @@ class Stove extends InteractSprite
 	    super(id, foldername, 3, ['start', 'broken', 'burn'],
 	    [1, 0, 0], [2, 0, 2],[0, 0, 0],
 	    [false, true, false], [0.5, 1.0, 1.6], [true, false, true], ["Benign", "Open", "Burn"], 
-	    [false, false, false], [1000, 1000, 1000], [["again", "next"], ["again", "again", "next"], ["next"]]); // Id, foldername, nPics, names, machine, poopables, suppressions, events
+	    [false, false, false], [1000, 1000, 1000], [["again", "next"], ["again", "again", "next"], ["next"]],
+	    ["Yellow", "Green", "Red"], ["Orange", "Green", "Red"]); // Id, foldername, nPics, names, machine, poopables, suppressions, events
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('broken', 1, 1);
 	    this.addAnimation('burn', 2, 2);

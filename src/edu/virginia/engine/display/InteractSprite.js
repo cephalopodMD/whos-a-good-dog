@@ -2,7 +2,7 @@
 
 class InteractSprite extends AnimatedSprite
 {
-	constructor(id, folder, nPics, names, machine, poopmachine, ownermachine, poopables, suppressions, hide, events, mads, waits, nextInts)
+	constructor(id, folder, nPics, names, machine, poopmachine, ownermachine, poopables, suppressions, hide, events, mads, waits, nextInts, boxColors, poopBoxColors)
 	{
 		super(id, folder, nPics);
 		this.interactBox = new AnimatedSprite("interact", "sprites/boxes", 5);
@@ -32,6 +32,8 @@ class InteractSprite extends AnimatedSprite
     this.maddenings = mads;
     this.waitTimes = waits;
     this.nextTarget = nextInts;
+    this.colors = boxColors;
+    this.poopColors = poopBoxColors;
 
     this.boxOffsetX = 0;
     this.boxOffsetY = 0;
@@ -42,6 +44,19 @@ class InteractSprite extends AnimatedSprite
 
 	update(keys, gamepads){
   	super.update(keys, gamepads)
+	}
+
+	setDefaultColor()
+	{
+		this.interactBox.animate("Blue");
+	}
+
+	setCurrentColor()
+	{
+		if(this.hasPoop)
+			this.interactBox.animate(this.poopcolors[this.currentState]);
+		else
+			this.interactBox.animate(this.colors[this.currentState]);
 	}
 
 	isPoopable() { return (this.isPoopables[this.currentState] && !this.hasPoop); }

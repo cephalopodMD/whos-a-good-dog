@@ -16,7 +16,8 @@ class BathSink extends InteractSprite
         [1.0, 0.3],
         [false, true],
         ["Benign", "Benign"],
-        [false, false], [500, 2000], [["again", "next"], ["next"]]);
+        [false, false], [500, 2000], [["again", "next"], ["next"]],
+        ["Green", "Yellow"], ["Green", "Yellow"]);
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('full', 1, 1);
 	    this.animate('start');

@@ -14,7 +14,8 @@ class Couch extends InteractSprite
         [0.2, 1.0],
         [true, false],
         ["Benign", "Benign"],
-        [false, false], [3000, 4000], [["next"], ["next"]]);
+        [false, false], [3000, 4000], [["next"], ["next"]],
+        ["Yellow", "Green"], ["Yellow", "Green"]);
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('open', 1, 1);
 	    this.animate('start');

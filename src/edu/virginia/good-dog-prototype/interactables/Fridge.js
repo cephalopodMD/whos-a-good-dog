@@ -9,7 +9,8 @@ class Fridge extends InteractSprite
 	    super(id, foldername, 2, ['start', 'open'], // Id, folder name, nPics, names
 	    [1, 0], [1, 0], [1, 0], // 3 different state machines
 	    [false, true], [0.1, 1.0], [true, true], ["Benign", "Benign"], 
-	    [false, false], [1000, 500], [["again", "next"], ["next"]]); // Id, foldername, nPics, names, machine, poopables, suppressions, events
+	    [false, false], [1000, 500], [["again", "next"], ["next"]],
+	    ["Yellow", "Green"], ["Yellow", "Green"]); // Id, foldername, nPics, names, machine, poopables, suppressions, events
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('open', 1, 1);
 	    this.animate('start');

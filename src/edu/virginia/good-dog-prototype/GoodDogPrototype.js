@@ -231,6 +231,7 @@ class GoodDogPrototype extends Game {
     // Check collisions
     this.dog.checkCollisions(this);
     this.owner.checkCollisions(this);
+    this.dog.checkBoxes(this);
 
     // Attempt to pan the camera with the dog
     this.panCamera();

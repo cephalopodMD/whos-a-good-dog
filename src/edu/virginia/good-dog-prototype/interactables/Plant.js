@@ -6,7 +6,7 @@ class Plant extends InteractSprite
 	{
 	    var id = 'Plant',
 	        foldername = 'sprites/Plant';
-	    super(id, foldername, 2, ['start', 'broken'], [1, 1], [1, 1], [0, 1], [false, true], [1.0, 1.0], [false, false], ["Benign", "Destroy"], [false, true], [500, 500], [["next"], ["mad"]]); // Id, foldername, nPics, names, machine, poopables, suppressions, events
+	    super(id, foldername, 2, ['start', 'broken'], [1, 1], [1, 1], [0, 1], [false, true], [1.0, 1.0], [false, false], ["Benign", "Destroy"], [false, true], [500, 500], [["next"], ["mad"]], ["Red", "Blue"], ["Red", "Blue"]); // Id, foldername, nPics, names, machine, poopables, suppressions, events
 	    this.addAnimation('start', 0, 0);
 	    this.addAnimation('broken', 1, 1);
 	    this.animate('start');
