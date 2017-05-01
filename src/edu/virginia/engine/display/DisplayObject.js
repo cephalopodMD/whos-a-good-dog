@@ -213,36 +213,37 @@ class DisplayObject extends EventDispatcher {
   getHitbox(relativeTo=null) {
     if (this.matrix == null || (relativeTo != null && relativeTo.matrix == null))
       return new Box();
-    // optimize for corners
-    var corners;
-    if (this.rotation != 0 || (relativeTo && relativeTo.rotation != 0))
+    // transform all of this's corners into this image's coordinate space
+    // check to see if inside the resulting bounding box for dispObj2
+    var m;
+    if (relativeTo)
+      m = relativeTo.matrix.inverse().multiply(this.matrix);
+    else
+      m = this.matrix;
+    if (this.rotation != 0 || (relativeTo && relativeTo.rotation != 0) || this.parent != Game.getInstance() || relativeTo) {
+      // optimize for corners
+      var corners;
       corners = [
         new Vec2(),
         new Vec2(this.getUnscaledWidth(), 0),
         new Vec2(0, this.getUnscaledHeight()),
         new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())
       ]
-    else
-      corners = [
-        new Vec2(),
-        new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())
-      ]
-    // transform all of this's corners into this image's coordinate space
-    // check to see if inside the resulting bounding box for dispObj2
-    var m;
-    if (relativeTo == null)
-      m = this.matrix;
-    else
-      m = relativeTo.matrix.inverse().multiply(this.matrix);
-    var xs = [], ys = []
-    for (let p of corners) {
-      p.transform(m)
-      xs.push(p.x);
-      ys.push(p.y);
+      var xs = [], ys = []
+      for (let p of corners) {
+        p.transform(m)
+        xs.push(p.x);
+        ys.push(p.y);
+      }
+      var origin = {x:Math.min(...xs), y:Math.min(...ys)}
+      var corner = {x:Math.max(...xs), y:Math.max(...ys)}
+      return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y)
+    } else {
+      var m = this.matrix;
+      var origin = (new Vec2()).transform(m);
+      var corner = (new Vec2(this.getUnscaledWidth(), this.getUnscaledHeight())).transform(m);
+      return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y);
     }
-    var origin = {x:Math.min(...xs), y:Math.min(...ys)}
-    var corner = {x:Math.max(...xs), y:Math.max(...ys)}
-    return new Box(origin.x, origin.y, corner.x-origin.x, corner.y-origin.y)
   }
 
 }
