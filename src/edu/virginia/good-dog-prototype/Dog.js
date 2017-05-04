@@ -49,12 +49,14 @@ class Dog extends AnimatedSprite {
       }
     }
 
-    if((pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
+    if ((pressedKeys.contains(81) || pressedKeys.contains(90)) && this.pooTimer.getElapsedTime() > this.pooTime)
       this.pooInteract();
     if ((pressedKeys.contains(87) || pressedKeys.contains(88)) && this.interactTimer.getElapsedTime() > this.interactTime)
       this.checkInteractions();
-    if(pressedKeys.contains(32) || pressedKeys.contains(66))
+    if (pressedKeys.contains(66))
       GoodDogPrototype.soundManager.playSoundEffect('yip')
+    if (pressedKeys.contains(32))
+      this.multiInteract()
 
     if (this.pooTimer.getElapsedTime() > this.pooTime) {
       // arrow keys move
@@ -87,7 +89,6 @@ class Dog extends AnimatedSprite {
   }
 
   checkInteractions() {
-    console.log("This is happening");
     var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
     for (var interactableObj of interactableObjects) {
       var interactBox = interactableObj.getInteractBox();
@@ -252,6 +253,40 @@ class Dog extends AnimatedSprite {
     }
     // Reset the interaction timer
     this.interactTimer.resetGameClock();
+  }
+
+  multiInteract() {
+    if (this.pooTimer.getElapsedTime() > this.pooTime && this.interactTimer.getElapsedTime() > this.interactTime) {
+      var interactableObjects = GoodDogPrototype.getInstance().interactableObjects;
+      for (var interactableObj of interactableObjects) {
+        var interactBox = interactableObj.getInteractBox();
+        if (this.collidesWith(interactBox) && interactBox.getAlpha() != 0) {
+          if (interactableObj.isPoopable()) {
+            this.pooTime *= 1.1;
+            this.velocity = new Vec2();
+            var pos = interactableObj.getHitbox(this.parent);
+            pos.setxy(pos.x + interactableObj.getPoopLocation().x, pos.y + interactableObj.getPoopLocation().y)
+            var newPoo = new Poo(pos.x, pos.y);
+            var pooIn = new Tween(newPoo);
+            pooIn.animate(TweenableParams.SCALEX, 0, Poo.scale, this.pooTime);
+            pooIn.animate(TweenableParams.SCALEY, 0, Poo.scale, this.pooTime);
+            TweenJuggler.add(pooIn);
+            this.parent.poos.addChild(newPoo);
+            this.pooTimer.resetGameClock();
+            this.dispatchEvent(new Event(Dog.POO_EVENT, newPoo));
+            interactableObj.poopIn(newPoo);
+            newPoo.setContainer(interactableObj);
+          } else {
+            interactableObj.interact();
+          }
+          this.interactTimer.resetGameClock();
+          return
+        }
+      }
+      this.poo();
+      // Reset the interaction timer
+      this.interactTimer.resetGameClock();
+    }
   }
 
   pause() {

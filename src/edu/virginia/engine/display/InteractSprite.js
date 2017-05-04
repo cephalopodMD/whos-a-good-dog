@@ -63,7 +63,7 @@ class InteractSprite extends AnimatedSprite
 
 	getMaddening() { return this.maddenings[this.currentState]; }
 
-  	getSmellSuppression() { return this.smellSuppressions[this.currentState] }
+  getSmellSuppression() { return this.smellSuppressions[this.currentState] }
 
 	getHasPoop() { return this.hasPoop; }
 
@@ -108,19 +108,16 @@ class InteractSprite extends AnimatedSprite
 
 	interact()
 	{
-		if(this.stateMachine[this.currentState] != this.currentState)
-		{
+		if(this.stateMachine[this.currentState] != this.currentState) {
 			this.currentState = this.stateMachine[this.currentState];
 			this.animate(this.stateNames[this.currentState]);
 			this.dispatchEvent(new Event(this.eventNames[this.currentState], this));
 		}
-		if(this.stateMachine[this.currentState] == this.currentState)
-		{
+		if(this.stateMachine[this.currentState] == this.currentState) {
 			if(!this.isPoopable())
 				this.interactBox.setAlpha(0.0);
 		}
-		if(this.hasPoop)
-		{
+		if(this.hasPoop) {
       this.poop.suppression = this.getSmellSuppression();
 			if(this.hidePoop[this.currentState])
 				this.poop.hide();

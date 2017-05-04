@@ -48,7 +48,7 @@ class GoodDogPrototype extends Game {
     var titleAnimation3 = new AnimatedSprite('title3', 'sprites/dog', 16);
     titleAnimation3.setPosition(500, 100);
     this.addChild(titleAnimation3);
-    this.titleOverlay = new TitleOverlay("TitleOverlay", "Who's A Good Dog?", "press x to start", this.width, this.height, 'rgba(0, 0, 0, 0)');
+    this.titleOverlay = new TitleOverlay("TitleOverlay", "Who's A Good Dog?", "press space to start", this.width, this.height, 'rgba(0, 0, 0, 0)');
   }
 
   loadSounds() {
@@ -95,7 +95,7 @@ class GoodDogPrototype extends Game {
       } else {
         GoodDogPrototype.soundManager.stopMusic('chase-theme');
         GoodDogPrototype.soundManager.playSoundEffect('caught')
-        this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus (x to retry)", this.width, this.height);
+        this.titleOverlay = new TitleOverlay("TitleOverlay", "You got caught", "ya dingus (space to retry)", this.width, this.height);
         this.gameOver = true;
       }
       this.pause();
@@ -212,7 +212,7 @@ class GoodDogPrototype extends Game {
     super.update(pressedKeys, gamepads);
 
     if (this.levelManager.getCurrentLevel() == 0 && !this.started)
-      if (pressedKeys.contains(87) || pressedKeys.contains(88)) {
+      if (pressedKeys.contains(32)) {
         // Load the info for level 1
         this.loadNextLevel();
         this.started = true;
@@ -419,7 +419,7 @@ class GoodDogPrototype extends Game {
         this.paused = false;
       }
     }
-    if ((keyCode == 87 || keyCode == 88) && this.gameOver) {
+    if (keyCode == 32 && this.gameOver) {
       this.gameOver = false;
       this.loadNextLevel();
       this.start();
